@@ -1,8 +1,0 @@
----
-title: "Dark art kernel tuning"
-author: "Adam Howes"
-date: "June 2020"
-output: pdf_document
----
-
-
