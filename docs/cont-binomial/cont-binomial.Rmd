@@ -1,0 +1,19 @@
+---
+title: "Continous version of the binomial likelihood"
+author: "Adam Howes"
+date: "June 2020"
+output: pdf_document
+---
+
+* Non-integer counts in `df$y` due to the use of survey weights
+* Currently using `round(df$y)` but this is an unsatisfying solution
+* In `stan` and `TMB` a custom continous version of the binomial likelihood could be implemented
+* In `R-INLA` there is the `xbinomial` function for non-integer counts
+    * Be warned that this may make the marginal likelihood not interpretable as it is not clear what to do with the normalising constant
+* Keywords to investigate
+    * Bayesian pseudo likelihood
+* https://stats.stackexchange.com/questions/310676/continuous-generalization-of-the-negative-binomial-distribution
+* INLA google group links
+    * https://groups.google.com/forum/#!searchin/r-inla-discussion-group/Jeff$20Eaton%7Csort:date/r-inla-discussion-group/FLpdv5jB90w/kSwlgxb9AgAJ
+    * https://groups.google.com/forum/#!topic/r-inla-discussion-group/k5KbmV3HKPU
+
