@@ -6,12 +6,12 @@
 m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
   # Stan pairwise Besag implementation
-  nb <- spdep::poly2nb(df)
+  nb <- spdep::poly2nb(sf)
   g <- nb_to_graph(nb)
 
-  dat <- list(n = nrow(df),
-              y = round(df$y),
-              m = df$n_obs,
+  dat <- list(n = nrow(sf),
+              y = round(sf$y),
+              m = sf$n_obs,
               n_edges = g$n_edges,
               node1 = g$node1,
               node2 = g$node2,
@@ -32,11 +32,11 @@ m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' m3_inla(mw)
 m3_inla <- function(sf){
 
-  nb <- neighbours(df)
+  nb <- neighbours(sf)
 
-  dat <- list(id = 1:nrow(df),
-              y = round(df$y),
-              m = df$n_obs)
+  dat <- list(id = 1:nrow(sf),
+              y = round(sf$y),
+              m = sf$n_obs)
 
   # sigma ~ N(0. 2.5^2); initial in terms of log(tau) so 0 corresponds to tau = 1
   tau_prior <- list(prec = list(prior = "logtnormal", param = c(0, 1/2.5^2),

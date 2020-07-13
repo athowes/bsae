@@ -20,7 +20,8 @@ m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               m = sf$n_obs,
               n_edges = g$n_edges,
               node1 = g$node1,
-              node2 = g$node2)
+              node2 = g$node2,
+              scaling_factor = get_scale(nb))
 
   fit <- rstan::sampling(stanmodels$model2,
                          data = dat,

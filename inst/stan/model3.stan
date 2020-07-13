@@ -29,7 +29,8 @@ transformed parameters {
 model {
   y ~ binomial_logit(m, beta_0 + sigma_phi * phi);
 
-  target += -0.5 * dot_self(u[node1] - u[node2]); // Spatial prior with unit variance
+  target += -0.5 * dot_self(u[node1] - u[node2]); // Spatial prior when sigma_phi = 1
+  // i.e. this is the covariance matrix we compute the GV of when scaling
   sum(u) ~ normal(0, 0.001 * n); // Soft sum-to-zero constraint
 
   v ~ normal(0, 1);

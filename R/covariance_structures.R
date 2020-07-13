@@ -73,7 +73,9 @@ nb_to_precision <- function(nb){
 
 #' Create object containing lengths of borders from \code{sf} object.
 #'
-#' Primarily used within \code{\link{border_precision}}.
+#' The function \code{border_precision} creates a dataframe for each area of 
+#' \code{sf} containing information about the shared borders with other areas.
+#' Within this package the primary use is within \code{\link{border_precision}}.
 #'
 #' @param sf A simple features object with some geometry.
 #' @return A list of \code{nrow(sf)} data frames which each have columns:
@@ -136,45 +138,31 @@ border_precision <- function(sf){
   return(Q)
 }
 
-#' Compute scale constant using \code{R-INLA}.
-#'
+#' Compute scale of the Besag model using \code{R-INLA}.
+#' 
+#' See \code{INLA::inla.scale.model}.
+#' 
 #' @param nb A neighbourhood list object.
-#' @param method One of \code{c("direct", "inversion")}.
-#' I think that they should be the same.
 #' @section Warning:
 #' Have not taken into account connectedness, this is a to do.
 #' @examples
 #' nb <- neighbours(mw)
-#' get_scale(nb, method = "direct")
-get_scale <- function(nb, method = "direct"){
+#' get_scale(nb)
+get_scale <- function(nb){
 
+  # Besag precision matrix
   Q <- nb_to_precision(nb)
   n <- nrow(Q)
-  constraint <- list(A = matrix(1, 1, n), e = 0)
 
-  if(method == "direct"){
+  # Add jitter to the diagonal for numerical stability
+  Q_prt <- Q + Matrix::Diagonal(n) * max(diag(Q)) * sqrt(.Machine$double.eps)
 
-    # Scaled ICAR precision matrix for BYM2
-    Q_scaled  <- INLA::inla.scale.model(Q, constr = constraint) %>%
-      as.matrix()
-
-    # Q/scale equals Q_scaled
-    return(Q[1, 1] / Q_scaled[1, 1])
-  }
-
-  else if(method == "inversion"){
-
-    # Add jiter to the diagonal for numerical stability
-    Q_prt <- Q + Matrix::Diagonal(n) * max(diag(Q)) * sqrt(.Machine$double.eps)
-
-    # Inversion for sparse matrix
-    constraint <- list(A = matrix(1, 1, nrow(Q)), e = 0)
-    Q_inv <- INLA::inla.qinv(Q_prt, constr = constraint) %>%
-      as.matrix()
-
-    # Compute the inverse of the generalised variance
-    return(1 / exp(mean(log(diag(Q_inv)))))
-  }
+  # Inversion of sparse matrix
+  constraint <- list(A = matrix(1, 1, n, e = 0))
+  Q_inv <- as.matrix(INLA::inla.qinv(Q_prt, constr = constraint))
+  
+  # Compute the generalised variance on the covariance matrix
+  return(riebler_gv(Q_inv))
 }
 
 #' Compute regional covariance matrix using kernel on centroids.
@@ -182,11 +170,43 @@ get_scale <- function(nb, method = "direct"){
 #' @param sf A simple features object with some geometry.
 #' @param kernel A kernel function, defaults to \code{matern}.
 #' @param ... Additional arguments to \code{kernel}.
+#' @return A \code{nrow(sf)} by \code{nrow(sf)} matrix.
 #' @examples
 #' centroid_covariance(mw)
 centroid_covariance <- function(sf, kernel = matern, ...){
   cent <- sf::st_centroid(sf$geometry)
   dist <- sf::st_distance(cent, cent)
-  cov <- apply(dist, c(1, 2), FUN = matern, ...)
+  cov <- apply(dist, c(1, 2), FUN = kernel, ...)
+  return(cov)
+}
+
+#' Compute regional covariance matrix using sample-based kernel.
+#'
+#' \code{sampling_covariance} draws \code{S} samples uniformly from inside each 
+#' region of \code{sf}. The kernel function \code{kernel} (with additional
+#' arguments \code{...}) is averaged over each pair of draws between regions
+#' to produce the entries of the covariance matrix.
+#'
+#' @param sf A simple features object with some geometry.
+#' @param kernel A kernel function, defaults to \code{matern}.
+#' @param ... Additional arguments to \code{kernel}.
+#' @param S The number of Monte Carlo samples to draw from each region.
+#' @return A \code{nrow(sf)} by \code{nrow(sf)} matrix.
+#' @examples
+#' sampling_covariance(mw)
+sampling_covariance <- function(sf, kernel = matern, ..., S = 100){
+  n <- nrow(sf)
+  samples <- sf::st_sample(sf, size = rep(S, n))
+  D <- sf::st_distance(samples, samples)
+  cov <- matrix(nrow = n, ncol = n)
+  for(i in 1:n) {
+    for(j in 1:n) {
+      i_range <- ((i - 1) * S + 1):(i * S)
+      j_range <- ((j - 1) * S + 1):(j * S)
+      relevant_sample <- D[i_range, j_range]
+      d <- mean(relevant_sample)
+      cov[i, j] <- kernel(d, ...)
+    }
+  }
   return(cov)
 }
