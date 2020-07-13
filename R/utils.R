@@ -27,3 +27,16 @@ matern <- function(r, l = 1, nu = 1.5){
          (1 + sqrt(3)*r/l) * exp(-sqrt(3) * r/l), # 1.5 case
          (1 + sqrt(5)*r/l + 5*r^2/(3*l^2)) * exp(-sqrt(5) * r/l)) # 2.5 case
 }
+
+#' Compute the Riebler generalised variance of a covariance matrix.
+#' 
+#' Let \eqn{A} be a square matrix, then the Riebler
+#' generalised covariance is defined as the geometric mean of the marginal 
+#' variances, given by
+#' \deqn{\sigma_{\mathrm{GV}}^2(A) = \exp \left( \frac{1}{n} \sum_{i = 1}^n A_{ii} \right).}
+#'
+#' @param A A square matrix.
+#' @return A scalar generalised variance.
+riebler_gv <- function(A) {
+  exp(mean(log(diag(A))))
+}
