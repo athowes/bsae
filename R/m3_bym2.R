@@ -5,9 +5,9 @@
 #' m3_stan(mw, nsim_warm = 0, nsim_iter = 100)
 m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
-  # Stan pairwise Besag implementation
-  nb <- spdep::poly2nb(sf)
-  g <- nb_to_graph(nb)
+  nb <- neighbours(sf)
+  Q <- nb_to_precision(nb)
+  g <- nb_to_graph(nb) # Stan pairwise Besag implementation
 
   dat <- list(n = nrow(sf),
               y = round(sf$y),
@@ -15,7 +15,7 @@ m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               n_edges = g$n_edges,
               node1 = g$node1,
               node2 = g$node2,
-              scaling_factor = get_scale(nb))
+              scaling_factor = get_scale(Q))
 
   fit <- rstan::sampling(stanmodels$model3,
                          data = dat,

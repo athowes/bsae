@@ -95,6 +95,7 @@ border_lengths <- function(sf){
   perim <- gm %>%
     sf::st_cast("MULTILINESTRING") %>%
     sf::st_length() # Region perimeters
+  
   # f adapted from Sébastien Rochette SO answer
   f <- function(from){
     if(length(touch[[from]]) != 0) {
@@ -138,20 +139,18 @@ border_precision <- function(sf){
   return(Q)
 }
 
-#' Compute scale of the Besag model using \code{R-INLA}.
+#' Compute scale of a precision matrix using \code{R-INLA}.
 #' 
 #' See \code{INLA::inla.scale.model}.
 #' 
-#' @param nb A neighbourhood list object.
+#' @param Q A (square, symmetric) precision matrix.
 #' @section Warning:
 #' Have not taken into account connectedness, this is a to do.
 #' @examples
 #' nb <- neighbours(mw)
-#' get_scale(nb)
-get_scale <- function(nb){
-
-  # Besag precision matrix
-  Q <- nb_to_precision(nb)
+#' Q <- nb_to_precision(nb)
+#' get_scale(Q)
+get_scale <- function(Q){
   n <- nrow(Q)
 
   # Add jitter to the diagonal for numerical stability

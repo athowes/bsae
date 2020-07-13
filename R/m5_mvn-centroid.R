@@ -1,4 +1,4 @@
-#' Fit MVN Small Area Estimation model using \code{stan}.
+#' Fit Centroid MVN Small Area Estimation model using \code{stan}.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
 #' matrix calculated using \code{\link{centroid_covariance}}.
@@ -10,6 +10,7 @@
 m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
   cov <- centroid_covariance(sf)
+  cov <- cov / riebler_gv(cov)
 
   dat <- list(n = nrow(sf),
               y = round(sf$y),
@@ -17,7 +18,7 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               Sigma = cov,
               mu = rep(0, nrow(sf)))
 
-  fit <- rstan::sampling(stanmodels$model5,
+  fit <- rstan::sampling(stanmodels$model4to6,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)
@@ -25,7 +26,7 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   return(fit)
 }
 
-#' Fit MVN Small Area Estimation model using \code{R-INLA}.
+#' Fit Centroid MVN Small Area Estimation model using \code{R-INLA}.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
 #' matrix calculated using \code{\link{centroid_covariance}}.
@@ -37,6 +38,7 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 m5_inla <- function(sf, kernel = matern, ...){
 
   cov <- centroid_covariance(sf)
+  cov <- cov / riebler_gv(cov)
   C <- Matrix::solve(cov) # Precision matrix
 
   dat <- list(id = 1:nrow(sf),
