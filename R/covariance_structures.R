@@ -189,19 +189,19 @@ centroid_covariance <- function(sf, kernel = matern, ...){
 #' @param sf A simple features object with some geometry.
 #' @param kernel A kernel function, defaults to \code{matern}.
 #' @param ... Additional arguments to \code{kernel}.
-#' @param S The number of Monte Carlo samples to draw from each region.
+#' @param L The number of Monte Carlo samples to draw from each region.
 #' @return A \code{nrow(sf)} by \code{nrow(sf)} matrix.
 #' @examples
 #' sampling_covariance(mw)
-sampling_covariance <- function(sf, kernel = matern, ..., S = 100){
+sampling_covariance <- function(sf, kernel = matern, ..., L = 100){
   n <- nrow(sf)
-  samples <- sf::st_sample(sf, size = rep(S, n))
+  samples <- sf::st_sample(sf, size = rep(L, n))
   D <- sf::st_distance(samples, samples)
   cov <- matrix(nrow = n, ncol = n)
   for(i in 1:n) {
     for(j in 1:n) {
-      i_range <- ((i - 1) * S + 1):(i * S)
-      j_range <- ((j - 1) * S + 1):(j * S)
+      i_range <- ((i - 1) * L + 1):(i * L)
+      j_range <- ((j - 1) * L + 1):(j * L)
       relevant_sample <- D[i_range, j_range]
       d <- mean(relevant_sample)
       cov[i, j] <- kernel(d, ...)
