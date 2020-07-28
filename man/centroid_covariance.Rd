@@ -13,6 +13,9 @@ centroid_covariance(sf, kernel = matern, ...)
 
 \item{...}{Additional arguments to \code{kernel}.}
 }
+\value{
+A \code{nrow(sf)} by \code{nrow(sf)} matrix.
+}
 \description{
 Compute regional covariance matrix using kernel on centroids.
 }

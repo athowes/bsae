@@ -1,10 +1,10 @@
-#' Mean, standard deviation and posterior interval for \code{stan} and
-#' \code{R-INLA} models.
+#' Mean, standard deviation and posterior interval for `stan` and
+#' `R-INLA` models.
 #'
-#' @param fit Either a \code{stan} or \code{R-INLA} model.
-#' @param type One of \code{c("stan", "inla")}.
+#' @param fit Either a `stan` or `R-INLA` model.
+#' @param type One of `c("stan", "inla")`.
 #' @param name The name of the parameter of interest
-#' (only for \code{type = "stan"}).
+#' (only for `type = "stan"`).
 #' @return A data frame with containing the posterior mean, standard deviation
 #' together with lower (2.5%) and upper (97.5%) quantiles.
 #' @examples
@@ -32,8 +32,8 @@ report_interval <- function(fit, type, name = NULL){
 #' Helper function to extract model fitted and methodology used from a string.
 #'
 #' @param string A string containing the method name followed by the model
-#' name, seperated by a "-". For example \code{"stan_2"}.
-#' @return A list containing \code{method_name} and \code{model_name}.
+#' name, seperated by a "-". For example `"stan_2"`.
+#' @return A list containing `method_name` and `model_name`.
 #' @examples
 #' get_model_method("inla_1")
 get_model_method <- function(string){

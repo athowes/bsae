@@ -15,9 +15,9 @@ logistic <- function(x) {
 #' either 1.5 or 2.5.
 #'
 #' @param r A distance between two points.
-#' @param l A lengthscale, defaults to \code{l = 1}.
-#' @param nu A smoothness parameter, either \code{nu = 1.5} (the default)
-#' or \code{nu = 2.5}.
+#' @param l A lengthscale, defaults to `l = 1`.
+#' @param nu A smoothness parameter, either `nu = 1.5` (the default)
+#' or `nu = 2.5`.
 #' @return The Matern covariance.
 matern <- function(r, l = 1, nu = 1.5){
   if(!nu %in% c(1.5, 2.5)){
@@ -31,9 +31,9 @@ matern <- function(r, l = 1, nu = 1.5){
 #' Compute the Riebler generalised variance of a covariance matrix.
 #' 
 #' Let \eqn{A} be a square matrix, then the Riebler
-#' generalised covariance is defined as the geometric mean of the marginal 
+#' generalised variance is defined as the geometric mean of the marginal 
 #' variances, given by
-#' \deqn{\sigma_{\mathrm{GV}}^2(A) = \exp \left( \frac{1}{n} \sum_{i = 1}^n A_{ii} \right).}
+#' \deqn{\sigma_{\mathrm{GV}}^2(A) = \exp \left( \frac{1}{n} \sum_{i = 1}^n \log A_{ii} \right).}
 #'
 #' @param A A square matrix.
 #' @return A scalar generalised variance.

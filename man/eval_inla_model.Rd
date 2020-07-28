@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_comparison.R
 \name{eval_inla_model}
 \alias{eval_inla_model}
-\title{Compute log density score from \code{R-INLA} model at a single held-out
+\title{Compute log density score from `R-INLA} model at a single held-out
 point.}
 \usage{
 eval_inla_model(sf, fit, i, S = 5000)
@@ -22,7 +22,7 @@ approximate posterior distribution over the latent field.}
 A scalar log density score.
 }
 \description{
-Compute log density score from \code{R-INLA} model at a single held-out
+Compute log density score from `R-INLA} model at a single held-out
 point.
 }
 \examples{

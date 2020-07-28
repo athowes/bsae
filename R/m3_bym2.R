@@ -1,4 +1,4 @@
-#' Fit BYM2 Small Area Estimation model using \code{stan}.
+#' Fit BYM2 Small Area Estimation model using `stan`.
 #'
 #' @inheritParams m1_stan
 #' @examples
@@ -8,6 +8,7 @@ m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   nb <- neighbours(sf)
   Q <- nb_to_precision(nb)
   g <- nb_to_graph(nb) # Stan pairwise Besag implementation
+  # I don't think that this properly takes non-connectedness into account!
 
   dat <- list(n = nrow(sf),
               y = round(sf$y),
@@ -25,7 +26,7 @@ m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   return(fit)
 }
 
-#' Fit BYM2 Small Area Estimation model using \code{R-INLA}.
+#' Fit BYM2 Small Area Estimation model using `R-INLA`.
 #'
 #' @inheritParams m1_inla
 #' @examples
@@ -65,10 +66,8 @@ m3_inla <- function(sf){
   return(fit)
 }
 
-#' Fit BYM2 Small Area Estimation model using \code{TMB}.
+#' Fit BYM2 Small Area Estimation model using `TMB`.
 #'
-#' @param sf A simple features object with some geometry.
-#' @param its Number of iterations in outer loop optimisation, passed to
-#' \code{nlminb}.
+#' @inheritParams m1_tmb
 #' @examples
 #' m3_tmb(mw, its = 100)

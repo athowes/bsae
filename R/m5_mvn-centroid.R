@@ -1,16 +1,17 @@
-#' Fit Centroid MVN Small Area Estimation model using \code{stan}.
+#' Fit Centroid MVN Small Area Estimation model using `stan`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
-#' matrix calculated using \code{\link{centroid_covariance}}.
+#' matrix calculated using [`centroid_covariance`].
 #'
 #' @inheritParams m1_stan
 #' @inheritParams centroid_covariance
 #' @examples
 #' m5_stan(mw, nsim_warm = 0, nsim_iter = 100)
-m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
+m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
+                    ...){
 
-  cov <- centroid_covariance(sf)
-  cov <- cov / riebler_gv(cov)
+  cov <- centroid_covariance(sf, kernel, ...)
+  cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
 
   dat <- list(n = nrow(sf),
               y = round(sf$y),
@@ -26,10 +27,10 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   return(fit)
 }
 
-#' Fit Centroid MVN Small Area Estimation model using \code{R-INLA}.
+#' Fit Centroid MVN Small Area Estimation model using `R-INLA`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
-#' matrix calculated using \code{\link{centroid_covariance}}.
+#' matrix calculated using [`centroid_covariance`].
 #'
 #' @inheritParams m1_inla
 #' @inheritParams centroid_covariance
@@ -37,8 +38,8 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' m5_inla(mw)
 m5_inla <- function(sf, kernel = matern, ...){
 
-  cov <- centroid_covariance(sf)
-  cov <- cov / riebler_gv(cov)
+  cov <- centroid_covariance(sf, kernel, ...)
+  cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
 
   dat <- list(id = 1:nrow(sf),

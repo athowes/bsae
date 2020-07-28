@@ -4,10 +4,12 @@
 \alias{cross_validate}
 \title{Cross-validation using \code{\link{lobo}} and \code{\link{eval_inla_model}}.}
 \usage{
-cross_validate(sf, fitting_fun, S = 5000)
+cross_validate(sf, fitting_fun, ..., S = 5000)
 }
 \arguments{
 \item{sf}{A simple features data frame.}
+
+\item{...}{Additinal arguments to \code{fitting_fun}.}
 
 \item{S}{The number of Monte Carlo samples to draw from the \code{R-INLA}
 approximate posterior distribution over the latent field.}
@@ -17,7 +19,7 @@ approximate posterior distribution over the latent field.}
 }
 \value{
 A vector of log density scores (one entry for training data set
-produced by \code{\link{lobo}}).
+produced by \code{\link{lobo}}.
 }
 \description{
 Cross-validation using \code{\link{lobo}} and \code{\link{eval_inla_model}}.

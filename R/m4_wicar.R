@@ -1,4 +1,4 @@
-#' Fit weighted ICAR Small Area Estimation model using \code{stan}.
+#' Fit weighted ICAR Small Area Estimation model using `stan`.
 #'
 #' @inheritParams m1_stan
 #' @examples
@@ -14,7 +14,7 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               Sigma = cov,
               mu = rep(0, nrow(sf)))
 
-  fit <- rstan::sampling(stanmodels$model4,
+  fit <- rstan::sampling(stanmodels$model4to6,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)
@@ -22,7 +22,7 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   return(fit)
 }
 
-#' Fit weighted ICAR Small Area Estimation model using \code{R-INLA}.
+#' Fit weighted ICAR Small Area Estimation model using `R-INLA`.
 #'
 #' @inheritParams m1_inla
 #' @examples
@@ -30,6 +30,7 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 m4_inla <- function(sf){
 
   C <- border_precision(sf)
+  C <- scale_gmrf_precision(C) # Could use scale.model = TRUE in f() instead?
 
   dat <- list(id = 1:nrow(sf),
               y = round(sf$y),
@@ -40,7 +41,11 @@ m4_inla <- function(sf){
                                 initial = 0, fixed = FALSE))
 
   # See inla.doc("generic0")
-  formula <- y ~ 1 + f(id, model = "generic0", Cmatrix = C, hyper = tau_prior)
+  formula <- y ~ 1 + f(id, 
+                       model = "generic0", 
+                       Cmatrix = C,
+                       constr = TRUE,
+                       hyper = tau_prior)
 
   fit <- INLA::inla(formula,
                     family = "binomial",

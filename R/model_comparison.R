@@ -2,18 +2,18 @@
 #'
 #' In leave-one-block-out (LOBO) cross-validation, in each fold one spatially
 #' contigous block is left out in order to be predicted upon.
-#' This function creates a list of training data sets where the \code{i}th item
-#' leaves out region \code{i} and its neighbours.
+#' This function creates a list of training data sets where the `i`th item
+#' leaves out region `i` and its neighbours.
 #'
 #' @param sf A simple features data frame.
 #' @param remove_cols A vector of named columns which are to have entries
-#' replaced by \code{NA} in the training data sets. Defaults to
-#' \code{c("y")}.
-#' @return A list of \code{nrow(sf)} training set lists.
+#' replaced by `NA` in the training data sets. Defaults to
+#' `c("y")`.
+#' @return A list of `nrow(sf)` training set lists.
 #' Each training set list contains:
-#' * \code{data} The training data set with left-out entries.
-#' * \code{centre} The index of the central held-out region.
-#' * \code{held_out} The indices of all held-out regions.
+#' * `data` The training data set with left-out entries.
+#' * `centre` The index of the central held-out region.
+#' * `held_out` The indices of all held-out regions.
 #' @examples
 #' lobo(mw, remove_cols = c("y", "est"))
 lobo <- function(sf, remove_cols = c("y")){
@@ -31,14 +31,14 @@ lobo <- function(sf, remove_cols = c("y")){
   return(training_sets)
 }
 
-#' Compute log density score from \code{R-INLA} model at a single held-out
+#' Compute log density score from `R-INLA} model at a single held-out
 #' point.
 #'
 #' @param sf A simple features data frame.
-#' @param fit A fitted \code{R-INLA} model.
+#' @param fit A fitted `R-INLA` model.
 #' @param i The index of the held-out data point to predict on. Should be an
-#' integer in the range \code{1:nrow(sf)}.
-#' @param S The number of Monte Carlo samples to draw from the \code{R-INLA}
+#' integer in the range `1:nrow(sf)`.
+#' @param S The number of Monte Carlo samples to draw from the `R-INLA`
 #' approximate posterior distribution over the latent field.
 #' @return A scalar log density score.
 #' @examples
@@ -55,22 +55,23 @@ eval_inla_model <- function(sf, fit, i, S = 5000){
   return(lds)
 }
 
-#' Cross-validation using \code{\link{lobo}} and \code{\link{eval_inla_model}}.
+#' Cross-validation using [`lobo`] and [`eval_inla_model`].
 #'
 #' @param sf A simple features data frame.
-#' @param fiting_fun An \code{R-INLA} model fitting function such as
-#' \code{m1_inla}.
-#' @param S The number of Monte Carlo samples to draw from the \code{R-INLA}
+#' @param fiting_fun An `R-INLA` model fitting function such as
+#' `m1_inla`.
+#' @param ... Additinal arguments to `fitting_fun`.
+#' @param S The number of Monte Carlo samples to draw from the `R-INLA`
 #' approximate posterior distribution over the latent field.
 #' @return A vector of log density scores (one entry for training data set
-#' produced by \code{\link{lobo}}).
+#' produced by [`lobo`].
 #' @examples
 #' cross_validate(mw, fitting_fun = m1_inla)
-cross_validate <- function(sf, fitting_fun, S = 5000) {
+cross_validate <- function(sf, fitting_fun, ..., S = 5000) {
   n <- nrow(sf)
-  training_sets <- lobo(sf)
+  training_sets <- lobo(sf, remove_cols = c("y", "est"))
   fits <- lapply(training_sets,
-                 FUN = function(set) fitting_fun(set$data))
+                 FUN = function(set) fitting_fun(set$data, ...))
 
   tsfs <- training_sets
   for(i in 1:nrow(sf)) {
@@ -81,5 +82,7 @@ cross_validate <- function(sf, fitting_fun, S = 5000) {
                    FUN = function(tsf)
                      eval_inla_model(sf, tsf$fit, tsf$centre, S = S))
 
+  message("Completed cross-validation")
+  
   return(unlist(scores))
 }

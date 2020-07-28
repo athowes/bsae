@@ -1,4 +1,4 @@
-// model5.stan: MVN
+// model4to6.stan: MVN
 
 data {
   int<lower=1> n; // Number of regions

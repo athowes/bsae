@@ -1,9 +1,9 @@
-#' Fit Besag Small Area Estimation model using \code{stan}.
+#' Fit Besag Small Area Estimation model using `stan`.
 #'
 #' Random effects have an improper conditional autoregressive (ICAR)
 #' distribution with (generalised) precision matrix produced using
-#' the \code{\link{nb_to_precision}} function with input \code{nb},
-#' the neighbourhood structure of \code{sf}.
+#' the [`nb_to_precision`] function with input `nb`,
+#' the neighbourhood structure of `sf`.
 #'
 #' @inheritParams m1_stan
 #' @examples
@@ -13,6 +13,7 @@ m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   nb <- neighbours(sf)
   Q <- nb_to_precision(nb)
   g <- nb_to_graph(nb) # Stan pairwise Besag implementation
+  # I don't think that this properly takes non-connectedness into account!
 
   dat <- list(n = nrow(sf),
               y = round(sf$y),
@@ -30,11 +31,11 @@ m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   return(fit)
 }
 
-#' Fit Besag Small Area Estimation model using \code{R-INLA}.
+#' Fit Besag Small Area Estimation model using `R-INLA`.
 #'
 #' Random effects have an improper conditional autoregressive (ICAR)
-#' distribution. This is implemented by \code{R-INLA} using the
-#' option \code{model = "besag"}.
+#' distribution. This is implemented by `R-INLA` using the
+#' option `model = "besag"`.
 #'
 #' @inheritParams m1_inla
 #' @examples
@@ -71,7 +72,7 @@ m2_inla <- function(sf){
   return(fit)
 }
 
-#' #' Fit Besag Small Area Estimation model using \code{TMB}.
+#' #' Fit Besag Small Area Estimation model using `TMB`.
 #' #'
 #' #' Random effects have an improper conditional autoregressive (ICAR)
 #' #' distribution.
@@ -113,4 +114,3 @@ m2_inla <- function(sf){
 #'
 #'   return(sd_out)
 #' }
-#' # To-do: fix scale

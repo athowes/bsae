@@ -23,7 +23,9 @@ node.
 }
 }
 \description{
-Primarily used within \code{\link{border_precision}}.
+The function \code{\link{border_precision}} creates a dataframe for each area of
+\code{sf} containing information about the shared borders with other areas.
+Within this package the primary use is within \code{\link{border_precision}}.
 }
 \examples{
 border_lengths(mw)

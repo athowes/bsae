@@ -1,16 +1,17 @@
-#' Fit Sampling MVN Small Area Estimation model using \code{stan}.
+#' Fit Sampling MVN Small Area Estimation model using `stan`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
-#' matrix calculated using \code{\link{sampling_covariance}}.
+#' matrix calculated using [`sampling_covariance`].
 #'
 #' @inheritParams m1_stan
 #' @inheritParams sampling_covariance
 #' @examples
 #' m6_stan(mw, nsim_warm = 0, nsim_iter = 100)
-m6_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
+m6_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
+                    ..., L = 100){
   
-  cov <- sampling_covariance(sf)
-  cov <- cov / riebler_gv(cov)
+  cov <- sampling_covariance(sf, kernel, ..., L)
+  cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   
   dat <- list(n = nrow(sf),
               y = round(sf$y),
@@ -26,10 +27,10 @@ m6_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   return(fit)
 }
 
-#' Fit Sampling MVN Small Area Estimation model using \code{R-INLA}.
+#' Fit Sampling MVN Small Area Estimation model using `R-INLA`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
-#' matrix calculated using \code{\link{sampling_covariance}}.
+#' matrix calculated using [`sampling_covariance`].
 #'
 #' @inheritParams m1_inla
 #' @inheritParams sampling_covariance
@@ -37,8 +38,8 @@ m6_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' m6_inla(mw)
 m6_inla <- function(sf, kernel = matern, ...){
   
-  cov <- centroid_covariance(sf)
-  cov <- cov / riebler_gv(cov)
+  cov <- sampling_covariance(sf, kernel, ..., L)
+  cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
   
   dat <- list(id = 1:nrow(sf),

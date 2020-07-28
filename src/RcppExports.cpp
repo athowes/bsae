@@ -10,13 +10,13 @@ using namespace Rcpp;
 RcppExport SEXP _rcpp_module_boot_stan_fit4model1_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4model2_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4model3_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4model5_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4model4to6_mod();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rcpp_module_boot_stan_fit4model1_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model1_mod, 0},
     {"_rcpp_module_boot_stan_fit4model2_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model2_mod, 0},
     {"_rcpp_module_boot_stan_fit4model3_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model3_mod, 0},
-    {"_rcpp_module_boot_stan_fit4model5_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model5_mod, 0},
+    {"_rcpp_module_boot_stan_fit4model4to6_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model4to6_mod, 0},
     {NULL, NULL, 0}
 };
 

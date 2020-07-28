@@ -1,10 +1,10 @@
-#' Fit IID Small Area Estimation model using \code{stan}.
+#' Fit IID Small Area Estimation model using `stan`.
 #'
 #' Random effects are independent and identically distributed.
 #'
 #' @param sf A simple features object with some geometry.
-#' @param nsim_warm Number of warmup samples, passed to \code{stan}.
-#' @param nsim_iter Number of samples, passed to \code{stan}.
+#' @param nsim_warm Number of warmup samples, passed to `stan`.
+#' @param nsim_iter Number of samples, passed to `stan`.
 #' @examples
 #' m1_stan(mw, nsim_warm = 0, nsim_iter = 100)
 m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
@@ -21,7 +21,7 @@ m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   return(fit)
 }
 
-#' Fit IID Small Area Estimation model using \code{R-INLA}.
+#' Fit IID Small Area Estimation model using `R-INLA`.
 #'
 #' Random effects are independent and identically distributed.
 #'
@@ -52,13 +52,13 @@ m1_inla <- function(sf){
   return(fit)
 }
 
-#' #' Fit IID Small Area Estimation model using \code{TMB}.
+#' #' Fit IID Small Area Estimation model using `TMB`.
 #' #'
 #' #' Random effects are independent and identically distributed.
 #' #'
 #' #' @param sf A simple features object with some geometry.
 #' #' @param its Number of iterations in outer loop optimisation, passed to
-#' #' \code{nlminb}.
+#' #' `nlminb`.
 #' #' @examples
 #' #' m1_tmb(mw, its = 100)
 #' m1_tmb <- function(sf, its = 1000){

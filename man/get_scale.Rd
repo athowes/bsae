@@ -2,25 +2,29 @@
 % Please edit documentation in R/covariance_structures.R
 \name{get_scale}
 \alias{get_scale}
-\title{Compute scale constant using \code{R-INLA}.}
+\title{Compute scale of a precision matrix using `R-INLA}.}
 \usage{
-get_scale(nb, method = "direct")
+get_scale(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0))
 }
 \arguments{
-\item{nb}{A neighbourhood list object.}
+\item{Q}{A (square, symmetric) precision matrix.}
 
-\item{method}{One of \code{c("direct", "inversion")}.
-I think that they should be the same.}
+\item{constraint}{A list with arguments \code{A} and \code{e} which imposes
+the constraint \code{AQ = e}. See the \code{?INLA::f} argument
+\code{extraconstr}. In the original setting the constraint is placed upon a
+vector rather than a precision matrix. For this reason, here \code{A} is a
+row vector instead of a matrix.}
 }
 \description{
-Compute scale constant using \code{R-INLA}.
+Here scale refers to the Riebler generalised variance (see
+\code{\link{riebler_gv}}). This is computed by first inverting
+the precision matrix, which may first require imposing
+constraints. Note that if using this function directly on
+\code{nb_to_precision(nb)} for some neighbourhood structure \code{nb}
+then it is assumed that the graph is fully connected.
 }
-\section{Warning}{
-
-Have not taken into account connectedness, this is a to do.
-}
-
 \examples{
 nb <- neighbours(mw)
-get_scale(nb, method = "direct")
+Q <- nb_to_precision(nb)
+get_scale(Q)
 }
