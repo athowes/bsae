@@ -11,7 +11,8 @@ plot_matrix <- function(M){
   M <- t(apply(M, 2, rev)) # Undo 90 degree CC rotation
   ggplot2::ggplot(reshape2::melt(M), aes(x = Var1, y = Var2, fill = value)) +
     labs(x = "", y = "", fill = "Value") +
-    geom_tile() + 
+    geom_tile() +
+    scale_fill_viridis_c() +
     theme(axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           axis.text.y=element_blank(),
