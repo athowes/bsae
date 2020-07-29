@@ -2,7 +2,7 @@
 % Please edit documentation in R/covariance_structures.R
 \name{get_scale}
 \alias{get_scale}
-\title{Compute scale of a precision matrix using `R-INLA}.}
+\title{Compute scale of a precision matrix using \code{R-INLA}.}
 \usage{
 get_scale(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0))
 }
@@ -14,6 +14,9 @@ the constraint \code{AQ = e}. See the \code{?INLA::f} argument
 \code{extraconstr}. In the original setting the constraint is placed upon a
 vector rather than a precision matrix. For this reason, here \code{A} is a
 row vector instead of a matrix.}
+}
+\value{
+A scalar representing the generalised variance of the inverse of \code{Q}.
 }
 \description{
 Here scale refers to the Riebler generalised variance (see

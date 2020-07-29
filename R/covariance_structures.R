@@ -139,7 +139,7 @@ border_precision <- function(sf){
   return(Q)
 }
 
-#' Compute scale of a precision matrix using `R-INLA}.
+#' Compute scale of a precision matrix using `R-INLA`.
 #' 
 #' Here scale refers to the Riebler generalised variance (see 
 #' [`riebler_gv`]). This is computed by first inverting
@@ -154,7 +154,7 @@ border_precision <- function(sf){
 #' `extraconstr`. In the original setting the constraint is placed upon a
 #' vector rather than a precision matrix. For this reason, here `A` is a 
 #' row vector instead of a matrix.
-#' 
+#' @return A scalar representing the generalised variance of the inverse of `Q`.
 #' @examples
 #' nb <- neighbours(mw)
 #' Q <- nb_to_precision(nb)
@@ -174,22 +174,22 @@ get_scale <- function(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0)){
 #' Implements the same thing as `INLA::inla.scale.model`.
 #' 
 #' @inheritParams get_scale
-#' @param A 
-#' 
+#' @param A See the `constraint` argument of [`get_scale`].
+#' @return A matrix of the same dimension as `Q` where the entries have 
+#' been scaled according to the paper "A note on intrinsic conditional 
+#' autoregressive models for disconnected graphs" by Freni-Sterrantino, 
+#' Ventrucci and Rue.
 #' @source From \href{https://github.com/mrc-ide/naomi/blob/master/R/car.R}{code} by Jeff Eaton.
 #' @examples
 #' nb <- neighbours(mw)
 #' Q <- nb_to_precision(nb)
 #' scale_gmrf_precision(Q)
 scale_gmrf_precision <- function(Q, A = matrix(1, 1, nrow(Q))){
-  
   nb <- spdep::mat2listw(abs(Q))$neighbours
   comp <- spdep::n.comp.nb(nb)
-  
   for (k in seq_len(comp$nc)) {
     idx <- which(comp$comp.id == k)
     Qc <- Q[idx, idx, drop = FALSE]
-    
     if (length(idx) == 1) {
       Qc[1, 1] <- 1 # Set marginal variance for islands to be 1
     } else {
@@ -197,10 +197,8 @@ scale_gmrf_precision <- function(Q, A = matrix(1, 1, nrow(Q))){
       scaling_factor <- get_scale(Qc, constraint = list(A = Ac, e = 0))
       Qc <- scaling_factor * Qc
     }
-    
     Q[idx, idx] <- Qc
   }
-  
   return(Q)
 }
 
