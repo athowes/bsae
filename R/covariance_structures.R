@@ -150,10 +150,9 @@ border_precision <- function(sf){
 #' 
 #' @param Q A (square, symmetric) precision matrix.
 #' @param constraint A list with arguments `A` and `e` which imposes
-#' the constraint `AQ = e`. See the `?INLA::f` argument 
-#' `extraconstr`. In the original setting the constraint is placed upon a
-#' vector rather than a precision matrix. For this reason, here `A` is a 
-#' row vector instead of a matrix.
+#' the constraint `Au = e` (where the precision of `u` is `Q`). 
+#' See the `?INLA::f` argument `extraconstr`. If `constraint` is the default
+#' value then this is a sum-to-zero constraint.
 #' @return A scalar representing the generalised variance of the inverse of `Q`.
 #' @examples
 #' nb <- neighbours(mw)
