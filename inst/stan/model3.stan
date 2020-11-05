@@ -1,9 +1,15 @@
 // model3.stan: BYM2
 
+functions {
+  real gen_binomial_logit_lpdf(real y, real m, real eta) {
+    return(y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
+  }
+}
+
 data {
   int<lower=1> n; // Number of regions
-  int y[n]; // Vector of responses
-  int m[n]; // Vector of sample sizes
+  vector[n] y; // Vector of responses
+  vector[n] m; // Vector of sample sizes
 
   // Data structure for graph input
   int<lower=1> n_edges;
@@ -22,12 +28,14 @@ parameters {
 }
 
 transformed parameters {
-  real tau_phi = 1 / sigma_phi^2; // Precision of spatial effects
   vector[n] phi = sqrt(1 - pi) * v + sqrt(pi / scaling_factor) * u; // Spatial effects
+  vector[n] eta = beta_0 + sigma_phi * phi;
 }
 
 model {
-  y ~ binomial_logit(m, beta_0 + sigma_phi * phi);
+  for(i in 1:n) {
+   y[i] ~ gen_binomial_logit(m[i], eta[i]); 
+  }
 
   target += -0.5 * dot_self(u[node1] - u[node2]); // Spatial prior when sigma_phi = 1
   // i.e. this is the covariance matrix we compute the GV of when scaling
@@ -40,9 +48,10 @@ model {
 }
 
 generated quantities {
+  real tau_phi = 1 / sigma_phi^2; // Precision of spatial effects
   vector[n] rho = inv_logit(beta_0 + sigma_phi * phi);
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = binomial_logit_lpmf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
+    log_lik[i] = gen_binomial_logit_lpdf(y[i] | m[i], eta[i]);
   }
 }

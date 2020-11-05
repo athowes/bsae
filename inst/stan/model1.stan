@@ -1,9 +1,15 @@
 // model1.stan: IID
 
+functions {
+  real gen_binomial_logit_lpdf(real y, real m, real eta) {
+    return(y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
+  }
+}
+
 data {
   int<lower=1> n; // Number of regions
-  int y[n]; // Vector of responses
-  int m[n]; // Vector of sample sizes
+  vector[n] y; // Vector of responses
+  vector[n] m; // Vector of sample sizes
 }
 
 parameters {
@@ -13,21 +19,23 @@ parameters {
 }
 
 transformed parameters {
-  real tau_phi = 1 / sigma_phi^2; // Precision of spatial effects
   vector[n] eta = beta_0 + sigma_phi * phi;
 }
 
 model {
-  y ~ binomial_logit(m, eta);
+  for(i in 1:n) {
+   y[i] ~ gen_binomial_logit(m[i], eta[i]); 
+  }
   phi ~ normal(0, 1); // phi has variance one
   beta_0 ~ normal(-2, 1);
   sigma_phi ~ normal(0, 2.5); // Weakly informative prior
 }
 
 generated quantities {
-  vector[n] rho = inv_logit(beta_0 + sigma_phi * phi);
+  real tau_phi = 1 / sigma_phi^2; // Precision of spatial effects
+  vector[n] rho = inv_logit(eta);
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = binomial_logit_lpmf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
+    log_lik[i] = gen_binomial_logit_lpdf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
   }
 }

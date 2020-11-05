@@ -1,6 +1,10 @@
 // model7.stan: Fully Bayesian centroid kernel
 
 functions {
+  real gen_binomial_logit_lpdf(real y, real m, real eta) {
+    return(y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
+  }
+  
   matrix cov_matern32(matrix D, real l) {
     int n = rows(D);
     matrix[n, n] K;
@@ -26,8 +30,8 @@ functions {
 
 data {
   int<lower=1> n; // Number of regions
-  int y[n]; // Vector of responses
-  int m[n]; // Vector of sample sizes
+  vector[n] y; // Vector of responses
+  vector[n] m; // Vector of sample sizes
   vector[n] mu; // Prior mean vector
   matrix[n, n] D; // Distances between centroids
 }
@@ -40,7 +44,7 @@ parameters {
 }
 
 transformed parameters {
-  real tau_phi = 1 / sigma_phi^2; // Precision of spatial effects
+  vector[n] eta = beta_0 + sigma_phi * phi;
 }
 
 model {
@@ -52,13 +56,16 @@ model {
   sigma_phi ~ normal(0, 2.5); // Weakly informative prior
   beta_0 ~ normal(-2, 1);
   phi ~ multi_normal(mu, K);
-  y ~ binomial_logit(m, beta_0 + sigma_phi * phi);
+  for(i in 1:n) {
+   y[i] ~ gen_binomial_logit(m[i], eta[i]); 
+  }
 }
 
 generated quantities {
+  real tau_phi = 1 / sigma_phi^2; // Precision of spatial effects
   vector[n] rho = inv_logit(beta_0 + sigma_phi * phi);
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = binomial_logit_lpmf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
+    log_lik[i] = gen_binomial_logit_lpdf(y[i] | m[i], eta[i]);
   }
 }
