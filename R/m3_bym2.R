@@ -3,6 +3,7 @@
 #' @inheritParams m1_stan
 #' @examples
 #' m3_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' @export
 m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
   nb <- neighbours(sf)
@@ -31,6 +32,7 @@ m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' @inheritParams m1_inla
 #' @examples
 #' m3_inla(mw)
+#' @export
 m3_inla <- function(sf){
 
   nb <- neighbours(sf)

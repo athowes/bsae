@@ -2,7 +2,7 @@
 % Please edit documentation in R/covariance_structures.R
 \name{centroid_covariance}
 \alias{centroid_covariance}
-\title{Compute regional covariance matrix using kernel on centroids.}
+\title{Compute areal covariance matrix using kernel on centroids.}
 \usage{
 centroid_covariance(sf, kernel = matern, ...)
 }
@@ -17,7 +17,7 @@ centroid_covariance(sf, kernel = matern, ...)
 A \code{nrow(sf)} by \code{nrow(sf)} matrix.
 }
 \description{
-Compute regional covariance matrix using kernel on centroids.
+Compute areal covariance matrix using kernel on centroids.
 }
 \examples{
 centroid_covariance(mw)

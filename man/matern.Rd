@@ -2,22 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{matern}
 \alias{matern}
-\title{Matern covariance.}
+\title{Matern 3/2 covariance.}
 \usage{
-matern(r, l = 1, nu = 1.5)
+matern(r, l = 1)
 }
 \arguments{
 \item{r}{A distance between two points.}
 
 \item{l}{A lengthscale, defaults to \code{l = 1}.}
-
-\item{nu}{A smoothness parameter, either \code{nu = 1.5} (the default)
-or \code{nu = 2.5}.}
 }
 \value{
 The Matern covariance.
 }
 \description{
-The Matern covariance function with smoothness parameter settings limited to
-either 1.5 or 2.5.
+The Matern covariance function with smoothness parameter 3/2.
 }

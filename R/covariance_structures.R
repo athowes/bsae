@@ -6,6 +6,7 @@
 #' @return A neighbourhood list object.
 #' @examples
 #' nb <- neighbours(mw)
+#' @export
 neighbours <- function(sf){
   spdep::poly2nb(as(sf, "Spatial"))
 }
@@ -22,6 +23,7 @@ neighbours <- function(sf){
 #' @examples
 #' nb <- neighbours(mw)
 #' nb_to_graph(nb)
+#' @export
 nb_to_graph <- function(nb){
   n <- length(nb)
   n_links <- 0
@@ -54,13 +56,14 @@ nb_to_graph <- function(nb){
 #' This function creates the Besag model ICAR precision matrix \eqn{Q}.
 #' \eqn{Q} has the entries \eqn{Q_{ij} = -1} if \eqn{i \sim j} (where
 #' \eqn{\sim} is an adjacency operator), \eqn{Q_{ii}} is the number of
-#' neighbours of region \eqn{i} and \eqn{Q_{ij} = 0} otherwise.
+#' neighbours of area \eqn{i} and \eqn{Q_{ij} = 0} otherwise.
 #'
 #' @param nb A neighbourhood list object.
 #' @return An ICAR precision matrix based upon `nb`.
 #' @examples
 #' nb <- neighbours(mw)
 #' nb_to_precision(nb)
+#' @export
 nb_to_precision <- function(nb){
   n <- length(nb)
   Q <- matrix(data = 0, nrow = n, ncol = n) # Empty matrix
@@ -89,12 +92,12 @@ nb_to_precision <- function(nb){
 #' `touching`.
 #' @examples
 #' border_lengths(mw)
+#' @export
 border_lengths <- function(sf){
   gm <- sf::st_geometry(sf)
   touch <- sf::st_touches(gm) # Adjacency information
-  perim <- gm %>%
-    sf::st_cast("MULTILINESTRING") %>%
-    sf::st_length() # Region perimeters
+  perim_strings <- sf::st_cast(gm, "MULTILINESTRING")
+  perim <- sf::st_length(perim_strings) # Area perimeters
   
   # f adapted from Sébastien Rochette SO answer
   f <- function(from){
@@ -118,17 +121,18 @@ border_lengths <- function(sf){
 #'
 #' This function creates the a weighted ICAR precision matrix \eqn{Q}.
 #' In \eqn{Q} each entry \eqn{Q_{ij}} is equal to the shared length of
-#' border between the two regions (and so zero if they are not
+#' border between the two areas (and so zero if they are not
 #' adjacent). The diagonal elements \eqn{Q_{ii}} equal the total border
-#' of each region.
+#' of each area.
 #'
 #' @param sf A simple features object with some geometry.
 #' @return An ICAR precision matrix based upon `sf`.
 #' @examples
 #' border_precision(mw)
+#' @export
 border_precision <- function(sf){
   all_lengths <- border_lengths(sf)
-  n <- length(all_lengths) # More informative name?
+  n <- length(all_lengths)
   Q <- matrix(data = 0, nrow = n, ncol = n)
   for(i in 1:nrow(sf)) {
     if(!anyNA(all_lengths[[i]])) {
@@ -158,6 +162,7 @@ border_precision <- function(sf){
 #' nb <- neighbours(mw)
 #' Q <- nb_to_precision(nb)
 #' get_scale(Q)
+#' @export
 get_scale <- function(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0)){
   n <- nrow(Q)
   # Add jitter to the diagonal for numerical stability
@@ -183,6 +188,7 @@ get_scale <- function(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0)){
 #' nb <- neighbours(mw)
 #' Q <- nb_to_precision(nb)
 #' scale_gmrf_precision(Q)
+#' @export
 scale_gmrf_precision <- function(Q, A = matrix(1, 1, nrow(Q))){
   nb <- spdep::mat2listw(abs(Q))$neighbours
   comp <- spdep::n.comp.nb(nb)
@@ -201,7 +207,22 @@ scale_gmrf_precision <- function(Q, A = matrix(1, 1, nrow(Q))){
   return(Q)
 }
 
-#' Compute regional covariance matrix using kernel on centroids.
+#' Compute distances between area centroids.
+#' 
+#' Wrapper function for `sf::centroid` and `sf::distance`.
+#'
+#' @param sf A simple features object with some geometry.
+#' @return A `nrow(sf)` by `nrow(sf)` matrix.
+#' @examples
+#' centroid_distance(mw)
+#' @export
+centroid_distance <- function(sf) {
+  cent <- sf::st_centroid(sf$geometry)
+  D <- sf::st_distance(cent, cent)
+  return(D)
+}
+
+#' Compute areal covariance matrix using kernel on centroids.
 #'
 #' @param sf A simple features object with some geometry.
 #' @param kernel A kernel function, defaults to `matern`.
@@ -209,40 +230,46 @@ scale_gmrf_precision <- function(Q, A = matrix(1, 1, nrow(Q))){
 #' @return A `nrow(sf)` by `nrow(sf)` matrix.
 #' @examples
 #' centroid_covariance(mw)
+#' @export
 centroid_covariance <- function(sf, kernel = matern, ...){
-  cent <- sf::st_centroid(sf$geometry)
-  dist <- sf::st_distance(cent, cent)
-  cov <- apply(dist, c(1, 2), FUN = kernel, ...)
-  return(as.matrix(cov))
+  D <- centroid_distance(sf)
+  K <- kernel(D, ...)
+  return(as.matrix(K))
 }
 
-#' Compute regional covariance matrix using sample-based kernel.
+#' Compute areal covariance matrix using sample-based kernel.
 #'
 #' `sampling_covariance` draws `S` samples uniformly from inside each 
-#' region of `sf`. The kernel function `kernel` (with additional
-#' arguments `...`) is averaged over each pair of draws between regions
+#' area of `sf`. The kernel function `kernel` (with additional
+#' arguments `...`) is averaged over each pair of draws between areas
 #' to produce the entries of the covariance matrix.
 #'
 #' @param sf A simple features object with some geometry.
 #' @param kernel A kernel function, defaults to `matern`.
 #' @param ... Additional arguments to `kernel`.
-#' @param L The number of Monte Carlo samples to draw from each region.
+#' @param L The number of Monte Carlo samples to draw from each area.
 #' @return A `nrow(sf)` by `nrow(sf)` matrix.
 #' @examples
 #' sampling_covariance(mw)
-sampling_covariance <- function(sf, kernel = matern, ..., L = 100){
+#' @export
+sampling_covariance <- function(sf, L = 10, kernel = matern, ...){
   n <- nrow(sf)
   samples <- sf::st_sample(sf, size = rep(L, n))
   D <- sf::st_distance(samples, samples)
-  cov <- matrix(nrow = n, ncol = n)
-  for(i in 1:n) {
-    for(j in 1:n) {
-      i_range <- ((i - 1) * L + 1):(i * L)
-      j_range <- ((j - 1) * L + 1):(j * L)
-      relevant_sample <- D[i_range, j_range]
-      d <- mean(relevant_sample)
-      cov[i, j] <- kernel(d, ...)
+  kD <- kernel(D, ...)
+  K <- matrix(nrow = n, ncol = n)
+  # Diagonal entries
+  for(i in 1:n){
+    range <- ((i - 1) * L + 1):(i * L)
+    K[i, i] <- mean(kD[range, range])
+  }
+  # Off-diagonal entries
+  for(i in 1:(n - 1)) {
+    for(j in (i + 1):n) {
+      K[i, j] <- mean(kD[((i - 1) * L + 1):(i * L),
+                         ((j - 1) * L + 1):(j * L)]) # Fill the upper triangle
+      K[j, i] <- K[i, j] # Fill the lower triangle
     }
   }
-  return(cov)
+  return(K)
 }

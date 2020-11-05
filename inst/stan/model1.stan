@@ -1,12 +1,5 @@
 // model1.stan: IID
 
-// functions {
-//   real gen_binomial_lpdf (vector n, real N, vector theta) {
-//     return sum(n * log(theta) + (N - n) * log(1 - theta)); // Why is this giving me an error?
-//   }
-//   // To fix..
-// }
-
 data {
   int<lower=1> n; // Number of regions
   int y[n]; // Vector of responses
@@ -33,4 +26,8 @@ model {
 
 generated quantities {
   vector[n] rho = inv_logit(beta_0 + sigma_phi * phi);
+  vector[n] log_lik;
+  for (i in 1:n) {
+    log_lik[i] = binomial_logit_lpmf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
+  }
 }

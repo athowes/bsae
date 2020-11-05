@@ -1,6 +1,7 @@
 .Rproj.user
 .Rhistory
 .travis.yml
+*.pdf
 
 inst/doc
 vignettes/

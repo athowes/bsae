@@ -5,28 +5,24 @@
 #'
 #' @param x A number.
 #' @return The logistic tranformation of \code{x}.
+#' @export
 logistic <- function(x) {
   exp(x) / (1 + exp(x))
 }
 
-#' Matern covariance.
+#' Matern 3/2 covariance.
 #'
-#' The Matern covariance function with smoothness parameter settings limited to
-#' either 1.5 or 2.5.
+#' The Matern covariance function with smoothness parameter 3/2.
 #'
 #' @param r A distance between two points.
 #' @param l A lengthscale, defaults to `l = 1`.
-#' @param nu A smoothness parameter, either `nu = 1.5` (the default)
-#' or `nu = 2.5`.
 #' @return The Matern covariance.
-matern <- function(r, l = 1, nu = 1.5){
-  if(!nu %in% c(1.5, 2.5)){
-    errorCondition("Choose nu = 1.5 or nu = 2.5")
-  }
-  ifelse(nu == 1.5,
-         (1 + sqrt(3)*r/l) * exp(-sqrt(3) * r/l), # 1.5 case
-         (1 + sqrt(5)*r/l + 5*r^2/(3*l^2)) * exp(-sqrt(5) * r/l)) # 2.5 case
+#' @export
+matern <- function(r, l = 1){
+  (1 + sqrt(3)*r/l) * exp(-sqrt(3) * r/l)
 }
+
+# (1 + sqrt(5)*r/l + 5*r^2/(3*l^2)) * exp(-sqrt(5) * r/l)) # 2.5 case
 
 #' Compute the Riebler generalised variance of a covariance matrix.
 #' 
@@ -37,6 +33,7 @@ matern <- function(r, l = 1, nu = 1.5){
 #'
 #' @param A A square matrix.
 #' @return A scalar generalised variance.
+#' @export
 riebler_gv <- function(A) {
   exp(mean(log(diag(A))))
 }

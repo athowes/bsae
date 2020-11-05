@@ -4,10 +4,12 @@
 \alias{m6_stan}
 \title{Fit Sampling MVN Small Area Estimation model using \code{stan}.}
 \usage{
-m6_stan(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ..., L = 100)
+m6_stan(sf, L = 50, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{L}{The number of Monte Carlo samples to draw from each area.}
 
 \item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
 
@@ -16,8 +18,6 @@ m6_stan(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ..., L = 100)
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 
 \item{...}{Additional arguments to \code{kernel}.}
-
-\item{L}{The number of Monte Carlo samples to draw from each region.}
 }
 \description{
 Random effects have a multivariate Gaussian distribution with covariance

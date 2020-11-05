@@ -3,6 +3,7 @@
 #' @inheritParams m1_stan
 #' @examples
 #' m4_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' @export
 m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
   C <- border_precision(sf)
@@ -27,6 +28,7 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' @inheritParams m1_inla
 #' @examples
 #' m4_inla(mw)
+#' @export
 m4_inla <- function(sf){
 
   C <- border_precision(sf)

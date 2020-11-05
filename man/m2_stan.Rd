@@ -4,7 +4,7 @@
 \alias{m2_stan}
 \title{Fit Besag Small Area Estimation model using \code{stan}.}
 \usage{
-m2_stan(sf, nsim_warm = 100, nsim_iter = 1000)
+m2_stan(sf, nsim_warm = 100, nsim_iter = 1000, method = "default")
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
@@ -12,6 +12,8 @@ m2_stan(sf, nsim_warm = 100, nsim_iter = 1000)
 \item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
 
 \item{nsim_iter}{Number of samples, passed to \code{stan}.}
+
+\item{`method`}{One of \code{"default"} or \code{"morris"}.}
 }
 \description{
 Random effects have an improper conditional autoregressive (ICAR)

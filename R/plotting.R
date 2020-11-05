@@ -7,6 +7,7 @@
 #' plot_matrix(M)
 #'
 #' plot_matrix(border_precision(mw))
+#' @export
 plot_matrix <- function(M){
   M <- t(apply(M, 2, rev)) # Undo 90 degree CC rotation
   ggplot2::ggplot(reshape2::melt(M), aes(x = Var1, y = Var2, fill = value)) +

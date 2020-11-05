@@ -7,6 +7,7 @@
 #' @param nsim_iter Number of samples, passed to `stan`.
 #' @examples
 #' m1_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' @export
 m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
   dat <- list(n = nrow(sf),
@@ -28,6 +29,7 @@ m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' @param sf A simple features object with some geometry.
 #' @examples
 #' m1_inla(mw)
+#' @export
 m1_inla <- function(sf){
 
   dat <- list(id = 1:nrow(sf),

@@ -19,7 +19,8 @@ m5_stan(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...)
 }
 \description{
 Random effects have a multivariate Gaussian distribution with covariance
-matrix calculated using \code{\link{centroid_covariance}}.
+matrix calculated using \code{\link{centroid_covariance}}. Kernel hyper-parameters
+are fixed.
 }
 \examples{
 m5_stan(mw, nsim_warm = 0, nsim_iter = 100)

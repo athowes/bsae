@@ -16,7 +16,7 @@ An ICAR precision matrix based upon \code{nb}.
 This function creates the Besag model ICAR precision matrix \eqn{Q}.
 \eqn{Q} has the entries \eqn{Q_{ij} = -1} if \eqn{i \sim j} (where
 \eqn{\sim} is an adjacency operator), \eqn{Q_{ii}} is the number of
-neighbours of region \eqn{i} and \eqn{Q_{ij} = 0} otherwise.
+neighbours of area \eqn{i} and \eqn{Q_{ij} = 0} otherwise.
 }
 \examples{
 nb <- neighbours(mw)

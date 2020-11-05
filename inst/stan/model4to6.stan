@@ -27,4 +27,8 @@ model {
 
 generated quantities {
   vector[n] rho = inv_logit(beta_0 + sigma_phi * phi);
+  vector[n] log_lik;
+  for (i in 1:n) {
+    log_lik[i] = binomial_logit_lpmf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
+  }
 }

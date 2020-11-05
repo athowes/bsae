@@ -2,26 +2,26 @@
 % Please edit documentation in R/covariance_structures.R
 \name{sampling_covariance}
 \alias{sampling_covariance}
-\title{Compute regional covariance matrix using sample-based kernel.}
+\title{Compute areal covariance matrix using sample-based kernel.}
 \usage{
-sampling_covariance(sf, kernel = matern, ..., L = 100)
+sampling_covariance(sf, L = 10, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
+\item{L}{The number of Monte Carlo samples to draw from each area.}
+
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 
 \item{...}{Additional arguments to \code{kernel}.}
-
-\item{L}{The number of Monte Carlo samples to draw from each region.}
 }
 \value{
 A \code{nrow(sf)} by \code{nrow(sf)} matrix.
 }
 \description{
 \code{sampling_covariance} draws \code{S} samples uniformly from inside each
-region of \code{sf}. The kernel function \code{kernel} (with additional
-arguments \code{...}) is averaged over each pair of draws between regions
+area of \code{sf}. The kernel function \code{kernel} (with additional
+arguments \code{...}) is averaged over each pair of draws between areas
 to produce the entries of the covariance matrix.
 }
 \examples{

@@ -4,19 +4,20 @@ Title: Bayesian Small Area Estimation
 Version: 0.1.0
 Author: Adam Howes
 Maintainer: Adam Howes <ath19@ic.ac.uk>
-Description: Some tools for small area estimation modelling.
-    This package has been written to facilitate comparison of spatial 
-    random effects in Bayesian small area estimation models, as well
-    as comparison of inferential methods.
-License: License: GPL (>= 2)
+Description: This package provides tools for small area estimation modelling
+    in a Bayesian setting built on the inferential packages `rstan`,
+    `R-INLA` and `TMB`. Models with a range of spatial random effects are
+    implemented.
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 Biarch: true
 Depends: R (>= 3.4.0), TMB, RcppEigen
+Additional_repositories: https://inla.r-inla-download.org/R/stable
 Imports: methods, Rcpp (>= 0.12.0), rstan (>= 2.18.1), rstantools (>= 2.0.0), TMB (>= 1.7.16), INLA, sf, spdep, magrittr, ggplot2
 LinkingTo: TMB, BH (>= 1.66.0), Rcpp (>= 0.12.0), RcppEigen (>= 0.3.3.3.0), rstan (>= 2.18.1), StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,

@@ -7,17 +7,17 @@
 #' @inheritParams sampling_covariance
 #' @examples
 #' m6_stan(mw, nsim_warm = 0, nsim_iter = 100)
-m6_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
-                    ..., L = 100){
+#' @export
+m6_stan <- function(sf, L = 50, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
   
-  cov <- sampling_covariance(sf, kernel, ..., L)
+  cov <- sampling_covariance(sf, L, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   
   dat <- list(n = nrow(sf),
               y = round(sf$y),
               m = sf$n_obs,
-              Sigma = cov,
-              mu = rep(0, nrow(sf)))
+              mu = rep(0, nrow(sf)),
+              Sigma = cov)
   
   fit <- rstan::sampling(stanmodels$model4to6,
                          data = dat,
@@ -36,9 +36,10 @@ m6_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
 #' @inheritParams sampling_covariance
 #' @examples
 #' m6_inla(mw)
-m6_inla <- function(sf, kernel = matern, ...){
+#' @export
+m6_inla <- function(sf, L = 50, kernel = matern, ...){
   
-  cov <- sampling_covariance(sf, kernel, ..., L)
+  cov <- sampling_covariance(sf, L, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
   

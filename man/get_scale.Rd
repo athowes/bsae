@@ -10,10 +10,9 @@ get_scale(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0))
 \item{Q}{A (square, symmetric) precision matrix.}
 
 \item{constraint}{A list with arguments \code{A} and \code{e} which imposes
-the constraint \code{AQ = e}. See the \code{?INLA::f} argument
-\code{extraconstr}. In the original setting the constraint is placed upon a
-vector rather than a precision matrix. For this reason, here \code{A} is a
-row vector instead of a matrix.}
+the constraint \code{Au = e} (where the precision of \code{u} is \code{Q}).
+See the \code{?INLA::f} argument \code{extraconstr}. If \code{constraint} is the default
+value then this is a sum-to-zero constraint.}
 }
 \value{
 A scalar representing the generalised variance of the inverse of \code{Q}.

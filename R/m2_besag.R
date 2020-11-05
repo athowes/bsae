@@ -6,28 +6,48 @@
 #' the neighbourhood structure of `sf`.
 #'
 #' @inheritParams m1_stan
+#' @param `method` One of `"default"` or `"morris"`.
 #' @examples
 #' m2_stan(mw, nsim_warm = 0, nsim_iter = 100)
-m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
+#' @export
+m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"){
 
   nb <- neighbours(sf)
   Q <- nb_to_precision(nb)
-  g <- nb_to_graph(nb) # Stan pairwise Besag implementation
-  # I don't think that this properly takes non-connectedness into account!
-
-  dat <- list(n = nrow(sf),
-              y = round(sf$y),
-              m = sf$n_obs,
-              n_edges = g$n_edges,
-              node1 = g$node1,
-              node2 = g$node2,
-              scaling_factor = get_scale(Q))
-
-  fit <- rstan::sampling(stanmodels$model2,
-                         data = dat,
-                         warmup = nsim_warm,
-                         iter = nsim_iter)
-
+  scale <- get_scale(Q)
+  
+  # if(method == "morris") {
+  # # Doesn't non-connectedness into account!
+  # g <- nb_to_graph(nb) # Stan pairwise Besag implementation
+  # 
+  # dat <- list(n = nrow(sf),
+  #             y = round(sf$y),
+  #             m = sf$n_obs,
+  #             n_edges = g$n_edges,
+  #             node1 = g$node1,
+  #             node2 = g$node2,
+  #             scaling_factor = scale)
+  # 
+  # fit <- rstan::sampling(stanmodels$model2morris,
+  #                        data = dat,
+  #                        warmup = nsim_warm,
+  #                        iter = nsim_iter)
+  # }
+  
+  if(method == "default") {
+    Qscaled <- Q / scale
+    dat <- list(n = nrow(sf),
+                y = round(sf$y),
+                m = sf$n_obs,
+                Q = Q,
+                scaling_factor = scale)
+    
+    fit <- rstan::sampling(stanmodels$model2,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
+  
   return(fit)
 }
 
@@ -40,6 +60,7 @@ m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' @inheritParams m1_inla
 #' @examples
 #' m2_inla(mw)
+#' @export
 m2_inla <- function(sf){
 
   nb <- neighbours(sf)

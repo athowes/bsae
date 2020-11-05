@@ -12,6 +12,7 @@
 #' fit2 <- m1_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' report_interval(fit1, type = "inla")
 #' report_interval(fit2, type = "stan", name = "rho")
+#' @export
 report_interval <- function(fit, type, name = NULL){
   if(!type %in% c("stan", "inla")){
     errorCondition("Choose either stan or inla")
@@ -36,6 +37,7 @@ report_interval <- function(fit, type, name = NULL){
 #' @return A list containing `method_name` and `model_name`.
 #' @examples
 #' get_model_method("inla_1")
+#' @export
 get_model_method <- function(string){
   x <- strsplit(string, "_")
 

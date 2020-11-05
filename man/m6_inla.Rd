@@ -4,10 +4,12 @@
 \alias{m6_inla}
 \title{Fit Sampling MVN Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m6_inla(sf, kernel = matern, ...)
+m6_inla(sf, L = 50, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{L}{The number of Monte Carlo samples to draw from each area.}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 

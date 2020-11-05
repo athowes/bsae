@@ -15,9 +15,9 @@ An ICAR precision matrix based upon \code{sf}.
 \description{
 This function creates the a weighted ICAR precision matrix \eqn{Q}.
 In \eqn{Q} each entry \eqn{Q_{ij}} is equal to the shared length of
-border between the two regions (and so zero if they are not
+border between the two areas (and so zero if they are not
 adjacent). The diagonal elements \eqn{Q_{ii}} equal the total border
-of each region.
+of each area.
 }
 \examples{
 border_precision(mw)
