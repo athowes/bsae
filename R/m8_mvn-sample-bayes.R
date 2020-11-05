@@ -12,7 +12,7 @@ m8_stan <- function(sf, L = 50, nsim_warm = 100, nsim_iter = 1000){
   S <- sf::st_distance(samples, samples)
   
   dat <- list(n = n,
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs,
               mu = rep(0, nrow(sf)),
               L = L,

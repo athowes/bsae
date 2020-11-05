@@ -16,7 +16,7 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
 
   dat <- list(n = nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs,
               mu = rep(0, nrow(sf)),
               Sigma = cov)
@@ -46,7 +46,7 @@ m5_inla <- function(sf, kernel = matern, ...){
   C <- Matrix::solve(cov) # Precision matrix
 
   dat <- list(id = 1:nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs)
 
   # sigma ~ N(0. 2.5^2); initial in terms of log(tau) so 0 corresponds to tau = 1

@@ -13,7 +13,7 @@ m7_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   D <- centroid_distance(sf)
 
   dat <- list(n = nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs,
               mu = rep(0, nrow(sf)),
               D = D)

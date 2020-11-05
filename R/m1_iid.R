@@ -11,7 +11,7 @@
 m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
   dat <- list(n = nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs)
 
   fit <- rstan::sampling(stanmodels$model1,
@@ -33,7 +33,7 @@ m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 m1_inla <- function(sf){
 
   dat <- list(id = 1:nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs)
 
   # sigma ~ N(0. 2.5^2); initial in terms of log(tau) so 0 corresponds to tau = 1
@@ -69,7 +69,7 @@ m1_inla <- function(sf){
 #'   dyn.load(dynlib("tmb/model1"))
 #'
 #'   dat <- list(n = nrow(sf),
-#'               y = round(sf$y),
+#'               y = sf$y,
 #'               m = sf$n_obs)
 #'
 #'   # Initialisation

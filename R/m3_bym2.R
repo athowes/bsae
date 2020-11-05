@@ -12,7 +12,7 @@ m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   # I don't think that this properly takes non-connectedness into account!
 
   dat <- list(n = nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs,
               n_edges = g$n_edges,
               node1 = g$node1,
@@ -38,7 +38,7 @@ m3_inla <- function(sf){
   nb <- neighbours(sf)
 
   dat <- list(id = 1:nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs)
 
   # sigma ~ N(0. 2.5^2); initial in terms of log(tau) so 0 corresponds to tau = 1

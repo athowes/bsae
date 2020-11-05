@@ -12,7 +12,7 @@
 m0_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   
   dat <- list(n = nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs)
   
   fit <- rstan::sampling(stanmodels$model0,
@@ -36,7 +36,7 @@ m0_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 m0_inla <- function(sf){
   
   dat <- list(id = 1:nrow(sf),
-              y = round(sf$y),
+              y = sf$y,
               m = sf$n_obs)
   
   formula <- y ~ 1
