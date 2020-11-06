@@ -1,4 +1,4 @@
-// model2.stan: ICAR
+// model2.stan: ICAR plus CV
 
 functions {
   real xbinomial_logit_lpdf(real y, real m, real eta) {
@@ -7,8 +7,14 @@ functions {
 }
 
 data {
-  int<lower=1> n; // Number of regions
-  vector[n] y; // Vector of responses
+  int<lower=0> n_obs; // Number of observed regions
+  int<lower=0> n_mis; // Number of missing regions
+  
+  int<lower = 1, upper = n_obs + n_mis> ii_obs[n_obs];
+  int<lower = 1, upper = n_obs + n_mis> ii_mis[n_mis];
+
+  int<lower=0> n; // Number of regions n_obs + n_mis
+  vector[n_obs] y_obs; // Vector of observed responses
   vector[n] m; // Vector of sample sizes
   
   // Data structure for graph input
@@ -20,6 +26,7 @@ data {
 }
 
 parameters {
+  vector<lower=0>[n_mis] y_mis; // Vector of missing responses
   real beta_0; // Intercept
   vector[n] u; // Unscaled spatial effects
   real<lower=0> sigma_phi; // Standard deviation of spatial effects
@@ -28,6 +35,10 @@ parameters {
 transformed parameters {
   vector[n] phi = sqrt(1 / scaling_factor) * u; // Spatial effects
   vector[n] eta = beta_0 + sigma_phi * phi;
+
+  vector[n] y;
+  y[ii_obs] = y_obs;
+  y[ii_mis] = y_mis;
 }
 
 model {
