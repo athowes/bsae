@@ -2,7 +2,7 @@
 
 functions {
   real xbinomial_lpdf(real y, real m, real rho) {
-    return(y * log(rho) + (m - y) * log(1 - rho));
+    return(lchoose(m, y) + y * log(rho) + (m - y) * log(1 - rho));
   }
 }
 

@@ -1,8 +1,8 @@
-// model0.stan: Constant plus CV
+// model1.stan: IID plus CV
 
 functions {
-  real xbinomial_lpdf(real y, real m, real rho) {
-    return(lchoose(m, y) + y * log(rho) + (m - y) * log(1 - rho));
+  real xbinomial_logit_lpdf(real y, real m, real eta) {
+    return(lchoose(m, y) + y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
   }
 }
 
@@ -21,11 +21,12 @@ data {
 parameters {
   vector<lower=0>[n_mis] y_mis; // Vector of missing responses
   real beta_0; // Intercept
+  vector[n] phi; // Spatial effects
+  real<lower=0> sigma_phi; // Standard deviation of spatial effects
 }
 
 transformed parameters {
-  vector[n] eta = rep_vector(beta_0, n);
-  vector[n] rho = inv_logit(eta);
+  vector[n] eta = beta_0 + sigma_phi * phi;
   
   vector[n] y;
   y[ii_obs] = y_obs;
@@ -34,14 +35,19 @@ transformed parameters {
 
 model {
   for(i in 1:n) {
-   y[i] ~ xbinomial(m[i], rho[i]);
+   y[i] ~ xbinomial_logit(m[i], eta[i]); 
   }
+  phi ~ normal(0, 1); // phi has variance one
   beta_0 ~ normal(-2, 1);
+  sigma_phi ~ normal(0, 2.5); // Weakly informative prior
 }
 
 generated quantities {
+  real tau_phi = 1 / sigma_phi^2; // Precision of spatial effects
+  vector[n] rho = inv_logit(eta);
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = xbinomial_lpdf(y[i] | m[i], rho[i]);
+    log_lik[i] = xbinomial_logit_lpdf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
   }
 }
+

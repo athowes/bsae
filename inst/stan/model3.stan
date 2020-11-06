@@ -2,7 +2,7 @@
 
 functions {
   real xbinomial_logit_lpdf(real y, real m, real eta) {
-    return(y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
+    return(lchoose(m, y) + y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
   }
 }
 
