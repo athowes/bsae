@@ -1,7 +1,7 @@
 // model8.stan: Fully Bayesian integrated kernel
 
 functions {
-  real gen_binomial_logit_lpdf(real y, real m, real eta) {
+  real xbinomial_logit_lpdf(real y, real m, real eta) {
     return(y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
   }
   
@@ -77,7 +77,7 @@ model {
   beta_0 ~ normal(-2, 1);
   phi ~ multi_normal(mu, K);
   for(i in 1:n) {
-   y[i] ~ gen_binomial_logit(m[i], eta[i]); 
+   y[i] ~ xbinomial_logit(m[i], eta[i]); 
   }
 }
 
@@ -86,6 +86,6 @@ generated quantities {
   vector[n] rho = inv_logit(beta_0 + sigma_phi * phi);
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = gen_binomial_logit_lpdf(y[i] | m[i], eta[i]);
+    log_lik[i] = xbinomial_logit_lpdf(y[i] | m[i], eta[i]);
   }
 }

@@ -1,7 +1,7 @@
 // model0.stan: Constant
 
 functions {
-  real gen_binomial_lpdf(real y, real m, real rho) {
+  real xbinomial_lpdf(real y, real m, real rho) {
     return(y * log(rho) + (m - y) * log(1 - rho));
   }
 }
@@ -23,7 +23,7 @@ transformed parameters {
 
 model {
   for(i in 1:n) {
-   y[i] ~ gen_binomial(m[i], rho[i]); 
+   y[i] ~ xbinomial(m[i], rho[i]); 
   }
   beta_0 ~ normal(-2, 1);
 }
@@ -31,6 +31,6 @@ model {
 generated quantities {
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = gen_binomial_lpdf(y[i] | m[i], rho[i]);
+    log_lik[i] = xbinomial_lpdf(y[i] | m[i], rho[i]);
   }
 }

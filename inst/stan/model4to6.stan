@@ -1,7 +1,7 @@
 // model4to6.stan: MVN
 
 functions {
-  real gen_binomial_logit_lpdf(real y, real m, real eta) {
+  real xbinomial_logit_lpdf(real y, real m, real eta) {
     return(y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
   }
 }
@@ -26,7 +26,7 @@ transformed parameters {
 
 model {
   for(i in 1:n) {
-   y[i] ~ gen_binomial_logit(m[i], eta[i]); 
+   y[i] ~ xbinomial_logit(m[i], eta[i]); 
   }
 
   phi ~ multi_normal(mu, Sigma);
@@ -39,6 +39,6 @@ generated quantities {
   vector[n] rho = inv_logit(eta);
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = gen_binomial_logit_lpdf(y[i] | m[i], eta[i]);
+    log_lik[i] = xbinomial_logit_lpdf(y[i] | m[i], eta[i]);
   }
 }

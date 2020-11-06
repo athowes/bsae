@@ -1,7 +1,7 @@
 // model1.stan: IID
 
 functions {
-  real gen_binomial_logit_lpdf(real y, real m, real eta) {
+  real xbinomial_logit_lpdf(real y, real m, real eta) {
     return(y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
   }
 }
@@ -24,7 +24,7 @@ transformed parameters {
 
 model {
   for(i in 1:n) {
-   y[i] ~ gen_binomial_logit(m[i], eta[i]); 
+   y[i] ~ xbinomial_logit(m[i], eta[i]); 
   }
   phi ~ normal(0, 1); // phi has variance one
   beta_0 ~ normal(-2, 1);
@@ -36,6 +36,6 @@ generated quantities {
   vector[n] rho = inv_logit(eta);
   vector[n] log_lik;
   for (i in 1:n) {
-    log_lik[i] = gen_binomial_logit_lpdf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
+    log_lik[i] = xbinomial_logit_lpdf(y[i] | m[i], beta_0 + sigma_phi * phi[i]);
   }
 }
