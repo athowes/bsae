@@ -76,7 +76,7 @@ nb_to_precision <- function(nb){
 
 #' Create object containing lengths of borders from `sf` object.
 #'
-#' The function [`border_precision`] creates a dataframe for each area of 
+#' The function [`border_lengths`] creates a dataframe for each area of 
 #' `sf` containing information about the shared borders with other areas.
 #' Within this package the primary use is within [`border_precision`].
 #'
