@@ -10,8 +10,17 @@
 #' @export
 m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
-  dat <- list(n = nrow(sf),
-              y = sf$y,
+  ii_obs <- which(!is.na(sf$y))
+  ii_mis <- which(is.na(sf$y))
+  n_obs <- length(ii_obs)
+  n_mis <- length(ii_mis)
+  
+  dat <- list(n_obs = n_obs,
+              n_mis = n_mis,
+              ii_obs = array(ii_obs),
+              ii_mis = array(ii_mis),
+              n = nrow(sf),
+              y_obs = sf$y[ii_obs],
               m = sf$n_obs)
 
   fit <- rstan::sampling(stanmodels$model1,

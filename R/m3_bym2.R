@@ -4,26 +4,61 @@
 #' @examples
 #' m3_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
-
+m3_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"){
+  
+  ii_obs <- which(!is.na(sf$y))
+  ii_mis <- which(is.na(sf$y))
+  n_obs <- length(ii_obs)
+  n_mis <- length(ii_mis)
+  
   nb <- neighbours(sf)
   Q <- nb_to_precision(nb)
-  g <- nb_to_graph(nb) # Stan pairwise Besag implementation
-  # I don't think that this properly takes non-connectedness into account!
-
-  dat <- list(n = nrow(sf),
-              y = sf$y,
-              m = sf$n_obs,
-              n_edges = g$n_edges,
-              node1 = g$node1,
-              node2 = g$node2,
-              scaling_factor = get_scale(Q))
-
-  fit <- rstan::sampling(stanmodels$model3,
-                         data = dat,
-                         warmup = nsim_warm,
-                         iter = nsim_iter)
-
+  scale <- get_scale(Q)
+  
+  if(method == "default") {
+    warning("Currently broken, trying to invert non-inevitable matrix!")
+    Qscaled <- Q / scale
+    Sigma <- Matrix::solve(Qscaled)
+    
+    dat <- list(n_obs = n_obs,
+                n_mis = n_mis,
+                ii_obs = array(ii_obs),
+                ii_mis = array(ii_mis),
+                n = nrow(sf),
+                y_obs = sf$y[ii_obs],
+                m = sf$n_obs,
+                mu = rep(0, nrow(sf)),
+                Sigma = Sigma,
+                scaling_factor = scale)
+    
+    fit <- rstan::sampling(stanmodels$model4to6,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
+  
+  if(method == "morris") {
+    warning("Doesn't non-connectedness into account!")
+    g <- nb_to_graph(nb)
+    
+    dat <- list(n_obs = n_obs,
+                n_mis = n_mis,
+                ii_obs = array(ii_obs),
+                ii_mis = array(ii_mis),
+                n = nrow(sf),
+                y_obs = sf$y[ii_obs],
+                m = sf$n_obs,
+                n_edges = g$n_edges,
+                node1 = g$node1,
+                node2 = g$node2,
+                scaling_factor = scale)
+    
+    fit <- rstan::sampling(stanmodels$model2,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
+  
   return(fit)
 }
 
