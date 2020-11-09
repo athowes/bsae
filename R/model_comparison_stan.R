@@ -38,7 +38,7 @@ stan_dic <- function(fit){
 }
 
 stan_waic <- function(fit){
-  log_lik <- loo::extract_log_lik(temp)
+  log_lik <- loo::extract_log_lik(fit)
   waic <- loo::waic(log_lik)
   return(waic) 
 }
