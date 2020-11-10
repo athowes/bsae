@@ -68,7 +68,12 @@ nb_to_precision <- function(nb){
   n <- length(nb)
   Q <- matrix(data = 0, nrow = n, ncol = n) # Empty matrix
   for(i in 1:n){
-    Q[i, i] <- length(nb[[i]])
+    if(nb[[i]] == 0){
+      Q[i, i] = 0 
+    }
+    else{
+      Q[i, i] <- length(nb[[i]]) 
+    }
     Q[i, nb[[i]]] <- -1
   }
   return(Q)
