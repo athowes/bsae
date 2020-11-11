@@ -184,10 +184,10 @@ get_scale <- function(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0)){
 #' 
 #' @inheritParams get_scale
 #' @param A See the `constraint` argument of [`get_scale`].
-#' @return A matrix of the same dimension as `Q` where the entries have 
-#' been scaled according to the paper "A note on intrinsic conditional 
+#' @return A list containing a matrix of the same dimension as `Q` where 
+#' the entries have been scaled according to the paper "A note on intrinsic conditional 
 #' autoregressive models for disconnected graphs" by Freni-Sterrantino, 
-#' Ventrucci and Rue.
+#' Ventrucci and Rue, as well as `scales` a vector of the scale used for each component.
 #' @source From \href{https://github.com/mrc-ide/naomi/blob/master/R/car.R}{code} by Jeff Eaton.
 #' @examples
 #' nb <- neighbours(mw)
@@ -197,19 +197,22 @@ get_scale <- function(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0)){
 scale_gmrf_precision <- function(Q, A = matrix(1, 1, nrow(Q))){
   nb <- spdep::mat2listw(abs(Q))$neighbours
   comp <- spdep::n.comp.nb(nb)
+  scales <- rep(NA, comp$nc)
   for (k in seq_len(comp$nc)) {
     idx <- which(comp$comp.id == k)
     Qc <- Q[idx, idx, drop = FALSE]
     if (length(idx) == 1) {
+      scales[k] <- 1 
       Qc[1, 1] <- 1 # Set marginal variance for islands to be 1
     } else {
       Ac <- A[ , idx, drop = FALSE]
-      scaling_factor <- get_scale(Qc, constraint = list(A = Ac, e = 0))
-      Qc <- scaling_factor * Qc
+      scale <- get_scale(Qc, constraint = list(A = Ac, e = 0))
+      scales[k] <- scale
+      Qc <- scale * Qc
     }
     Q[idx, idx] <- Qc
   }
-  return(Q)
+  return(list(Q = Q, scales = scales))
 }
 
 #' Compute distances between area centroids.
