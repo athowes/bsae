@@ -13,7 +13,7 @@ Encoding: UTF-8
 LazyData: true
 Biarch: true
 Depends: R (>= 3.4.0), TMB, RcppEigen
-Additional_repositories: https://inla.r-inla-download.org/R/stable
+Additional_repositories: https://inla.r-inla-download.org/R/testing
 Imports: methods, Rcpp (>= 0.12.0), rstan (>= 2.18.1), rstantools (>= 2.0.0), TMB (>= 1.7.16), INLA, sf, spdep, magrittr, ggplot2
 LinkingTo: TMB, BH (>= 1.66.0), Rcpp (>= 0.12.0), RcppEigen (>= 0.3.3.3.0), rstan (>= 2.18.1), StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
