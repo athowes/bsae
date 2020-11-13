@@ -1,8 +1,12 @@
-// model4to6.stan: MVN plus CV
+// mvn_precision.stan: MVN precision parameterisation
 
 functions {
   real xbinomial_logit_lpdf(real y, real m, real eta) {
     return(lchoose(m, y) + y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
+  }
+  
+  real multi_normal_prec_improper_lpdf(vector x, vector mu, matrix Q) {
+    return(- 0.5 * (x - mu)' * Q * (x - mu));
   }
 }
 
@@ -17,7 +21,7 @@ data {
   vector[n_obs] y_obs; // Vector of observed responses
   vector[n] m; // Vector of sample sizes
   vector[n] mu; // Prior mean vector
-  matrix[n, n] Sigma; // Prior covariance matrix (avoid double validation)
+  matrix[n, n] Q; // Prior precision matrix
 }
 
 parameters {
@@ -40,7 +44,8 @@ model {
    y[i] ~ xbinomial_logit(m[i], eta[i]); 
   }
 
-  phi ~ multi_normal(mu, Sigma);
+  phi ~ multi_normal_prec_improper(mu, Q);
+  sum(phi) ~ normal(0, 0.001 * n); // Soft sum-to-zero constraint
   beta_0 ~ normal(-2, 1);
   sigma_phi ~ normal(0, 2.5); // Weakly informative prior
 }
