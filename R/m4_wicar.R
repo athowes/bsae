@@ -6,9 +6,6 @@
 #' @export
 m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 
-  C <- border_precision(sf)
-  cov <- Matrix::solve(C) # Covariance matrix
-
   ii_obs <- which(!is.na(sf$y))
   ii_mis <- which(is.na(sf$y))
   n_obs <- length(ii_obs)
@@ -21,7 +18,7 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               n = nrow(sf),
               y_obs = sf$y[ii_obs],
               m = sf$n_obs,
-              Sigma = cov,
+              Q = border_precision(sf),
               mu = rep(0, nrow(sf)))
 
   fit <- rstan::sampling(stanmodels$model4to6,

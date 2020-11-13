@@ -30,7 +30,7 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
               Sigma = cov,
               mu = rep(0, nrow(sf)))
 
-  fit <- rstan::sampling(stanmodels$model4to6,
+  fit <- rstan::sampling(stanmodels$mvn_covariance,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)

@@ -28,7 +28,7 @@ m6_stan <- function(sf, L = 50, nsim_warm = 100, nsim_iter = 1000, kernel = mate
               Sigma = cov,
               mu = rep(0, nrow(sf)))
   
-  fit <- rstan::sampling(stanmodels$model4to6,
+  fit <- rstan::sampling(stanmodels$mvn_covariance,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)
