@@ -4,7 +4,7 @@
 \alias{m3_stan}
 \title{Fit BYM2 Small Area Estimation model using \code{stan}.}
 \usage{
-m3_stan(sf, nsim_warm = 100, nsim_iter = 1000)
+m3_stan(sf, nsim_warm = 100, nsim_iter = 1000, method = "default")
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}

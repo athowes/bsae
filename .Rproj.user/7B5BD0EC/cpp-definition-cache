@@ -1,0 +1,102 @@
+[
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/inst/include/stan_meta_header.hpp",
+        "file_last_write": 1593527876.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/model1.cpp",
+        "file_last_write": 1583238022.0,
+        "definitions": [
+            {
+                "usr": "c:@ST>1#T@objective_function@F@operator()#",
+                "kind": 7,
+                "parent_name": "objective_function<Type>",
+                "name": "operator()",
+                "file": "/home/adamh/Documents/phd/package/bsae/src/model1.cpp",
+                "line": 6,
+                "column": 32
+            }
+        ]
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model0.cc",
+        "file_last_write": 1604522419.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model0.h",
+        "file_last_write": 1604668475.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model1.cc",
+        "file_last_write": 1602682114.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model1.h",
+        "file_last_write": 1604668475.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model2.cc",
+        "file_last_write": 1602682114.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model2.h",
+        "file_last_write": 1604668475.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model3.cc",
+        "file_last_write": 1602682114.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model3.h",
+        "file_last_write": 1604668475.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model7.cc",
+        "file_last_write": 1602682114.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model7.h",
+        "file_last_write": 1604668475.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model8.cc",
+        "file_last_write": 1602687026.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_model8.h",
+        "file_last_write": 1604668475.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_mvn_covariance.cc",
+        "file_last_write": 1605194266.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_mvn_covariance.h",
+        "file_last_write": 1605194266.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_mvn_precision.cc",
+        "file_last_write": 1605194266.0,
+        "definitions": []
+    },
+    {
+        "file": "/home/adamh/Documents/phd/package/bsae/src/stanExports_mvn_precision.h",
+        "file_last_write": 1605271125.0,
+        "definitions": []
+    }
+]

@@ -8,6 +8,10 @@ m0_stan(sf, nsim_warm = 100, nsim_iter = 1000)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+
+\item{nsim_iter}{Number of samples, passed to \code{stan}.}
 }
 \description{
 Simply fits a constant (the mean). This is useful as a benchmark

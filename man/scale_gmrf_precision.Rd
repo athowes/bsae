@@ -15,10 +15,10 @@ scale_gmrf_precision(Q, A = matrix(1, 1, nrow(Q)))
 \item{A}{See the \code{constraint} argument of \code{\link{get_scale}}.}
 }
 \value{
-A matrix of the same dimension as \code{Q} where the entries have
-been scaled according to the paper "A note on intrinsic conditional
+A list containing a matrix of the same dimension as \code{Q} where
+the entries have been scaled according to the paper "A note on intrinsic conditional
 autoregressive models for disconnected graphs" by Freni-Sterrantino,
-Ventrucci and Rue.
+Ventrucci and Rue, as well as \code{scales} a vector of the scale used for each component.
 }
 \description{
 Implements the same thing as \code{INLA::inla.scale.model}.

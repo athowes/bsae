@@ -23,7 +23,7 @@ node.
 }
 }
 \description{
-The function \code{\link{border_precision}} creates a dataframe for each area of
+The function \code{\link{border_lengths}} creates a dataframe for each area of
 \code{sf} containing information about the shared borders with other areas.
 Within this package the primary use is within \code{\link{border_precision}}.
 }
