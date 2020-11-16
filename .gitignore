@@ -1,4 +1,4 @@
-  .Rproj.user
+.Rproj.user
 .Rhistory
 .travis.yml
 *.pdf
@@ -9,3 +9,6 @@ vignettes/
 # Compiled object files
 *.so
 *.o
+
+# Incomplete TMB files
+src/TMB
