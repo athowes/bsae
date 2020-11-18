@@ -51,7 +51,7 @@ m0_inla <- function(sf){
   formula <- y ~ 1
   
   fit <- INLA::inla(formula,
-                    family = "binomial",
+                    family = "xbinomial",
                     control.family = list(control.link = list(model = "logit")),
                     data = dat,
                     Ntrials = m, # Picks up the correct column in the dataframe dat

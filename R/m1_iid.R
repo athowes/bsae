@@ -52,7 +52,7 @@ m1_inla <- function(sf){
   formula <- y ~ 1 + f(id, model = "iid", hyper = tau_prior)
 
   fit <- INLA::inla(formula,
-                    family = "binomial",
+                    family = "xbinomial",
                     control.family = list(control.link = list(model = "logit")),
                     data = dat,
                     Ntrials = m,

@@ -97,7 +97,7 @@ m2_inla <- function(sf){
                        hyper = tau_prior)
 
   fit <- INLA::inla(formula,
-                    family = "binomial",
+                    family = "xbinomial",
                     control.family = list(control.link = list(model = "logit")),
                     data = dat,
                     Ntrials = m,

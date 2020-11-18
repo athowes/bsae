@@ -66,7 +66,7 @@ m5_inla <- function(sf, kernel = matern, ...){
   formula <- y ~ 1 + f(id, model = "generic0", Cmatrix = C, hyper = tau_prior)
 
   fit <- INLA::inla(formula,
-                    family = "binomial",
+                    family = "xbinomial",
                     control.family = list(control.link = list(model = "logit")),
                     data = dat,
                     Ntrials = m,
