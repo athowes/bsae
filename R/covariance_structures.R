@@ -225,7 +225,7 @@ scale_gmrf_precision <- function(Q, A = matrix(1, 1, nrow(Q))){
 #' centroid_distance(mw)
 #' @export
 centroid_distance <- function(sf) {
-  cent <- sf::st_centroid(sf$geometry)
+  cent <- sf::st_centroid(sf)
   D <- sf::st_distance(cent, cent)
   return(D)
 }
