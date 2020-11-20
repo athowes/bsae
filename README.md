@@ -1,2 +1,4 @@
-# bsae: Bayesian Small Area Estimation
-  
+
+# bsae
+
+Bayesian small area estimation
