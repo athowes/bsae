@@ -81,7 +81,7 @@ cv <- function(sf, type = "LOO", fn, ..., S = 5000){
 
   message(paste0("Completed ", type, "-CV"))
   
-  return(unlist(scores))
+  return(list(tsfs = tsfs, scores = unlist(scores)))
 }
 
 #' Perform lengthscale hyperparameter tuning for kernel SAE methods.
