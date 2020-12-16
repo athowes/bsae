@@ -84,13 +84,29 @@ cv <- function(sf, type = "LOO", fn, ..., S = 5000){
   return(list(tsfs = tsfs, scores = unlist(scores)))
 }
 
+#' Compute DIC, WAIC and CPO for either `stan` or `R-INLA` models.
+#'
+#' Wrapper function for `stan_info_criteria` and `inla_info_criteria`.
+#' 
+#' @param fit A fitted `stan` or `R-INLA` model.
+#' @export
+info_criteria <- function(fit){
+  if(class(fit) == "stanfit"){
+    ic <- stan_info_criteria(fit)
+  }
+  
+  if(class(fit) == "inla"){
+    ic <- inla_info_criteria(fit)
+  }
+  return(ic)
+}
+
 #' Perform lengthscale hyperparameter tuning for kernel SAE methods.
 #'
 #' @inheritParams m1_inla
 #' @inheritParams cv
 #' @param grid A sequence of length-scale parameters.
-#' @export
-tune_lengthscale <- function(sf, fun = m5_inla, grid = seq(0.05, 0.5, by = 0.025), ...){
-  waic <- lapply(grid, function(k) fun(sf, kernel = matern, l = k, ...)$waic$waic)
+tune_lengthscale <- function(sf, fn = m5_inla, grid = seq(0.05, 0.5, by = 0.025), ...){
+  waic <- lapply(grid, function(k) fn(sf, kernel = matern, l = k, ...)$waic$waic)
   return(cbind(grid, waic))
 }

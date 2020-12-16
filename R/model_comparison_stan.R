@@ -23,7 +23,8 @@ eval_stan_model <- function(sf, fit, i){
 stan_info_criteria <- function(fit) {
   return(list(
     "DIC" = round(stan_dic(fit), digits = 2),
-    "WAIC" = round(stan_waic(fit)$estimates["waic", "Estimate"], digits = 2)
+    "WAIC" = round(stan_waic(fit)$estimates["waic", "Estimate"], digits = 2),
+    "CPO" = NA
   ))
 }
 
