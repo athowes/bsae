@@ -261,7 +261,7 @@ centroid_covariance <- function(sf, kernel = matern, ...){
 #' sampling_covariance(mw)
 #' @export
 sampling_covariance <- function(sf, L = 10, kernel = matern, ...){
-  n <- length(sf)
+  n <- nrow(sf)
   samples <- sf::st_sample(sf, size = rep(L, n))
   D <- sf::st_distance(samples, samples)
   kD <- kernel(D, ...)
