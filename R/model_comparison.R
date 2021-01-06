@@ -55,13 +55,14 @@ create_folds <- function(sf, remove_cols = c("y"), type = "LOO"){
 #' @param ... Additional arguments to `fn`.
 #' @param S The number of Monte Carlo samples to draw from the `R-INLA`
 #' approximate posterior distribution over the latent field.
+#' @param return_fits Should `cv` return the training data and fitted models? Defaults to `FALSE` in case of low storage capacity.
 #' @inheritParams create_folds
 #' @return A vector of log density scores (one entry for training data set
 #' produced by [`create_folds`].
 #' @examples
 #' cv(mw, type = "LOO", fn = m1_inla)
 #' @export
-cv <- function(sf, type = "LOO", fn, ..., S = 5000){
+cv <- function(sf, type = "LOO", fn, ..., S = 5000, return_fits = FALSE){
   n <- nrow(sf)
   training_sets <- create_folds(sf, remove_cols = c("y", "est"), type = type)
   fits <- lapply(training_sets, FUN = function(set) fn(set$data, ...))
@@ -81,7 +82,12 @@ cv <- function(sf, type = "LOO", fn, ..., S = 5000){
 
   message(paste0("Completed ", type, "-CV"))
   
-  return(list(tsfs = tsfs, scores = unlist(scores)))
+  if(return_fits){
+    return(list(tsfs = tsfs, scores = unlist(scores)))
+  }
+  else{
+    return(list(scores = unlist(scores)))
+  }
 }
 
 #' Compute DIC, WAIC and CPO for either `stan` or `R-INLA` models.
