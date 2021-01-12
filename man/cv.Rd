@@ -4,7 +4,7 @@
 \alias{cv}
 \title{Cross-validation using \code{\link{create_folds}}.}
 \usage{
-cv(sf, type = "LOO", fn, ..., S = 5000)
+cv(sf, type = "LOO", fn, ..., S = 5000, return_fits = FALSE)
 }
 \arguments{
 \item{sf}{A simple features data frame.}
@@ -17,6 +17,8 @@ cv(sf, type = "LOO", fn, ..., S = 5000)
 
 \item{S}{The number of Monte Carlo samples to draw from the \code{R-INLA}
 approximate posterior distribution over the latent field.}
+
+\item{return_fits}{Should \code{cv} return the training data and fitted models? Defaults to \code{FALSE} in case of low storage capacity.}
 }
 \value{
 A vector of log density scores (one entry for training data set

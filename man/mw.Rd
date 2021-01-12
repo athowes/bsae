@@ -14,6 +14,6 @@ Jeff Eaton
 mw
 }
 \description{
-\code{hiv_surveys} subsetted to just the DHS 2015 survey in Malawi.
+Malawi DHS 2015 Survey Data.
 }
 \keyword{datasets}
