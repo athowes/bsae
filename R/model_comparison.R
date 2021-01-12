@@ -106,13 +106,3 @@ info_criteria <- function(fit){
   }
   return(ic)
 }
-
-#' Perform lengthscale hyperparameter tuning for kernel SAE methods.
-#'
-#' @inheritParams m1_inla
-#' @inheritParams cv
-#' @param grid A sequence of length-scale parameters.
-tune_lengthscale <- function(sf, fn = m5_inla, grid = seq(0.05, 0.5, by = 0.025), ...){
-  waic <- lapply(grid, function(k) fn(sf, kernel = matern, l = k, ...)$waic$waic)
-  return(cbind(grid, waic))
-}
