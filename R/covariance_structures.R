@@ -107,8 +107,9 @@ border_lengths <- function(sf){
   # f adapted from Sébastien Rochette SO answer
   f <- function(from){
     if(length(touch[[from]]) != 0) {
-      lengths <- sf::st_intersection(gm[from], gm[touch[[from]]]) %>%
-        sf::st_length()
+      lengths <- sf::st_length(
+        sf::st_intersection(gm[from], gm[touch[[from]]])
+        )
       data.frame(origin = from,
                  perimeter = perim[[from]],
                  touching = touch[[from]],
