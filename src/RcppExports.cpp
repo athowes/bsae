@@ -7,22 +7,26 @@
 using namespace Rcpp;
 
 
-RcppExport SEXP _rcpp_module_boot_stan_fit4model0_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4model1_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4model2_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4model3_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4model7_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4model8_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4besag_morris_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4bym2_covariance_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4bym2_morris_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4bym2_precision_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4centroid_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4constant_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4iid_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4integrated_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4mvn_covariance_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4mvn_precision_mod();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rcpp_module_boot_stan_fit4model0_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model0_mod, 0},
-    {"_rcpp_module_boot_stan_fit4model1_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model1_mod, 0},
-    {"_rcpp_module_boot_stan_fit4model2_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model2_mod, 0},
-    {"_rcpp_module_boot_stan_fit4model3_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model3_mod, 0},
-    {"_rcpp_module_boot_stan_fit4model7_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model7_mod, 0},
-    {"_rcpp_module_boot_stan_fit4model8_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4model8_mod, 0},
+    {"_rcpp_module_boot_stan_fit4besag_morris_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4besag_morris_mod, 0},
+    {"_rcpp_module_boot_stan_fit4bym2_covariance_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4bym2_covariance_mod, 0},
+    {"_rcpp_module_boot_stan_fit4bym2_morris_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4bym2_morris_mod, 0},
+    {"_rcpp_module_boot_stan_fit4bym2_precision_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4bym2_precision_mod, 0},
+    {"_rcpp_module_boot_stan_fit4centroid_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4centroid_mod, 0},
+    {"_rcpp_module_boot_stan_fit4constant_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4constant_mod, 0},
+    {"_rcpp_module_boot_stan_fit4iid_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4iid_mod, 0},
+    {"_rcpp_module_boot_stan_fit4integrated_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4integrated_mod, 0},
     {"_rcpp_module_boot_stan_fit4mvn_covariance_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4mvn_covariance_mod, 0},
     {"_rcpp_module_boot_stan_fit4mvn_precision_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4mvn_precision_mod, 0},
     {NULL, NULL, 0}

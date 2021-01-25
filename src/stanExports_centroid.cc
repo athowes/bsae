@@ -2,12 +2,12 @@
 
 #include <Rcpp.h>
 using namespace Rcpp ;
-#include "stanExports_model7.h"
+#include "stanExports_centroid.h"
 
-RCPP_MODULE(stan_fit4model7_mod) {
+RCPP_MODULE(stan_fit4centroid_mod) {
 
 
-    class_<rstan::stan_fit<stan_model, boost::random::ecuyer1988> >("model_model7")
+    class_<rstan::stan_fit<stan_model, boost::random::ecuyer1988> >("model_centroid")
 
     .constructor<SEXP,SEXP,SEXP>()
 

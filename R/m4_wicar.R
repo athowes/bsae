@@ -21,7 +21,7 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               Q = border_precision(sf),
               mu = rep(0, nrow(sf)))
 
-  fit <- rstan::sampling(stanmodels$model4to6,
+  fit <- rstan::sampling(stanmodels$mvn_precision,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)

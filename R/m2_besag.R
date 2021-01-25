@@ -57,7 +57,7 @@ m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"){
               node2 = g$node2,
               scaling_factor = scale)
 
-  fit <- rstan::sampling(stanmodels$model2,
+  fit <- rstan::sampling(stanmodels$besag_morris,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)

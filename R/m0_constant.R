@@ -24,7 +24,7 @@ m0_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               y_obs = sf$y[ii_obs],
               m = sf$n_obs)
 
-  fit <- rstan::sampling(stanmodels$model0,
+  fit <- rstan::sampling(stanmodels$constant,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)

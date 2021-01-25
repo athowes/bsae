@@ -27,7 +27,7 @@ m7_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               mu = rep(0, nrow(sf)),
               D = D)
 
-  fit <- rstan::sampling(stanmodels$model7,
+  fit <- rstan::sampling(stanmodels$centroid,
                          data = dat,
                          warmup = nsim_warm,
                          iter = nsim_iter)
