@@ -257,13 +257,14 @@ centroid_covariance <- function(sf, kernel = matern, ...){
 #' @param kernel A kernel function, defaults to `matern`.
 #' @param ... Additional arguments to `kernel`.
 #' @param L The number of Monte Carlo samples to draw from each area.
+#' @param type String passed to the `type` argument of `sf::st_sample`, defaults to `"random"`
 #' @return A `nrow(sf)` by `nrow(sf)` matrix.
 #' @examples
 #' sampling_covariance(mw)
 #' @export
-sampling_covariance <- function(sf, L = 10, kernel = matern, ...){
+sampling_covariance <- function(sf, L = 10, kernel = matern, type = "random", ...){
   n <- nrow(sf)
-  samples <- sf::st_sample(sf, size = rep(L, n))
+  samples <- sf::st_sample(sf, type = type, size = rep(L, n))
   D <- sf::st_distance(samples, samples)
   kD <- kernel(D, ...)
   K <- matrix(nrow = n, ncol = n)
