@@ -38,8 +38,8 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 m4_inla <- function(sf){
 
   C <- border_precision(sf)
-  C <- scale_gmrf_precision(C) # Could use scale.model = TRUE in f() instead?
-
+  C <- scale_gmrf_precision(C)$Q # Could use scale.model = TRUE in f() instead?
+  
   dat <- list(id = 1:nrow(sf),
               y = sf$y,
               m = sf$n_obs)
