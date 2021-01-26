@@ -5,10 +5,10 @@
 #' @examples
 #' m8_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m8_stan <- function(sf, L = 50, nsim_warm = 100, nsim_iter = 1000){
+m8_stan <- function(sf, L = 50, type = "random", nsim_warm = 100, nsim_iter = 1000){
   
   n <- nrow(sf)
-  samples <- sf::st_sample(sf, size = rep(L, n))
+  samples <- sf::st_sample(sf, type = type, size = rep(L, n))
   S <- sf::st_distance(samples, samples)
   
   ii_obs <- which(!is.na(sf$y))
