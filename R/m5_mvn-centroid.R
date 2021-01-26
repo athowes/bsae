@@ -5,12 +5,13 @@
 #' are fixed.
 #'
 #' @inheritParams m1_stan
+#' @param bym2 Logical indicating if the centroid spatial random effects should be convoluted 
+#' with unstructured IID noise, defaults to `FALSE`.
 #' @inheritParams centroid_covariance
 #' @examples
 #' m5_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
-                    ...){
+m5_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
 
   cov <- centroid_covariance(sf, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
@@ -29,11 +30,19 @@ m5_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern,
               m = sf$n_obs,
               Sigma = cov,
               mu = rep(0, nrow(sf)))
-
-  fit <- rstan::sampling(stanmodels$mvn_covariance,
-                         data = dat,
-                         warmup = nsim_warm,
-                         iter = nsim_iter)
+  
+  if(bym2){
+    fit <- rstan::sampling(stanmodels$bym2_covariance,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
+  else{
+    fit <- rstan::sampling(stanmodels$mvn_covariance,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
 
   return(fit)
 }
