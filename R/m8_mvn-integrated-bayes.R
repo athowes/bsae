@@ -2,10 +2,12 @@
 #'
 #' @inheritParams m1_stan
 #' @inheritParams sampling_covariance
+#' @param bym2 Logical indicating if the spatial random effects should be convoluted 
+#' with unstructured IID noise, defaults to `FALSE`.
 #' @examples
 #' m8_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m8_stan <- function(sf, L = 50, type = "random", nsim_warm = 100, nsim_iter = 1000){
+m8_stan <- function(sf, bym2 = FALSE, L = 50, type = "random", nsim_warm = 100, nsim_iter = 1000){
   
   n <- nrow(sf)
   samples <- sf::st_sample(sf, type = type, size = rep(L, n))
@@ -27,10 +29,18 @@ m8_stan <- function(sf, L = 50, type = "random", nsim_warm = 100, nsim_iter = 10
               L = L,
               S = S)
   
-  fit <- rstan::sampling(stanmodels$integrated,
-                         data = dat,
-                         warmup = nsim_warm,
-                         iter = nsim_iter)
+  if(bym2){
+    fit <- rstan::sampling(stanmodels$bym2_integrated,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
+  else{
+    fit <- rstan::sampling(stanmodels$integrated,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
   
   return(fit)
 }

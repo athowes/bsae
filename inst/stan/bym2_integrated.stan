@@ -1,4 +1,4 @@
-// integrated.stan: Fully Bayesian integrated kernel plus CV
+// bym2_integrated.stan: Fully Bayesian integrated kernel with IID noise plus CV
 
 functions {
   real xbinomial_logit_lpdf(real y, real m, real eta) {
@@ -65,12 +65,15 @@ data {
 parameters {
   vector<lower=0>[n_mis] y_mis; // Vector of missing responses
   real beta_0; // Intercept
-  vector[n] phi; // Spatial effects
+  vector[n] u; // Structured spatial effects
+  vector[n] v; // Unstructured spatial effects
+  real<lower=0, upper=1> pi; // Proportion unstructured vs. structured variance
   real<lower=0> sigma_phi; // Standard deviation of spatial effects
   real<lower=0> l; // Kernel lengthscale
 }
 
 transformed parameters {
+  vector[n] phi = sqrt(1 - pi) * v + sqrt(pi) * u; // Spatial effects
   vector[n] eta = beta_0 + sigma_phi * phi;
   
   vector[n] y;
@@ -86,9 +89,11 @@ model {
   l ~ gamma(1, 1);
   sigma_phi ~ normal(0, 2.5); // Weakly informative prior
   beta_0 ~ normal(-2, 1);
-  phi ~ multi_normal(mu, K);
+  pi ~ beta(0.5, 0.5);
+  v ~ normal(0, 1);
+  u ~ multi_normal(mu, K);
   for(i in 1:n) {
-   y[i] ~ xbinomial_logit(m[i], eta[i]); 
+    y[i] ~ xbinomial_logit(m[i], eta[i]); 
   }
 }
 
@@ -100,3 +105,4 @@ generated quantities {
     log_lik[i] = xbinomial_logit_lpdf(y[i] | m[i], eta[i]);
   }
 }
+

@@ -5,10 +5,12 @@
 #' version has a fully Bayesian treatment of kernel hyperparameters.
 #'
 #' @inheritParams m1_stan
+#' @param bym2 Logical indicating if the spatial random effects should be convoluted 
+#' with unstructured IID noise, defaults to `FALSE`.
 #' @examples
 #' m7_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m7_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
+m7_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000){
 
   D <- centroid_distance(sf)
   
@@ -27,10 +29,18 @@ m7_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
               mu = rep(0, nrow(sf)),
               D = D)
 
-  fit <- rstan::sampling(stanmodels$centroid,
-                         data = dat,
-                         warmup = nsim_warm,
-                         iter = nsim_iter)
+  if(bym2){
+    fit <- rstan::sampling(stanmodels$bym2_centroid,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
+  else{
+    fit <- rstan::sampling(stanmodels$centroid,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
 
   return(fit)
 }

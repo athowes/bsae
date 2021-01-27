@@ -1,16 +1,18 @@
-#' Fit Sampling MVN Small Area Estimation model using `stan`.
+#' Fit Integrated MVN Small Area Estimation model using `stan`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
 #' matrix calculated using [`sampling_covariance`].
 #'
 #' @inheritParams m1_stan
+#' @param bym2 Logical indicating if the spatial random effects should be convoluted 
+#' with unstructured IID noise, defaults to `FALSE`.
 #' @inheritParams sampling_covariance
 #' @examples
 #' m6_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m6_stan <- function(sf, L = 50, type = "random", nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
+m6_stan <- function(sf, bym2 = FALSE, L = 50, type = "random", nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
   
-  cov <- sampling_covariance(sf, type, L, kernel, ...)
+  cov <- sampling_covariance(sf, L = L, type = type, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   
   ii_obs <- which(!is.na(sf$y))
@@ -28,10 +30,18 @@ m6_stan <- function(sf, L = 50, type = "random", nsim_warm = 100, nsim_iter = 10
               Sigma = cov,
               mu = rep(0, nrow(sf)))
   
-  fit <- rstan::sampling(stanmodels$mvn_covariance,
-                         data = dat,
-                         warmup = nsim_warm,
-                         iter = nsim_iter)
+  if(bym2){
+    fit <- rstan::sampling(stanmodels$bym2_covariance,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
+  else{
+    fit <- rstan::sampling(stanmodels$mvn_covariance,
+                           data = dat,
+                           warmup = nsim_warm,
+                           iter = nsim_iter)
+  }
   
   return(fit)
 }
