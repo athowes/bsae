@@ -257,27 +257,29 @@ centroid_covariance <- function(sf, kernel = matern, ...){
 #' @param kernel A kernel function, defaults to `matern`.
 #' @param ... Additional arguments to `kernel`.
 #' @param L The number of Monte Carlo samples to draw from each area.
-#' @param type String passed to the `type` argument of `sf::st_sample`, defaults to `"random"`
+#' @param type String passed to the `type` argument of `sf::st_sample`, defaults to `"hexagonal"`
 #' @return A `nrow(sf)` by `nrow(sf)` matrix.
 #' @examples
 #' sampling_covariance(mw)
 #' @export
-sampling_covariance <- function(sf, L = 50, kernel = matern, type = "random", ...){
+sampling_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal", ...){
   n <- nrow(sf)
-  samples <- sf::st_sample(sf, type = type, size = rep(L, n))
+  samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
+  
+  # Exact = TRUE is not exact
+  sample_index <- sf::st_intersects(mw, samples)
+  
   D <- sf::st_distance(samples, samples)
   kD <- kernel(D, ...)
   K <- matrix(nrow = n, ncol = n)
   # Diagonal entries
   for(i in 1:n){
-    range <- ((i - 1) * L + 1):(i * L)
-    K[i, i] <- mean(kD[range, range])
+    K[i, i] <- mean(kD[sample_index[[i]], sample_index[[i]]])
   }
   # Off-diagonal entries
   for(i in 1:(n - 1)) {
     for(j in (i + 1):n) {
-      K[i, j] <- mean(kD[((i - 1) * L + 1):(i * L),
-                         ((j - 1) * L + 1):(j * L)]) # Fill the upper triangle
+      K[i, j] <- mean(kD[sample_index[[i]], sample_index[[j]]]) # Fill the upper triangle
       K[j, i] <- K[i, j] # Fill the lower triangle
     }
   }
