@@ -27,22 +27,23 @@ functions {
     return(K);
   }
   
-  matrix cov_sample_average(int n, int L, real l, matrix S) {
+  matrix cov_sample_average(matrix S, real l, int n, int[] start_index, int[] sample_lengths, int total_samples) {
     matrix[n, n] K;
-    matrix[L * n, L * n] kS = cov_matern32(S, l);
+    matrix[total_samples, total_samples] kS = cov_matern32(S, l);
 
-    // Diagonal entries
-    for(i in 1:n){
-      K[i, i] = mean(kS[(L * (i - 1) + 1):(i * L), (L * (i - 1) + 1):(i * L)]);
-    }
-  
-    // Off-diagonal entries
     for(i in 1:(n - 1)) {
+      // Diagonal entries (apart from the last)
+      int start_i = start_index[i];
+      int length_i = sample_lengths[i];
+      K[i, i] = mean(block(kS, start_i, start_i, length_i, length_i));
       for(j in (i + 1):n) {
-        K[i, j] = mean(kS[(L * (i - 1) + 1):(i * L), (L * (j - 1) + 1):(j * L)]);
-        K[j, i] = K[i, j]; 
+        // Off-diagonal entries
+        K[i, j] = mean(block(kS, start_i, start_index[j], length_i, sample_lengths[j]));
+        K[j, i] = K[i, j];
       }
     }
+    K[n, n] = mean(block(kS, start_index[n], start_index[n], sample_lengths[n], sample_lengths[n]));
+
     return(K);
   }
 }
@@ -58,8 +59,11 @@ data {
   vector[n_obs] y_obs; // Vector of observed responses
   vector[n] m; // Vector of sample sizes
   vector[n] mu; // Prior mean vector
-  int L; // Number of Monte Carlo samples
-  matrix[n * L, n * L] S; // Distances between all points
+  
+  int sample_lengths[n]; // Number of Monte Carlo samples in each area
+  int<lower=0> total_samples; // sum(sample_lengths)
+  int start_index[n]; // Start indicies for each group of samples
+  matrix[total_samples, total_samples] S; // Distances between all points (could be sparser!)
 }
 
 parameters {
@@ -82,7 +86,7 @@ transformed parameters {
 }
 
 model {
-  matrix[n, n] K = cov_sample_average(n, L, l, S);
+  matrix[n, n] K = cov_sample_average(S, l, n, start_index, sample_lengths, total_samples);
   // I could do this?
   // matrix[n, n] L = cholesky_decompose(K);
   // y ~ multi_normal_cholesky(mu, L);

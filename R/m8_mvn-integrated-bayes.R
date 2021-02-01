@@ -7,12 +7,17 @@
 #' @examples
 #' m8_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m8_stan <- function(sf, bym2 = FALSE, L = 50, type = "random", nsim_warm = 100, nsim_iter = 1000){
+m8_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000){
   
   n <- nrow(sf)
-  samples <- sf::st_sample(sf, type = type, size = rep(L, n))
+  samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
   S <- sf::st_distance(samples, samples)
   
+  # Data structure for unequal number of points in each area
+  sample_index <- sf::st_intersects(sf, samples)
+  sample_lengths <- lengths(sample_index)
+  start_index <- sapply(sample_index, function(x) x[1])
+
   ii_obs <- which(!is.na(sf$y))
   ii_mis <- which(is.na(sf$y))
   n_obs <- length(ii_obs)
@@ -26,7 +31,9 @@ m8_stan <- function(sf, bym2 = FALSE, L = 50, type = "random", nsim_warm = 100, 
               y_obs = sf$y[ii_obs],
               m = sf$n_obs,
               mu = rep(0, nrow(sf)),
-              L = L,
+              sample_lengths = sample_lengths,
+              total_samples = sum(sample_lengths),
+              start_index = start_index,
               S = S)
   
   if(bym2){

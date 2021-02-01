@@ -109,32 +109,34 @@ cov_matern32(const Eigen::Matrix<T0__, Eigen::Dynamic, Eigen::Dynamic>& D,
         stan::math::fill(sqrt3, DUMMY_VAR__);
         current_statement_begin__ = 13;
         stan::math::assign(sqrt3, stan::math::sqrt(3.0));
-        current_statement_begin__ = 16;
-        for (int i = 1; i <= n; ++i) {
+        current_statement_begin__ = 15;
+        for (int i = 1; i <= (n - 1); ++i) {
             current_statement_begin__ = 17;
             stan::model::assign(K, 
                         stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list())), 
                         1, 
                         "assigning variable K");
-        }
-        current_statement_begin__ = 20;
-        for (int i = 1; i <= (n - 1); ++i) {
-            current_statement_begin__ = 21;
+            current_statement_begin__ = 18;
             for (int j = (i + 1); j <= n; ++j) {
-                current_statement_begin__ = 22;
+                current_statement_begin__ = 20;
                 stan::math::assign(norm_K, (get_base1(D, i, j, "D", 1) / l));
-                current_statement_begin__ = 23;
+                current_statement_begin__ = 21;
                 stan::model::assign(K, 
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(j), stan::model::nil_index_list())), 
                             ((1 + (sqrt3 * norm_K)) * stan::math::exp((-(sqrt3) * norm_K))), 
                             "assigning variable K");
-                current_statement_begin__ = 24;
+                current_statement_begin__ = 22;
                 stan::model::assign(K, 
                             stan::model::cons_list(stan::model::index_uni(j), stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list())), 
                             get_base1(K, i, j, "K", 1), 
                             "assigning variable K");
             }
         }
+        current_statement_begin__ = 25;
+        stan::model::assign(K, 
+                    stan::model::cons_list(stan::model::index_uni(n), stan::model::cons_list(stan::model::index_uni(n), stan::model::nil_index_list())), 
+                    1, 
+                    "assigning variable K");
         current_statement_begin__ = 27;
         return stan::math::promote_scalar<fun_return_scalar_t__>(K);
         }
