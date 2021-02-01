@@ -11,9 +11,9 @@
 #' @examples
 #' m5_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m5_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
+m5_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
 
-  cov <- centroid_covariance(sf, kernel, ...)
+  cov <- centroid_covariance(sf, control = control, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
 
   ii_obs <- which(!is.na(sf$y))

@@ -10,9 +10,9 @@
 #' @examples
 #' m6_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-m6_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
+m6_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
   
-  cov <- sampling_covariance(sf, L = L, type = type, kernel, ...)
+  cov <- sampling_covariance(sf, control = control,  L = L, type = type, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   
   ii_obs <- which(!is.na(sf$y))

@@ -234,14 +234,21 @@ centroid_distance <- function(sf) {
 #' Compute areal covariance matrix using kernel on centroids.
 #'
 #' @param sf A simple features object with some geometry.
+#' @param control If not provided to the kernel, how should the length-scale be computed?
+#' Default `"mean"` sets the covariance of the average distance between centroids to be 0.01.
 #' @param kernel A kernel function, defaults to `matern`.
 #' @param ... Additional arguments to `kernel`.
 #' @return A `nrow(sf)` by `nrow(sf)` matrix.
 #' @examples
 #' centroid_covariance(mw)
 #' @export
-centroid_covariance <- function(sf, kernel = matern, ...){
+centroid_covariance <- function(sf, control = "mean", kernel = matern, ...){
   D <- centroid_distance(sf)
+  if(control == "mean"){
+    mean <- mean(D)
+    solve <- uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
+    l <- solve$root
+  }
   K <- kernel(D, ...)
   return(as.matrix(K))
 }
@@ -254,6 +261,8 @@ centroid_covariance <- function(sf, kernel = matern, ...){
 #' to produce the entries of the covariance matrix.
 #'
 #' @param sf A simple features object with some geometry.
+#' @param control If not provided to the kernel, how should the length-scale be computed?
+#' Default `"mean"` sets the covariance of the average distance between centroids to be 0.01.
 #' @param kernel A kernel function, defaults to `matern`.
 #' @param ... Additional arguments to `kernel`.
 #' @param L The number of Monte Carlo samples to draw from each area.
@@ -262,7 +271,7 @@ centroid_covariance <- function(sf, kernel = matern, ...){
 #' @examples
 #' sampling_covariance(mw)
 #' @export
-sampling_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal", ...){
+sampling_covariance <- function(sf, control = "mean", L = 10, kernel = matern, type = "hexagonal", ...){
   n <- nrow(sf)
   samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
   
@@ -270,6 +279,13 @@ sampling_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal",
   sample_index <- sf::st_intersects(mw, samples)
   
   D <- sf::st_distance(samples, samples)
+  
+  if(control == "mean"){
+    mean <- mean(centroid_distance(sf))
+    solve <- uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
+    l <- solve$root
+  }
+  
   kD <- kernel(D, ...)
   K <- matrix(nrow = n, ncol = n)
   
