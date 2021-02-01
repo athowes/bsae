@@ -272,16 +272,17 @@ sampling_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal",
   D <- sf::st_distance(samples, samples)
   kD <- kernel(D, ...)
   K <- matrix(nrow = n, ncol = n)
+  
   # Diagonal entries
-  for(i in 1:n){
-    K[i, i] <- mean(kD[sample_index[[i]], sample_index[[i]]])
-  }
-  # Off-diagonal entries
   for(i in 1:(n - 1)) {
+    K[i, i] <- mean(kD[sample_index[[i]], sample_index[[i]]])
     for(j in (i + 1):n) {
+      # Off-diagonal entries
       K[i, j] <- mean(kD[sample_index[[i]], sample_index[[j]]]) # Fill the upper triangle
       K[j, i] <- K[i, j] # Fill the lower triangle
     }
   }
+  K[n, n] <- mean(kD[sample_index[[n]], sample_index[[n]]])
+  
   return(K)
 }
