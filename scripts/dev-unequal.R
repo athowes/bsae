@@ -15,7 +15,11 @@ padded_sample_index <- lapply(sample_index, function(x) {
   append(x, values = rep(NA, diff))
 })
 
+# Padded data structure
 matrix(unlist(padded_sample_index), nrow = n, ncol = max_length, byrow = TRUE)
 
-# An alternative data structure?
+# Database structure
 group_db <- data.frame(i = unlist(sample_index), group_id = rep(seq(length(sample_index)), lengths(sample_index)))
+
+# Start index structure
+start_index <- sapply(sample_index, function(x) x[1])
