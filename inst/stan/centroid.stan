@@ -12,18 +12,18 @@ functions {
     real sqrt3;
     sqrt3 = sqrt(3.0);
     
-    // Diagonal entries
-    for(i in 1:n){
-      K[i, i] = 1;
-    }
-    
     for(i in 1:(n - 1)){
+      // Diagonal entries (apart from the last)
+      K[i, i] = 1;
       for(j in (i + 1):n){
+        // Off-diagonal entries
         norm_K = D[i, j] / l;
         K[i, j] = (1 + sqrt3 * norm_K) * exp(-sqrt3 * norm_K); // Fill lower triangle
         K[j, i] = K[i, j]; // Fill upper triangle
       }
     }
+    K[n, n] = 1;
+    
     return(K);
   }
 }
