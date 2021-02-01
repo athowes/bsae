@@ -27,7 +27,7 @@ functions {
     return(K);
   }
   
-  matrix cov_sample_average(int n, int L, real l, matrix S) {
+  matrix cov_sample_average_old(int n, int L, real l, matrix S) {
     matrix[n, n] K;
     matrix[L * n, L * n] kS = cov_matern32(S, l);
     
@@ -79,7 +79,7 @@ transformed parameters {
 }
 
 model {
-  matrix[n, n] K = cov_sample_average(n, L, l, S);
+  matrix[n, n] K = cov_sample_average_old(n, L, l, S);
   // I could do this?
     // matrix[n, n] L = cholesky_decompose(K);
     // y ~ multi_normal_cholesky(mu, L);
