@@ -35,7 +35,7 @@ m4_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' @examples
 #' m4_inla(mw)
 #' @export
-m4_inla <- function(sf){
+m4_inla <- function(sf, verbose = FALSE){
 
   C <- border_precision(sf)
   C <- scale_gmrf_precision(C)$Q # Could use scale.model = TRUE in f() instead?
@@ -62,7 +62,8 @@ m4_inla <- function(sf){
                     Ntrials = m,
                     control.predictor = list(compute = TRUE, link = 1),
                     control.compute = list(dic = TRUE, waic = TRUE,
-                                           cpo = TRUE, config = TRUE))
+                                           cpo = TRUE, config = TRUE),
+                    verbose = verbose)
 
   return(fit)
 }

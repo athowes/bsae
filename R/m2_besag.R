@@ -76,7 +76,7 @@ m2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"){
 #' @examples
 #' m2_inla(mw)
 #' @export
-m2_inla <- function(sf){
+m2_inla <- function(sf, verbose = FALSE){
 
   nb <- neighbours(sf)
 
@@ -103,7 +103,8 @@ m2_inla <- function(sf){
                     Ntrials = m,
                     control.predictor = list(compute = TRUE, link = 1),
                     control.compute = list(dic = TRUE, waic = TRUE,
-                                           cpo = TRUE, config = TRUE))
+                                           cpo = TRUE, config = TRUE),
+                    verbose = verbose)
 
   return(fit)
 }

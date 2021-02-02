@@ -37,12 +37,12 @@ m0_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' Simply fits a constant (the mean). This is useful as a benchmark
 #' for other models.
 #'
-#' @param sf A simple features object with some geometry.
+#' @inheritParams m1_inla
 #' @examples
 #' fit <- m0_inla(mw)
 #' mean <- logistic(fit$summary.fixed$mean)
 #' @export
-m0_inla <- function(sf){
+m0_inla <- function(sf, verbose = FALSE){
   
   dat <- list(id = 1:nrow(sf),
               y = sf$y,
@@ -57,7 +57,8 @@ m0_inla <- function(sf){
                     Ntrials = m, # Picks up the correct column in the dataframe dat
                     control.predictor = list(compute = TRUE, link = 1),
                     control.compute = list(dic = TRUE, waic = TRUE,
-                                           cpo = TRUE, config = TRUE))
+                                           cpo = TRUE, config = TRUE),
+                    verbose = verbose)
   
   return(fit)
 }

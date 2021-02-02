@@ -56,7 +56,7 @@ m6_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagona
 #' @examples
 #' m6_inla(mw)
 #' @export
-m6_inla <- function(sf, L = 50, kernel = matern, ...){
+m6_inla <- function(sf, verbose = FALSE, L = 50, kernel = matern, ...){
   
   cov <- sampling_covariance(sf, L, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
@@ -80,7 +80,8 @@ m6_inla <- function(sf, L = 50, kernel = matern, ...){
                     Ntrials = m,
                     control.predictor = list(compute = TRUE, link = 1),
                     control.compute = list(dic = TRUE, waic = TRUE,
-                                           cpo = TRUE, config = TRUE))
+                                           cpo = TRUE, config = TRUE),
+                    verbose = verbose)
   
   return(fit)
 }

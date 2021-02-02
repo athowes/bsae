@@ -36,10 +36,11 @@ m1_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' Random effects are independent and identically distributed.
 #'
 #' @param sf A simple features object with some geometry.
+#' @param verbose Should `R-INLA` run in mode `verbose = TRUE`.
 #' @examples
 #' m1_inla(mw)
 #' @export
-m1_inla <- function(sf){
+m1_inla <- function(sf, verbose = FALSE){
 
   dat <- list(id = 1:nrow(sf),
               y = sf$y,
@@ -58,7 +59,8 @@ m1_inla <- function(sf){
                     Ntrials = m,
                     control.predictor = list(compute = TRUE, link = 1),
                     control.compute = list(dic = TRUE, waic = TRUE,
-                                           cpo = TRUE, config = TRUE))
+                                           cpo = TRUE, config = TRUE),
+                    verbose = verbose)
 
   return(fit)
 }

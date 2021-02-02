@@ -57,7 +57,7 @@ m5_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_it
 #' @examples
 #' m5_inla(mw)
 #' @export
-m5_inla <- function(sf, kernel = matern, ...){
+m5_inla <- function(sf, verbose = FALSE, kernel = matern, ...){
 
   cov <- centroid_covariance(sf, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
@@ -81,7 +81,8 @@ m5_inla <- function(sf, kernel = matern, ...){
                     Ntrials = m,
                     control.predictor = list(compute = TRUE, link = 1),
                     control.compute = list(dic = TRUE, waic = TRUE,
-                                           cpo = TRUE, config = TRUE))
+                                           cpo = TRUE, config = TRUE),
+                    verbose = verbose)
 
   return(fit)
 }
