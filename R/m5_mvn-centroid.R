@@ -57,9 +57,9 @@ m5_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_it
 #' @examples
 #' m5_inla(mw)
 #' @export
-m5_inla <- function(sf, verbose = FALSE, kernel = matern, ...){
+m5_inla <- function(sf, control = "mean", verbose = FALSE, kernel = matern, ...){
 
-  cov <- centroid_covariance(sf, kernel, ...)
+  cov <- centroid_covariance(sf, control = control, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
 

@@ -56,9 +56,9 @@ m6_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagona
 #' @examples
 #' m6_inla(mw)
 #' @export
-m6_inla <- function(sf, verbose = FALSE, L = 50, kernel = matern, ...){
+m6_inla <- function(sf, control = "mean", verbose = FALSE, L = 50, kernel = matern, ...){
   
-  cov <- sampling_covariance(sf, L, kernel, ...)
+  cov <- sampling_covariance(sf, control = control, L, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
   
