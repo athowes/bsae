@@ -18,7 +18,7 @@ logistic <- function(x) {
 #' @param l A lengthscale, defaults to `l = 1`.
 #' @return The Matern covariance.
 #' @export
-matern <- function(r, l = 1){
+matern <- function(r, l = 1) {
   (1 + sqrt(3)*r/l) * exp(-sqrt(3) * r/l)
 }
 
@@ -36,4 +36,17 @@ matern <- function(r, l = 1){
 #' @export
 riebler_gv <- function(A) {
   exp(mean(log(diag(A))))
+}
+
+#' Density of the generalised binomial distribution.
+#' 
+#' @param x A real number less than `size`.
+#' @param size A real number of trials.
+#' @param prob The probability of success.
+#' @param log Should the returned probability be on the log scale?
+#' @export
+dxbinom <- function(x, size, prob, log = FALSE) {
+  constant <- lgamma(size + 1) - lgamma(x + 1) - lgamma(size - x + 1)
+  lpdf <- constant + x * log(prob) + (size - x) * log(1 - prob)
+  return(ifelse(log, lpdf, exp(lpdf)))
 }
