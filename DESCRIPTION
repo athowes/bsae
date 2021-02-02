@@ -23,7 +23,8 @@ Imports:
     rstantools (>= 2.0.0), 
     TMB (>= 1.7.16), 
     INLA, 
-    sf, 
+    sf,
+    lwgeom,
     spdep, 
     magrittr, 
     ggplot2
