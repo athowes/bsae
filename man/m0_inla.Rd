@@ -4,10 +4,12 @@
 \alias{m0_inla}
 \title{Fit constant Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m0_inla(sf)
+m0_inla(sf, verbose = FALSE)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 }
 \description{
 Simply fits a constant (the mean). This is useful as a benchmark

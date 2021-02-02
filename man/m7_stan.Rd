@@ -4,10 +4,13 @@
 \alias{m7_stan}
 \title{Fit Bayesian Centroid MVN Small Area Estimation model using \code{stan}.}
 \usage{
-m7_stan(sf, nsim_warm = 100, nsim_iter = 1000)
+m7_stan(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{bym2}{Logical indicating if the spatial random effects should be convoluted
+with unstructured IID noise, defaults to \code{FALSE}.}
 
 \item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
 

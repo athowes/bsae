@@ -4,10 +4,12 @@
 \alias{m4_inla}
 \title{Fit weighted ICAR Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m4_inla(sf)
+m4_inla(sf, verbose = FALSE)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 }
 \description{
 Fit weighted ICAR Small Area Estimation model using \code{R-INLA}.

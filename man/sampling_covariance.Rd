@@ -4,14 +4,26 @@
 \alias{sampling_covariance}
 \title{Compute areal covariance matrix using sample-based kernel.}
 \usage{
-sampling_covariance(sf, L = 10, kernel = matern, ...)
+sampling_covariance(
+  sf,
+  control = "mean",
+  L = 10,
+  kernel = matern,
+  type = "hexagonal",
+  ...
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
+\item{control}{If not provided to the kernel, how should the length-scale be computed?
+Default \code{"mean"} sets the covariance of the average distance between centroids to be 0.01.}
+
 \item{L}{The number of Monte Carlo samples to draw from each area.}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
+
+\item{type}{String passed to the \code{type} argument of \code{sf::st_sample}, defaults to \code{"hexagonal"}}
 
 \item{...}{Additional arguments to \code{kernel}.}
 }

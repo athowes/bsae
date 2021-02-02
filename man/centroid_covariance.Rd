@@ -4,10 +4,13 @@
 \alias{centroid_covariance}
 \title{Compute areal covariance matrix using kernel on centroids.}
 \usage{
-centroid_covariance(sf, kernel = matern, ...)
+centroid_covariance(sf, control = "mean", kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{control}{If not provided to the kernel, how should the length-scale be computed?
+Default \code{"mean"} sets the covariance of the average distance between centroids to be 0.01.}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 

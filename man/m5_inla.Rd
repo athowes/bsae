@@ -4,10 +4,12 @@
 \alias{m5_inla}
 \title{Fit Centroid MVN Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m5_inla(sf, kernel = matern, ...)
+m5_inla(sf, verbose = FALSE, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 

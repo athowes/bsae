@@ -4,10 +4,12 @@
 \alias{m2_inla}
 \title{Fit Besag Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m2_inla(sf)
+m2_inla(sf, verbose = FALSE)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 }
 \description{
 Random effects have an improper conditional autoregressive (ICAR)

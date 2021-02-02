@@ -4,10 +4,12 @@
 \alias{m1_inla}
 \title{Fit IID Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m1_inla(sf)
+m1_inla(sf, verbose = FALSE)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 }
 \description{
 Random effects are independent and identically distributed.

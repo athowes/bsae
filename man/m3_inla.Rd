@@ -4,10 +4,12 @@
 \alias{m3_inla}
 \title{Fit BYM2 Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m3_inla(sf)
+m3_inla(sf, verbose = FALSE)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 }
 \description{
 Fit BYM2 Small Area Estimation model using \code{R-INLA}.

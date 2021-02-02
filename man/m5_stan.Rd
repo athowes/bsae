@@ -4,10 +4,24 @@
 \alias{m5_stan}
 \title{Fit Centroid MVN Small Area Estimation model using \code{stan}.}
 \usage{
-m5_stan(sf, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...)
+m5_stan(
+  sf,
+  control = "mean",
+  bym2 = FALSE,
+  nsim_warm = 100,
+  nsim_iter = 1000,
+  kernel = matern,
+  ...
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{control}{If not provided to the kernel, how should the length-scale be computed?
+Default \code{"mean"} sets the covariance of the average distance between centroids to be 0.01.}
+
+\item{bym2}{Logical indicating if the centroid spatial random effects should be convoluted
+with unstructured IID noise, defaults to \code{FALSE}.}
 
 \item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
 
