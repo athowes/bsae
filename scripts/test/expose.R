@@ -14,14 +14,16 @@ D <- sf::st_distance(samples, samples)
 kD <- matern(D, l = 1)
 K <- matrix(nrow = n, ncol = n)
 
-for(i in 1:(n - 1)) {
+for(i in 1:n) {
   K[i, i] <- mean(kD[sample_index[[i]], sample_index[[i]]])
+}
+
+for(i in 1:(n - 1)) {
   for(j in (i + 1):n) {
     K[i, j] <- mean(kD[sample_index[[i]], sample_index[[j]]]) # Fill the upper triangle
     K[j, i] <- K[i, j] # Fill the lower triangle
   }
 }
-K[n, n] <- mean(kD[sample_index[[n]], sample_index[[n]]])
 
 cov_r <- K
 
@@ -48,6 +50,6 @@ cov_stan_old <- cov_sample_average_old(
 )
 
 # Comparison
-cov_r[1:5, 1:5]
-cov_stan[1:5, 1:5]
-cov_stan_old[1:5, 1:5]
+all.equal(cov_r, cov_stan)
+all.equal(cov_r, cov_stan_old)
+all.equal(cov_stan, cov_stan_old)
