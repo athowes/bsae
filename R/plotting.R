@@ -13,7 +13,7 @@ plot_matrix <- function(M){
   ggplot2::ggplot(reshape2::melt(M), aes(x = Var1, y = Var2, fill = value)) +
     labs(x = "", y = "", fill = "Value") +
     geom_tile() +
-    scale_fill_viridis_c() +
+    viridis::scale_fill_viridis_c() +
     theme(axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           axis.text.y=element_blank(),
