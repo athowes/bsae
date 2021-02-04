@@ -1,35 +1,32 @@
 Package: bsae
-Type: Package
 Title: Bayesian Small Area Estimation
-Version: 0.1.1
-Author: Adam Howes
-Maintainer: Adam Howes <ath19@ic.ac.uk>
-Description: This package provides tools for small area estimation modelling
-    in a Bayesian setting built on the inferential packages `rstan`,
-    `R-INLA` and `TMB`. Models with a range of spatial random effects are
-    implemented.
+Version: 0.1.2
+Authors@R: 
+    person(given = "Adam",
+           family = "Howes",
+           role = c("aut", "cre"),
+           email = "ath19@ic.ac.uk")
+Description: Tools for Bayesian small-area estimation.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 Biarch: true
 Depends: 
-    R (>= 3.4.0), 
-    TMB, 
+    R (>= 3.4.0),
+    TMB(>= 1.7.16),
     RcppEigen
 Imports: 
     methods, 
     Rcpp (>= 0.12.0), 
     rstan (>= 2.18.1), 
-    rstantools (>= 2.0.0), 
-    TMB (>= 1.7.16), 
+    rstantools (>= 2.0.0),
     INLA, 
     sf,
     lwgeom,
     spdep, 
     magrittr, 
     ggplot2
-LinkingTo: 
-    TMB, 
+LinkingTo:
     BH (>= 1.66.0), 
     Rcpp (>= 0.12.0), 
     RcppEigen (>= 0.3.3.3.0), 
@@ -40,5 +37,6 @@ RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    viridis
 VignetteBuilder: knitr
