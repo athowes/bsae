@@ -1,9 +1,7 @@
 // constant.stan: Constant plus CV
 
-functions {
-  real xbinomial_lpdf(real y, real m, real rho) {
-    return(lchoose(m, y) + y * log(rho) + (m - y) * log(1 - rho));
-  }
+functions{
+#include /include/custom_functions.stan
 }
 
 data {
@@ -25,7 +23,6 @@ parameters {
 
 transformed parameters {
   vector[n] eta = rep_vector(beta_0, n);
-  vector[n] rho = inv_logit(eta);
   
   vector[n] y;
   y[ii_obs] = y_obs;
@@ -34,14 +31,15 @@ transformed parameters {
 
 model {
   for(i in 1:n) {
-   y[i] ~ xbinomial(m[i], rho[i]);
+   y[i] ~ xbinomial_logit(m[i], eta[i]);
   }
   beta_0 ~ normal(-2, 1);
 }
 
 generated quantities {
   vector[n] log_lik;
+  vector[n] rho = inv_logit(eta);
   for (i in 1:n) {
-    log_lik[i] = xbinomial_lpdf(y[i] | m[i], rho[i]);
+    log_lik[i] = xbinomial_logit_lpdf(y[i] | m[i], eta[i]);
   }
 }

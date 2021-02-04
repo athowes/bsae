@@ -1,13 +1,7 @@
 // bym2_precision.stan: BYM2 precision parameterisation
 
-functions {
-  real xbinomial_logit_lpdf(real y, real m, real eta) {
-    return(lchoose(m, y) + y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
-  }
-  
-  real multi_normal_prec_improper_lpdf(vector x, vector mu, matrix Q) {
-    return(- 0.5 * (x - mu)' * Q * (x - mu));
-  }
+functions{
+#include /include/custom_functions.stan
 }
 
 data {

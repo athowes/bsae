@@ -1,31 +1,7 @@
 // bym2_centroid.stan: Fully Bayesian centroid kernel with IID noise plus CV
 
-functions {
-  real xbinomial_logit_lpdf(real y, real m, real eta) {
-    return(lchoose(m, y) + y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
-  }
-  
-  matrix cov_matern32(matrix D, real l) {
-    int n = rows(D);
-    matrix[n, n] K;
-    real norm_K;
-    real sqrt3;
-    sqrt3 = sqrt(3.0);
-    
-    for(i in 1:(n - 1)){
-      // Diagonal entries (apart from the last)
-      K[i, i] = 1;
-      for(j in (i + 1):n){
-        // Off-diagonal entries
-        norm_K = D[i, j] / l;
-        K[i, j] = (1 + sqrt3 * norm_K) * exp(-sqrt3 * norm_K); // Fill lower triangle
-        K[j, i] = K[i, j]; // Fill upper triangle
-      }
-    }
-    K[n, n] = 1;
-    
-    return(K);
-  }
+functions{
+#include /include/custom_functions.stan
 }
 
 data {

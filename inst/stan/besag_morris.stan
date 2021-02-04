@@ -1,9 +1,7 @@
 // besag_morris.stan: ICAR plus CV (Morris implementation)
 
-functions {
-  real xbinomial_logit_lpdf(real y, real m, real eta) {
-    return(lchoose(m, y) + y * log(inv_logit(eta)) + (m - y) * log(1 - inv_logit(eta)));
-  }
+functions{
+#include /include/custom_functions.stan
 }
 
 data {
