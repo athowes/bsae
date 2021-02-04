@@ -246,7 +246,7 @@ centroid_covariance <- function(sf, control = "mean", kernel = matern, ...){
   D <- centroid_distance(sf)
   if(control == "mean"){
     mean <- mean(D)
-    solve <- uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
+    solve <- stats::uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
     l <- solve$root
   }
   K <- kernel(D, ...)
@@ -282,7 +282,7 @@ sampling_covariance <- function(sf, control = "mean", L = 10, kernel = matern, t
   
   if(control == "mean"){
     mean <- mean(centroid_distance(sf))
-    solve <- uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
+    solve <- stats::uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
     l <- solve$root
   }
   
