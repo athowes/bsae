@@ -273,7 +273,14 @@ centroid_covariance <- function(sf, control = "mean", kernel = matern, ...){
 #' @export
 sampling_covariance <- function(sf, control = "mean", L = 10, kernel = matern, type = "hexagonal", ...){
   n <- nrow(sf)
+  
   samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
+  
+  
+  # "OGR: Corrupt data Error in CPL_gdal_dimension(st_geometry(x), NA_if_empty) : OGR error"
+  # r-spatial/lwgeom/issues/6
+  # r-spatial/sf/issues/1443
+  st_crs(samples) <- NA
   
   # Exact = TRUE is not exact
   sample_index <- sf::st_intersects(mw, samples)
