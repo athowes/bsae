@@ -282,7 +282,7 @@ sampling_covariance <- function(sf, control = "mean", L = 10, kernel = matern, t
   sf::st_crs(samples) <- NA
   
   # Exact = TRUE is not exact
-  sample_index <- sf::st_intersects(mw, samples)
+  sample_index <- sf::st_intersects(sf, samples)
   
   D <- sf::st_distance(samples, samples)
   
