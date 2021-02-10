@@ -40,7 +40,7 @@ m0_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' @inheritParams m1_inla
 #' @examples
 #' fit <- m0_inla(mw)
-#' mean <- logistic(fit$summary.fixed$mean)
+#' mean <- plogis(fit$summary.fixed$mean)
 #' @export
 m0_inla <- function(sf, verbose = FALSE){
   

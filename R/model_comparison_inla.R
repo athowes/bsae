@@ -14,7 +14,7 @@
 eval_inla_model <- function(sf, fit, i, S = 5000){
   samples <- INLA::inla.posterior.sample(n = S, fit, selection = list(Predictor = i))
   eta_samples = sapply(samples, function(x) x$latent)
-  rho_samples <- logistic(eta_samples)
+  rho_samples <- plogis(eta_samples)
   y <- sf$y[[i]]
   n_obs <- sf$n_obs[[i]]
   lds <- log(sum(stats::dbinom(round(y), n_obs, rho_samples)) / S)

@@ -17,5 +17,5 @@ for other models.
 }
 \examples{
 fit <- m0_inla(mw)
-mean <- logistic(fit$summary.fixed$mean)
+mean <- plogis(fit$summary.fixed$mean)
 }

@@ -1,15 +1,3 @@
-#' The logistic transformation.
-#'
-#' Compute the logistic (inverse logit) transformation, given by
-#' \eqn{x \mapsto \exp(x) / (1 + \exp(x))}.
-#'
-#' @param x A number.
-#' @return The logistic tranformation of \code{x}.
-#' @export
-logistic <- function(x) {
-  exp(x) / (1 + exp(x))
-}
-
 #' Matern 3/2 covariance.
 #'
 #' The Matern covariance function with smoothness parameter 3/2.
