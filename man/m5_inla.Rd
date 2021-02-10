@@ -4,10 +4,13 @@
 \alias{m5_inla}
 \title{Fit Centroid MVN Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m5_inla(sf, verbose = FALSE, kernel = matern, ...)
+m5_inla(sf, control = "mean", verbose = FALSE, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{control}{If not provided to the kernel, how should the length-scale be computed?
+Default \code{"mean"} sets the covariance of the average distance between centroids to be 0.01.}
 
 \item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 

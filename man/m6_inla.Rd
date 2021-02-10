@@ -4,10 +4,13 @@
 \alias{m6_inla}
 \title{Fit Sampling MVN Small Area Estimation model using \code{R-INLA}.}
 \usage{
-m6_inla(sf, verbose = FALSE, L = 50, kernel = matern, ...)
+m6_inla(sf, control = "mean", verbose = FALSE, L = 50, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
+
+\item{control}{If not provided to the kernel, how should the length-scale be computed?
+Default \code{"mean"} sets the covariance of the average distance between centroids to be 0.01.}
 
 \item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 
