@@ -1,18 +1,34 @@
-#' Compute log density score from `stan` model at a single held-out point.
+#' Compute forecast assessments for `stan` model at a single held-out point.
 #'
 #' @param sf A simple features data frame.
 #' @param fit A fitted `stan` model.
 #' @param i The index of the held-out data point to predict on. Should be an
 #' integer in the range `1:nrow(sf)`.
-#' approximate posterior distribution over the latent field.
-#' @return A scalar log density score.
+#' @return A list containing `mse` (mean square error), 
+#' `mae` (mean absolute error), `crps` (continuous ranked probability score),
+#' and `lds` (log density score).
 #' @export
 eval_stan_model <- function(sf, fit, i){
+  
+  # Using rounding for now
+  y <- round(sf$y[[i]])
+  n_obs <- round(sf$n_obs[[i]])
+  
   rho_samples <- rstan::extract(fit)$rho[, i]
-  y <- sf$y[[i]]
-  n_obs <- sf$n_obs[[i]]
-  lds <- log(mean(stats::dbinom(round(y), n_obs, rho_samples)))
-  return(lds)
+  y_samples <- rbinom(n = length(rho_samples), 
+                      size = n_obs,
+                      prob = rho_samples)
+  error_samples <- (y_samples - y)
+  
+  mse <- mean(error_samples^2) # Mean square error
+  mae <- mean(abs(error_samples)) # Mean absolute error
+  crps <- crps(y_samples, y) # Continuous ranked probability score
+  lds <- log(mean(dbinom(y, n_obs, rho_samples))) # Log density score
+  
+  return(list(mse = mse,
+              mae = mae,
+              crps = crps,
+              lds = lds))
 }
 
 #' Compute DIC and WAIC for `stan` models.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_comparison_stan.R
 \name{eval_stan_model}
 \alias{eval_stan_model}
-\title{Compute log density score from \code{stan} model at a single held-out point.}
+\title{Compute forecast assessments for \code{stan} model at a single held-out point.}
 \usage{
 eval_stan_model(sf, fit, i)
 }
@@ -12,12 +12,13 @@ eval_stan_model(sf, fit, i)
 \item{fit}{A fitted \code{stan} model.}
 
 \item{i}{The index of the held-out data point to predict on. Should be an
-integer in the range \code{1:nrow(sf)}.
-approximate posterior distribution over the latent field.}
+integer in the range \code{1:nrow(sf)}.}
 }
 \value{
-A scalar log density score.
+A list containing \code{mse} (mean square error),
+\code{mae} (mean absolute error), \code{crps} (continuous ranked probability score),
+and \code{lds} (log density score).
 }
 \description{
-Compute log density score from \code{stan} model at a single held-out point.
+Compute forecast assessments for \code{stan} model at a single held-out point.
 }

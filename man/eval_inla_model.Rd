@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_comparison_inla.R
 \name{eval_inla_model}
 \alias{eval_inla_model}
-\title{Compute log density score from \code{R-INLA} model at a single held-out point.}
+\title{Compute forecast assessments for \code{R-INLA} model at a single held-out point.}
 \usage{
 eval_inla_model(sf, fit, i, S = 5000)
 }
@@ -18,10 +18,12 @@ integer in the range \code{1:nrow(sf)}.}
 approximate posterior distribution over the latent field.}
 }
 \value{
-A scalar log density score.
+A list containing \code{mse} (mean square error),
+\code{mae} (mean absolute error), \code{crps} (continuous ranked probability score),
+and \code{lds} (log density score).
 }
 \description{
-Compute log density score from \code{R-INLA} model at a single held-out point.
+Compute forecast assessments for \code{R-INLA} model at a single held-out point.
 }
 \examples{
 fit <- m1_inla(mw)

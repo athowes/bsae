@@ -71,22 +71,20 @@ cv <- function(sf, type = "LOO", fn, ..., S = 5000, return_fits = FALSE){
   for(i in 1:nrow(sf)) tsfs[[i]]$fit <- fits[[i]]
   
   if(class(fits[[1]]) == "stanfit"){
-    scores <- lapply(tsfs, FUN = function(tsf) 
-      eval_stan_model(sf, tsf$fit, tsf$predict_on))
+    scores <- lapply(tsfs, FUN = function(tsf) eval_stan_model(sf, tsf$fit, tsf$predict_on))
   }
   
   if(class(fits[[1]]) == "inla"){
-    scores <- lapply(tsfs, FUN = function(tsf) 
-      eval_inla_model(sf, tsf$fit, tsf$predict_on, S = S))
+    scores <- lapply(tsfs, FUN = function(tsf) eval_inla_model(sf, tsf$fit, tsf$predict_on, S = S))
   }
 
   message(paste0("Completed ", type, "-CV"))
   
   if(return_fits){
-    return(list(tsfs = tsfs, scores = unlist(scores)))
+    return(list(tsfs = tsfs, scores = scores))
   }
   else{
-    return(list(scores = unlist(scores)))
+    return(list(scores = scores))
   }
 }
 
