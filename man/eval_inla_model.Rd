@@ -15,12 +15,10 @@ eval_inla_model(sf, fit, i, S = 5000)
 integer in the range \code{1:nrow(sf)}.}
 
 \item{S}{The number of Monte Carlo samples to draw from the \code{R-INLA}
-approximate posterior distribution over the latent field.}
-}
-\value{
-A list containing \code{mse} (mean square error),
-\code{mae} (mean absolute error), \code{crps} (continuous ranked probability score),
-and \code{lds} (log density score).
+approximate posterior distribution over the latent field.
+\code{mae} (posterior mean absolute error), \code{mse_mean} (mean square error of mean point estimate),
+\code{mae_mean} (mean absolute error of mean point estimate), \code{crps} (continuous ranked probability score),
+and \code{lds} (log density score).}
 }
 \description{
 Compute forecast assessments for \code{R-INLA} model at a single held-out point.

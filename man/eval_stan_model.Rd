@@ -15,8 +15,9 @@ eval_stan_model(sf, fit, i)
 integer in the range \code{1:nrow(sf)}.}
 }
 \value{
-A list containing \code{mse} (mean square error),
-\code{mae} (mean absolute error), \code{crps} (continuous ranked probability score),
+A list containing \code{mse} (posterior mean square error),
+\code{mae} (posterior mean absolute error), \code{mse_mean} (mean square error of mean point estimate),
+\code{mae_mean} (mean absolute error of mean point estimate), \code{crps} (continuous ranked probability score),
 and \code{lds} (log density score).
 }
 \description{

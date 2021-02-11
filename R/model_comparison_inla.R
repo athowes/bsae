@@ -6,8 +6,8 @@
 #' integer in the range `1:nrow(sf)`.
 #' @param S The number of Monte Carlo samples to draw from the `R-INLA`
 #' approximate posterior distribution over the latent field.
-#' @return A list containing `mse` (mean square error), 
-#' `mae` (mean absolute error), `crps` (continuous ranked probability score),
+#' `mae` (posterior mean absolute error), `mse_mean` (mean square error of mean point estimate), 
+#' `mae_mean` (mean absolute error of mean point estimate), `crps` (continuous ranked probability score),
 #' and `lds` (log density score).
 #' @examples
 #' fit <- m1_inla(mw)
@@ -22,18 +22,28 @@ eval_inla_model <- function(sf, fit, i, S = 5000){
   samples <- INLA::inla.posterior.sample(n = S, fit, selection = list(Predictor = i))
   eta_samples = sapply(samples, function(x) x$latent)
   rho_samples <- plogis(eta_samples)
-  y_samples <- rbinom(n = S, 
-                      size = n_obs,
-                      prob = rho_samples)
-  error_samples <- (y_samples - y)
+  y_samples <- rbinom(n = S, size = n_obs, prob = rho_samples)
   
-  mse <- mean(error_samples^2) # Mean square error
-  mae <- mean(abs(error_samples)) # Mean absolute error
+  # Posterior
+  error_samples <- (y_samples - y)
+  mse <- mean(error_samples^2)
+  mae <- mean(abs(error_samples))
+  
+  # Mean point estimate
+  y_bar <- mean(y_samples)
+  mse_mean <- (y_bar - y)^2
+  mae_mean <- abs(y_bar - y)
+  
+  # Continuous ranked probability score
   crps <- crps(y_samples, y) # Continuous ranked probability score
-  lds <- log(mean(dbinom(y, n_obs, rho_samples))) # Log density score
+  
+  # Log density score
+  lds <- log(mean(dbinom(y, n_obs, rho_samples)))
   
   return(list(mse = mse,
               mae = mae,
+              mse_mean = mse_mean,
+              mae_mean = mae_mean,
               crps = crps,
               lds = lds))
 }
