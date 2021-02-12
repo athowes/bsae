@@ -10,12 +10,12 @@
 #' @export
 plot_matrix <- function(M){
   M <- t(apply(M, 2, rev)) # Undo 90 degree CC rotation
-  ggplot2::ggplot(reshape2::melt(M), aes(x = Var1, y = Var2, fill = value)) +
-    labs(x = "", y = "", fill = "Value") +
-    geom_tile() +
-    viridis::scale_fill_viridis_c() +
-    theme(axis.text.x=element_blank(),
-          axis.ticks.x=element_blank(),
-          axis.text.y=element_blank(),
-          axis.ticks.y=element_blank())
+  ggplot2::ggplot(reshape2::melt(M), ggplot2::aes(x = Var1, y = Var2, fill = value)) +
+    ggplot2::labs(x = "", y = "", fill = "Value") +
+    ggplot2::geom_tile() +
+    ggplot2::scale_fill_viridis_c() +
+    ggplot2::theme(axis.text.x = ggplot2::element_blank(),
+                   axis.ticks.x = ggplot2::element_blank(),
+                   axis.text.y = ggplot2::element_blank(),
+                   axis.ticks.y = ggplot2::element_blank())
 }
