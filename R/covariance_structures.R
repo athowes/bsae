@@ -1,6 +1,7 @@
 #' Create neighbourlood list from from `sf` object.
 #'
-#' Wrapper function for `spdep::poly2nb`.
+#' Wrapper function for `spdep::poly2nb`. For singletons returns `NULL` in the
+#' relevant list entry rather than `0`.
 #'
 #' @param sf A simple features object with some geometry.
 #' @return A neighbourhood list object.
@@ -8,7 +9,18 @@
 #' nb <- neighbours(mw)
 #' @export
 neighbours <- function(sf){
-  spdep::poly2nb(as(sf, "Spatial"))
+  nb <- spdep::poly2nb(as(sf, "Spatial"))
+  nb <- lapply(
+    nb, 
+    FUN = function(region) {
+      if(region == 0) { 
+        return(NULL) 
+      } else { 
+        return(region) 
+      }
+    }
+  )
+  return(nb)
 }
 
 #' Create a graph list object from a neighbourhood list object.
