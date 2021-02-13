@@ -40,7 +40,7 @@ nb_to_graph <- function(nb){
   n <- length(nb)
   n_links <- 0
   for (i in 1:n) {
-    if (nb[[i]][1] != 0) {
+    if (!is.null(nb[[i]][1])) {
       n_links <- n_links + length(nb[[i]])
     }
   }
@@ -49,7 +49,7 @@ nb_to_graph <- function(nb){
   node2 <- vector(mode = "numeric", length = n_edges)
   idx <- 0
   for (i in 1:n) {
-    if (nb[[i]][1] > 0) {
+    if (!is.null(nb[[i]][1])) {
       for (j in 1:length(nb[[i]])) {
         n2 <- unlist(nb[[i]][j])
         if (i < n2) {
@@ -80,7 +80,7 @@ nb_to_precision <- function(nb){
   n <- length(nb)
   Q <- matrix(data = 0, nrow = n, ncol = n) # Empty matrix
   for(i in 1:n){
-    if(nb[[i]][1] == 0){
+    if(is.null(nb[[i]][1])){
       Q[i, i] = 0 
     }
     else{
