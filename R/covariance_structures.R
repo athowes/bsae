@@ -1,7 +1,6 @@
 #' Create neighbourlood list from from `sf` object.
 #'
-#' Wrapper function for `spdep::poly2nb`. For singletons returns `NULL` in the
-#' relevant list entry rather than `0`.
+#' Wrapper function for `spdep::poly2nb`.
 #'
 #' @param sf A simple features object with some geometry.
 #' @return A neighbourhood list object.
@@ -10,16 +9,6 @@
 #' @export
 neighbours <- function(sf){
   nb <- spdep::poly2nb(as(sf, "Spatial"))
-  nb <- lapply(
-    nb, 
-    FUN = function(region) {
-      if(region == 0) { 
-        return(NULL) 
-      } else { 
-        return(region) 
-      }
-    }
-  )
   return(nb)
 }
 
@@ -40,7 +29,7 @@ nb_to_graph <- function(nb){
   n <- length(nb)
   n_links <- 0
   for (i in 1:n) {
-    if (!is.null(nb[[i]][1])) {
+    if (nb[[i]][1] > 0) {
       n_links <- n_links + length(nb[[i]])
     }
   }
@@ -49,7 +38,7 @@ nb_to_graph <- function(nb){
   node2 <- vector(mode = "numeric", length = n_edges)
   idx <- 0
   for (i in 1:n) {
-    if (!is.null(nb[[i]][1])) {
+    if (nb[[i]][1] > 0) {
       for (j in 1:length(nb[[i]])) {
         n2 <- unlist(nb[[i]][j])
         if (i < n2) {
@@ -80,7 +69,7 @@ nb_to_precision <- function(nb){
   n <- length(nb)
   Q <- matrix(data = 0, nrow = n, ncol = n) # Empty matrix
   for(i in 1:n){
-    if(is.null(nb[[i]][1])){
+    if(nb[[i]][1] == 0){
       Q[i, i] = 0 
     }
     else{

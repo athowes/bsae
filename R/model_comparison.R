@@ -25,6 +25,16 @@ create_folds <- function(sf, remove_cols = c("y"), type = "LOO"){
   training_sets <- vector(mode = "list", length = n)
   if(type == "SLOO"){
     nb <- neighbours(sf)
+    nb <- lapply(
+      nb, 
+      FUN = function(region) {
+        if(region[1] == 0) { 
+          return(NULL) 
+        } else { 
+          return(region) 
+        }
+      }
+    )
     for(i in 1:nrow(sf)) {
       sf_new <- sf
       i_neighbours <- nb[[i]]

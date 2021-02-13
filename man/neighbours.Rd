@@ -13,8 +13,7 @@ neighbours(sf)
 A neighbourhood list object.
 }
 \description{
-Wrapper function for \code{spdep::poly2nb}. For singletons returns \code{NULL} in the
-relevant list entry rather than \code{0}.
+Wrapper function for \code{spdep::poly2nb}.
 }
 \examples{
 nb <- neighbours(mw)
