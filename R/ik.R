@@ -1,7 +1,7 @@
 #' Fit Bayesian Integrated MVN Small Area Estimation model using `stan`.
 #'
 #' @inheritParams constant_stan
-#' @inheritParams sampling_covariance
+#' @inheritParams integrated_covariance
 #' @param bym2 Logical indicating if the spatial random effects should be convoluted 
 #' with unstructured IID noise, defaults to `FALSE`.
 #' @examples

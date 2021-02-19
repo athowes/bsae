@@ -6,13 +6,13 @@
 #' @inheritParams constant_stan
 #' @param bym2 Logical indicating if the spatial random effects should be convoluted 
 #' with unstructured IID noise, defaults to `FALSE`.
-#' @inheritParams sampling_covariance
+#' @inheritParams integrated_covariance
 #' @examples
 #' fik_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
 fik_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
   
-  cov <- sampling_covariance(sf, control = control,  L = L, type = type, kernel, ...)
+  cov <- integrated_covariance(sf, control = control,  L = L, type = type, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   
   ii_obs <- which(!is.na(sf$y))
@@ -52,13 +52,13 @@ fik_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagon
 #' matrix calculated using [`sampling_covariance`].
 #'
 #' @inheritParams constant_inla
-#' @inheritParams sampling_covariance
+#' @inheritParams integrated_covariance
 #' @examples
 #' fik_inla(mw)
 #' @export
 fik_inla <- function(sf, control = "mean", verbose = FALSE, L = 50, kernel = matern, ...){
   
-  cov <- sampling_covariance(sf, control = control, L, kernel, ...)
+  cov <- integrated_covariance(sf, control = control, L, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
   

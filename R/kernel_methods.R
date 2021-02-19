@@ -50,9 +50,9 @@ centroid_covariance <- function(sf, control = "mean", kernel = matern, ...){
 #' @param L The number of Monte Carlo samples to draw from each area.
 #' @param type The `type` argument of `sf::st_sample`, defaults to `"hexagonal"`
 #' @examples
-#' sampling_covariance(mw)
+#' integrated_covariance(mw)
 #' @export
-sampling_covariance <- function(sf, control = "mean", L = 10, kernel = matern, type = "hexagonal", ...){
+integrated_covariance <- function(sf, control = "mean", L = 10, kernel = matern, type = "hexagonal", ...){
   n <- nrow(sf)
   samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
   
