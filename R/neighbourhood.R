@@ -1,6 +1,6 @@
 #' Wrapper function for `spdep::poly2nb`.
 #'
-#' @param sf A simple features object with some geometry.
+#' @template sf
 #' @return A neighbourhood list object.
 #' @examples
 #' nb <- neighbours(mw)

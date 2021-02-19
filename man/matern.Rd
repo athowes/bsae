@@ -2,14 +2,14 @@
 % Please edit documentation in R/kernel_methods.R
 \name{matern}
 \alias{matern}
-\title{Matern 3/2 covariance.}
+\title{The Matern covariance function with smoothness parameter 3/2.}
 \usage{
 matern(r, l = 1)
 }
 \arguments{
 \item{r}{A distance between two points.}
 
-\item{l}{A lengthscale, defaults to \code{l = 1}.}
+\item{l}{A length-scale, defaults to \code{l = 1}.}
 }
 \description{
 The Matern covariance function with smoothness parameter 3/2.

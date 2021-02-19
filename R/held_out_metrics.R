@@ -1,6 +1,6 @@
 #' Compute forecast assessments for `R-INLA` model at a single held-out point.
 #'
-#' @param sf A simple features data frame.
+#' @template sf
 #' @param fit Fitted model.
 #' @param i The index (in `1:nrow(sf)`) of the held-out point.
 #' @param S The number of Monte Carlo samples to draw from the approximate posterior.

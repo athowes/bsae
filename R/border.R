@@ -4,7 +4,7 @@
 #' `sf` containing information about the shared borders with other areas.
 #' Within this package the primary use is within [`border_precision`].
 #'
-#' @param sf A simple features object with some geometry.
+#' @template sf
 #' @return A list of `nrow(sf)` data frames which each have columns:
 #' * `origin` The origin node.
 #' * `perimeter` The perimeter of the origin node.
@@ -50,7 +50,7 @@ border_lengths <- function(sf){
 #' adjacent). The diagonal elements \eqn{Q_{ii}} equal the total border
 #' of each area.
 #'
-#' @param sf A simple features object with some geometry.
+#' @template sf
 #' @return An ICAR precision matrix based upon `sf`.
 #' @examples
 #' border_precision(mw)

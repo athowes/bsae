@@ -7,7 +7,7 @@
 #' the entries of the neighbours of the area it corresponds to are replaced
 #' by `NA`.
 #'
-#' @param sf A simple features data frame.
+#' @template sf
 #' @param remove_cols A vector of named columns which are to have entries
 #' replaced by `NA` in the training data sets. Defaults to
 #' `c("y")`.

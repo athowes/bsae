@@ -11,7 +11,7 @@ matern <- function(r, l = 1) {
 
 #' Compute distances between area centroids.
 #' 
-#' @param sf A simple features object with some geometry.
+#' @template sf
 #' @examples
 #' centroid_distance(mw)
 #' @export
@@ -23,7 +23,7 @@ centroid_distance <- function(sf) {
 
 #' Compute centroid kernel gram matrix.
 #'
-#' @param sf A simple features object with some geometry.
+#' @template sf
 #' @param control How should the length-scale be computed? `"mean"` sets the covariance
 #' of the average distance between centroids to be 0.01.
 #' @param kernel A kernel function, defaults to `matern`.

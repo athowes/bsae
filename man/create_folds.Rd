@@ -7,7 +7,7 @@
 create_folds(sf, remove_cols = c("y"), type = "LOO")
 }
 \arguments{
-\item{sf}{A simple features data frame.}
+\item{sf}{A simple features object with some geometry.}
 
 \item{remove_cols}{A vector of named columns which are to have entries
 replaced by \code{NA} in the training data sets. Defaults to

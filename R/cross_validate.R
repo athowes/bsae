@@ -1,6 +1,6 @@
 #' Cross-validation using `create_folds` and evaluation using `held_out_metrics`.
 #'
-#' @param sf A simple features data frame.
+#' @template sf
 #' @param fn A model fitting function.
 #' @param ... Additional arguments to `fn`.
 #' @param S The number of Monte Carlo samples to draw from the approximate posterior.

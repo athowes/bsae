@@ -7,7 +7,7 @@
 cross_validate(sf, type = "LOO", fn, S = 4000, output = FALSE, ...)
 }
 \arguments{
-\item{sf}{A simple features data frame.}
+\item{sf}{A simple features object with some geometry.}
 
 \item{type}{One of \code{"LOO"} or \code{"SLOO"}.}
 

@@ -3,7 +3,7 @@
 #' Simply fits a constant (the mean). This is useful as a benchmark
 #' for other models.
 #'
-#' @param sf A simple features object with some geometry.
+#' @template sf
 #' @param nsim_warm Number of warmup samples, passed to `stan`.
 #' @param nsim_iter Number of samples, passed to `stan`.
 #' @examples
@@ -37,7 +37,7 @@ constant_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
 #' Simply fits a constant (the mean). This is useful as a benchmark
 #' for other models.
 #'
-#' @param sf A simple features object with some geometry.
+#' @template sf
 #' @param verbose Should `R-INLA` run in mode `verbose = TRUE`.
 #' @examples
 #' fit <- constant_inla(mw)

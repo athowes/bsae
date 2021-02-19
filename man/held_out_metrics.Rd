@@ -9,7 +9,7 @@ held_out_metrics(fit, sf, i, S = 4000)
 \arguments{
 \item{fit}{Fitted model.}
 
-\item{sf}{A simple features data frame.}
+\item{sf}{A simple features object with some geometry.}
 
 \item{i}{The index (in \code{1:nrow(sf)}) of the held-out point.}
 

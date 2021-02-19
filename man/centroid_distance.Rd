@@ -10,7 +10,7 @@ centroid_distance(sf)
 \item{sf}{A simple features object with some geometry.}
 }
 \description{
-Wrapper function for \code{sf::centroid} and \code{sf::distance}.
+Compute distances between area centroids.
 }
 \examples{
 centroid_distance(mw)
