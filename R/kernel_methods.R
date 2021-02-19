@@ -1,18 +1,16 @@
-#' Matern 3/2 covariance.
-#'
 #' The Matern covariance function with smoothness parameter 3/2.
 #'
 #' @param r A distance between two points.
-#' @param l A lengthscale, defaults to `l = 1`.
+#' @param l A length-scale, defaults to `l = 1`.
 #' @export
 matern <- function(r, l = 1) {
-  (1 + sqrt(3)*r/l) * exp(-sqrt(3) * r/l)
+  if (r < 0) {stop("r out of valid range.")}
+  if (l <= 0) {stop("l out of valid range.")}
+  (1 + sqrt(3) * r/l) * exp(-sqrt(3) * r/l)
 }
 
 #' Compute distances between area centroids.
 #' 
-#' Wrapper function for `sf::centroid` and `sf::distance`.
-#'
 #' @param sf A simple features object with some geometry.
 #' @examples
 #' centroid_distance(mw)
