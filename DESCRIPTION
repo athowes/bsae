@@ -1,6 +1,6 @@
 Package: bsae
 Title: Bayesian Small Area Estimation
-Version: 0.1.7
+Version: 0.2.0
 Authors@R: 
     person(given = "Adam",
            family = "Howes",
@@ -38,5 +38,7 @@ Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
     rmarkdown,
-    viridis
+    viridis,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
