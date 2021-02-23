@@ -9,7 +9,10 @@ dic <- function(fit, ...) {
 #' @rdname dic
 #' @export
 dic.inla <- function(fit) {
-  fit$dic$dic
+  local_dic <- fit$dic$local.dic
+  est <- sum(local_dic)
+  se <- sd(local_dic) * sqrt(length(local_dic))
+  return(list(est = est, se = se))
 }
 
 #' @rdname dic
@@ -20,6 +23,7 @@ dic.stanfit <- function(fit) {
   mean_deviance <- -2 * mean(log_lik)
   deviance_mle <- -2 * max(log_lik)
   # p_dic <- mean_deviance - deviance_mle
-  dic <- 2*mean_deviance - deviance_mle
-  return(dic)
+  est <- 2 * mean_deviance - deviance_mle
+  se <- NA # To find
+  return(list(est = est, se = se))
 }
