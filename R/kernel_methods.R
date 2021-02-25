@@ -4,7 +4,7 @@
 #' @param l A length-scale, defaults to `l = 1`.
 #' @export
 matern <- function(r, l = 1) {
-  if (r < 0) {stop("r out of valid range.")}
+  if (any(r < 0)) {stop("r out of valid range.")}
   if (l <= 0) {stop("l out of valid range.")}
   (1 + sqrt(3) * r/l) * exp(-sqrt(3) * r/l)
 }
@@ -21,28 +21,22 @@ centroid_distance <- function(sf) {
   return(D)
 }
 
-#' Compute centroid kernel gram matrix.
+#' Compute centroid kernel Gram matrix.
 #'
 #' @template sf
-#' @param control How should the length-scale be computed? `"mean"` sets the covariance
-#' of the average distance between centroids to be 0.01.
 #' @param kernel A kernel function, defaults to `matern`.
 #' @param ... Additional arguments to `kernel`.
 #' @examples
 #' centroid_covariance(mw)
 #' @export
-centroid_covariance <- function(sf, control = "mean", kernel = matern, ...){
+centroid_covariance <- function(sf, kernel = matern, ...){
   D <- centroid_distance(sf)
-  if(control == "mean"){
-    mean <- mean(D)
-    solve <- stats::uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
-    l <- solve$root
-  }
-  K <- kernel(D, ...)
-  return(as.matrix(K))
+  l_opt <- best_average(D, kernel = kernel, p = 0.01)
+  K <- as.matrix(kernel(D, l = l_opt, ...))
+  return(K)
 }
 
-#' Compute integrated kernel gram matrix.
+#' Compute integrated kernel Gram matrix.
 #'
 #' Draws `S` samples from each area of `sf` and averages `kernel` over each pair of draws.
 #'
@@ -52,7 +46,7 @@ centroid_covariance <- function(sf, control = "mean", kernel = matern, ...){
 #' @examples
 #' integrated_covariance(mw)
 #' @export
-integrated_covariance <- function(sf, control = "mean", L = 10, kernel = matern, type = "hexagonal", ...){
+integrated_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal", ...){
   n <- nrow(sf)
   samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
   
@@ -63,17 +57,12 @@ integrated_covariance <- function(sf, control = "mean", L = 10, kernel = matern,
   
   # Exact = TRUE is not exact
   sample_index <- sf::st_intersects(sf, samples)
+  
   D <- sf::st_distance(samples, samples)
+  l_opt <- best_average(D, kernel = kernel, p = 0.01)
+  kD <- kernel(D, l = l_opt, ...)
   
-  if(control == "mean"){
-    mean <- mean(centroid_distance(sf))
-    solve <- stats::uniroot(f = function(l) kernel(mean, l) - 0.01, lower = 1e-8, upper = max(D))
-    l <- solve$root
-  }
-  
-  kD <- kernel(D, ...)
   K <- matrix(nrow = n, ncol = n)
-  
   # Diagonal entries
   for(i in 1:(n - 1)) {
     K[i, i] <- mean(kD[sample_index[[i]], sample_index[[i]]])
