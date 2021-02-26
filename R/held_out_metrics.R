@@ -6,11 +6,17 @@
 #' @param S The number of Monte Carlo samples to draw from the approximate posterior.
 #' @export
 held_out_metrics <- function(fit, sf, i, S = 4000){
-  y <- round(sf$y[[i]])
-  n_obs <- round(sf$n_obs[[i]])
+  y <- sf$y[[i]]
+  n_obs <- sf$n_obs[[i]]
   s <- sample_marginal(fit, i, n_obs, S)
   error_samples <- (s$y_samples - y)
   y_bar <- mean(s$y_samples)
+  
+  # dxbinom is not vectorised currently
+  pred_dens <- sapply(
+    s$rho_samples, 
+    FUN = function(sample) dxbinom(y, n_obs, prob = sample, log = FALSE)
+  )
 
   return(list(
       y = y,
@@ -20,6 +26,6 @@ held_out_metrics <- function(fit, sf, i, S = 4000){
       mse_mean = (y_bar - y)^2, 
       mae_mean = abs(y_bar - y), 
       crps = crps(s$y_samples, y), 
-      lds = log(mean(dbinom(y, n_obs, s$rho_samples)))
+      lds = log(mean(pred_dens))
   ))
 }
