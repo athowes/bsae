@@ -12,14 +12,14 @@ held_out_metrics <- function(fit, sf, i, S = 4000){
   error_samples <- (s$y_samples - y)
   y_bar <- mean(s$y_samples)
 
-  mse <- mean(error_samples^2)
-  mae <- mean(abs(error_samples))
-  mse_mean <- (y_bar - y)^2
-  mae_mean <- abs(y_bar - y)
-  crps <- crps(s$y_samples, y)
-  lds <- log(mean(dbinom(y, n_obs, s$rho_samples)))
-  
-  return(list(mse = mse, mae = mae, 
-         mse_mean = mse_mean, mae_mean = mae_mean, 
-         crps = crps, lds = lds))
+  return(list(
+      y = y,
+      y_bar = y_bar,
+      mse = mean(error_samples^2),
+      mae = mean(abs(error_samples)), 
+      mse_mean = (y_bar - y)^2, 
+      mae_mean = abs(y_bar - y), 
+      crps = crps(s$y_samples, y), 
+      lds = log(mean(dbinom(y, n_obs, s$rho_samples)))
+  ))
 }
