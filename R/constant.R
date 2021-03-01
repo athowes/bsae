@@ -1,15 +1,17 @@
-#' Fit constant Small Area Estimation model using `stan`.
+#' Fit constant Small Area Estimation model using `rstan`.
 #'
 #' Simply fits a constant (the mean). This is useful as a benchmark
 #' for other models.
 #'
 #' @template sf
-#' @param nsim_warm Number of warmup samples, passed to `stan`.
-#' @param nsim_iter Number of samples, passed to `stan`.
+#' @param nsim_warm Number of warmup samples, passed to `rstan`.
+#' @param nsim_iter Number of samples, passed to `rstan`.
+#' @param chains Number of chains, each of which gets `nsim_warm + nsim_iter` samples, passed to `rstan`.
+#' @param cores Number of cores, passed to `rstan`, defaults to `parallel::detectCores()`
 #' @examples
 #' constant_stan(mw)
 #' @export
-constant_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
+constant_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
   
   ii_obs <- which(!is.na(sf$y))
   ii_mis <- which(is.na(sf$y))
@@ -27,7 +29,9 @@ constant_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   fit <- rstan::sampling(stanmodels$constant,
                          data = dat,
                          warmup = nsim_warm,
-                         iter = nsim_iter)
+                         iter = nsim_iter,
+                         chains = chains,
+                         cores = cores)
   
   return(fit)
 }

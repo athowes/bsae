@@ -1,4 +1,4 @@
-#' Fit IID Small Area Estimation model using `stan`.
+#' Fit IID Small Area Estimation model using `rstan`.
 #'
 #' Random effects are independent and identically distributed.
 #'
@@ -6,7 +6,7 @@
 #' @examples
 #' iid_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-iid_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
+iid_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
 
   ii_obs <- which(!is.na(sf$y))
   ii_mis <- which(is.na(sf$y))
@@ -24,7 +24,9 @@ iid_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   fit <- rstan::sampling(stanmodels$iid,
                          data = dat,
                          warmup = nsim_warm,
-                         iter = nsim_iter)
+                         iter = nsim_iter,
+                         chains = chains,
+                         cores = cores)
 
   return(fit)
 }

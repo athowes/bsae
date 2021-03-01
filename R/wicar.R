@@ -1,10 +1,10 @@
-#' Fit weighted ICAR Small Area Estimation model using `stan`.
+#' Fit weighted ICAR Small Area Estimation model using `rstan`.
 #'
 #' @inheritParams constant_stan
 #' @examples
 #' wicar_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-wicar_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
+wicar_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
 
   ii_obs <- which(!is.na(sf$y))
   ii_mis <- which(is.na(sf$y))
@@ -24,7 +24,9 @@ wicar_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000){
   fit <- rstan::sampling(stanmodels$mvn_precision,
                          data = dat,
                          warmup = nsim_warm,
-                         iter = nsim_iter)
+                         iter = nsim_iter,
+                         chains = chains,
+                         cores = cores)
 
   return(fit)
 }

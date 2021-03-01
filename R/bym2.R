@@ -1,10 +1,10 @@
-#' Fit BYM2 Small Area Estimation model using `stan`.
+#' Fit BYM2 Small Area Estimation model using `rstan`.
 #'
 #' @inheritParams constant_stan
 #' @examples
 #' bym2_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-bym2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"){
+bym2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), method = "default"){
   
   warning("Doesn't take non-connectedness into account correctly!")
   
@@ -33,7 +33,9 @@ bym2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default")
     fit <- rstan::sampling(stanmodels$bym2_precision,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   
   if(method == "morris") {
@@ -55,7 +57,9 @@ bym2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default")
     fit <- rstan::sampling(stanmodels$bym2_morris,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   
   return(fit)

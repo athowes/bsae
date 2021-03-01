@@ -1,4 +1,4 @@
-#' Fit Centroid MVN Small Area Estimation model using `stan`.
+#' Fit Centroid MVN Small Area Estimation model using `rstan`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
 #' matrix calculated using [`centroid_covariance`]. Kernel hyper-parameters
@@ -11,7 +11,7 @@
 #' @examples
 #' fck_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-fck_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
+fck_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
 
   cov <- centroid_covariance(sf, control = control, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
@@ -35,13 +35,17 @@ fck_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_i
     fit <- rstan::sampling(stanmodels$bym2_covariance,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   else{
     fit <- rstan::sampling(stanmodels$mvn_covariance,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
 
   return(fit)

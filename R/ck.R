@@ -1,4 +1,4 @@
-#' Fit Bayesian Centroid MVN Small Area Estimation model using `stan`.
+#' Fit Bayesian Centroid MVN Small Area Estimation model using `rstan`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
 #' matrix calculated using [`centroid_covariance`]. Unlike `m5_stan`, this
@@ -10,7 +10,7 @@
 #' @examples
 #' ck_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-ck_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000){
+ck_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
 
   D <- centroid_distance(sf)
   
@@ -33,13 +33,17 @@ ck_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000){
     fit <- rstan::sampling(stanmodels$bym2_centroid,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   else{
     fit <- rstan::sampling(stanmodels$centroid,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
 
   return(fit)

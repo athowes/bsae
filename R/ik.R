@@ -1,4 +1,4 @@
-#' Fit Bayesian Integrated MVN Small Area Estimation model using `stan`.
+#' Fit Bayesian Integrated MVN Small Area Estimation model using `rstan`.
 #'
 #' @inheritParams constant_stan
 #' @inheritParams integrated_covariance
@@ -7,7 +7,7 @@
 #' @examples
 #' ik_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-ik_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000){
+ik_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
   
   n <- nrow(sf)
   samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
@@ -40,13 +40,17 @@ ik_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 10
     fit <- rstan::sampling(stanmodels$bym2_integrated,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   else{
     fit <- rstan::sampling(stanmodels$integrated,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   
   return(fit)

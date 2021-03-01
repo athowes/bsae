@@ -1,4 +1,4 @@
-#' Fit Integrated MVN Small Area Estimation model using `stan`.
+#' Fit Integrated MVN Small Area Estimation model using `rstan`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
 #' matrix calculated using [`sampling_covariance`].
@@ -10,7 +10,7 @@
 #' @examples
 #' fik_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-fik_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, kernel = matern, ...){
+fik_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
   
   cov <- integrated_covariance(sf, control = control,  L = L, type = type, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
@@ -34,13 +34,17 @@ fik_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagon
     fit <- rstan::sampling(stanmodels$bym2_covariance,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   else{
     fit <- rstan::sampling(stanmodels$mvn_covariance,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   
   return(fit)

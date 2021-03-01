@@ -1,4 +1,4 @@
-#' Fit Besag Small Area Estimation model using `stan`.
+#' Fit Besag Small Area Estimation model using `rstan`.
 #'
 #' Random effects have an improper conditional autoregressive (ICAR)
 #' distribution with (generalised) precision matrix produced using
@@ -10,7 +10,7 @@
 #' @examples
 #' besag_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"){
+besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), method = "default"){
 
   warning("Doesn't take non-connectedness into account correctly!")
   
@@ -39,7 +39,9 @@ besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"
     fit <- rstan::sampling(stanmodels$mvn_precision,
                            data = dat,
                            warmup = nsim_warm,
-                           iter = nsim_iter)
+                           iter = nsim_iter,
+                           chains = chains,
+                           cores = cores)
   }
   
   if(method == "morris") {
@@ -60,7 +62,9 @@ besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, method = "default"
   fit <- rstan::sampling(stanmodels$besag_morris,
                          data = dat,
                          warmup = nsim_warm,
-                         iter = nsim_iter)
+                         iter = nsim_iter,
+                         chains = chains,
+                         cores = cores)
   }
   
   return(fit)
