@@ -9,9 +9,6 @@ fck_inla(sf, control = "mean", verbose = FALSE, kernel = matern, ...)
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
-\item{control}{How should the length-scale be computed? \code{"mean"} sets the covariance
-of the average distance between centroids to be 0.01.}
-
 \item{verbose}{Should \code{R-INLA} run in mode \code{verbose = TRUE}.}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}

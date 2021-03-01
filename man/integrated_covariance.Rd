@@ -2,22 +2,12 @@
 % Please edit documentation in R/kernel_methods.R
 \name{integrated_covariance}
 \alias{integrated_covariance}
-\title{Compute integrated kernel gram matrix.}
+\title{Compute integrated kernel Gram matrix.}
 \usage{
-integrated_covariance(
-  sf,
-  control = "mean",
-  L = 10,
-  kernel = matern,
-  type = "hexagonal",
-  ...
-)
+integrated_covariance(sf, L = 10, kernel = matern, type = "hexagonal", ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
-
-\item{control}{How should the length-scale be computed? \code{"mean"} sets the covariance
-of the average distance between centroids to be 0.01.}
 
 \item{L}{The number of Monte Carlo samples to draw from each area.}
 

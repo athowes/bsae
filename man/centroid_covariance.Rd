@@ -2,22 +2,19 @@
 % Please edit documentation in R/kernel_methods.R
 \name{centroid_covariance}
 \alias{centroid_covariance}
-\title{Compute centroid kernel gram matrix.}
+\title{Compute centroid kernel Gram matrix.}
 \usage{
-centroid_covariance(sf, control = "mean", kernel = matern, ...)
+centroid_covariance(sf, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
-
-\item{control}{How should the length-scale be computed? \code{"mean"} sets the covariance
-of the average distance between centroids to be 0.01.}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 
 \item{...}{Additional arguments to \code{kernel}.}
 }
 \description{
-Compute centroid kernel gram matrix.
+Compute centroid kernel Gram matrix.
 }
 \examples{
 centroid_covariance(mw)

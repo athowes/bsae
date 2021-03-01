@@ -2,9 +2,16 @@
 % Please edit documentation in R/ck.R
 \name{ck_stan}
 \alias{ck_stan}
-\title{Fit Bayesian Centroid MVN Small Area Estimation model using \code{stan}.}
+\title{Fit Bayesian Centroid MVN Small Area Estimation model using \code{rstan}.}
 \usage{
-ck_stan(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000)
+ck_stan(
+  sf,
+  bym2 = FALSE,
+  nsim_warm = 100,
+  nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores()
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
@@ -12,9 +19,13 @@ ck_stan(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000)
 \item{bym2}{Logical indicating if the spatial random effects should be convoluted
 with unstructured IID noise, defaults to \code{FALSE}.}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 }
 \description{
 Random effects have a multivariate Gaussian distribution with covariance

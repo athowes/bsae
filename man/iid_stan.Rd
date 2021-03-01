@@ -2,16 +2,26 @@
 % Please edit documentation in R/iid.R
 \name{iid_stan}
 \alias{iid_stan}
-\title{Fit IID Small Area Estimation model using \code{stan}.}
+\title{Fit IID Small Area Estimation model using \code{rstan}.}
 \usage{
-iid_stan(sf, nsim_warm = 100, nsim_iter = 1000)
+iid_stan(
+  sf,
+  nsim_warm = 100,
+  nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores()
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 }
 \description{
 Random effects are independent and identically distributed.

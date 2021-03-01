@@ -2,7 +2,7 @@
 % Please edit documentation in R/fck.R
 \name{fck_stan}
 \alias{fck_stan}
-\title{Fit Centroid MVN Small Area Estimation model using \code{stan}.}
+\title{Fit Centroid MVN Small Area Estimation model using \code{rstan}.}
 \usage{
 fck_stan(
   sf,
@@ -10,6 +10,8 @@ fck_stan(
   bym2 = FALSE,
   nsim_warm = 100,
   nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores(),
   kernel = matern,
   ...
 )
@@ -17,15 +19,16 @@ fck_stan(
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
-\item{control}{How should the length-scale be computed? \code{"mean"} sets the covariance
-of the average distance between centroids to be 0.01.}
-
 \item{bym2}{Logical indicating if the centroid spatial random effects should be convoluted
 with unstructured IID noise, defaults to \code{FALSE}.}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 

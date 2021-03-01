@@ -2,16 +2,27 @@
 % Please edit documentation in R/besag.R
 \name{besag_stan}
 \alias{besag_stan}
-\title{Fit Besag Small Area Estimation model using \code{stan}.}
+\title{Fit Besag Small Area Estimation model using \code{rstan}.}
 \usage{
-besag_stan(sf, nsim_warm = 100, nsim_iter = 1000, method = "default")
+besag_stan(
+  sf,
+  nsim_warm = 100,
+  nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores(),
+  method = "default"
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 
 \item{`method`}{One of \code{"default"} or \code{"morris"}.}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ik.R
 \name{ik_stan}
 \alias{ik_stan}
-\title{Fit Bayesian Integrated MVN Small Area Estimation model using \code{stan}.}
+\title{Fit Bayesian Integrated MVN Small Area Estimation model using \code{rstan}.}
 \usage{
 ik_stan(
   sf,
@@ -10,7 +10,9 @@ ik_stan(
   L = 10,
   type = "hexagonal",
   nsim_warm = 100,
-  nsim_iter = 1000
+  nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores()
 )
 }
 \arguments{
@@ -23,12 +25,16 @@ with unstructured IID noise, defaults to \code{FALSE}.}
 
 \item{type}{The \code{type} argument of \code{sf::st_sample}, defaults to \code{"hexagonal"}}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 }
 \description{
-Fit Bayesian Integrated MVN Small Area Estimation model using \code{stan}.
+Fit Bayesian Integrated MVN Small Area Estimation model using \code{rstan}.
 }
 \examples{
 ik_stan(mw, nsim_warm = 0, nsim_iter = 100)

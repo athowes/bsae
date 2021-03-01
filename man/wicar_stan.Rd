@@ -2,19 +2,29 @@
 % Please edit documentation in R/wicar.R
 \name{wicar_stan}
 \alias{wicar_stan}
-\title{Fit weighted ICAR Small Area Estimation model using \code{stan}.}
+\title{Fit weighted ICAR Small Area Estimation model using \code{rstan}.}
 \usage{
-wicar_stan(sf, nsim_warm = 100, nsim_iter = 1000)
+wicar_stan(
+  sf,
+  nsim_warm = 100,
+  nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores()
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 }
 \description{
-Fit weighted ICAR Small Area Estimation model using \code{stan}.
+Fit weighted ICAR Small Area Estimation model using \code{rstan}.
 }
 \examples{
 wicar_stan(mw, nsim_warm = 0, nsim_iter = 100)

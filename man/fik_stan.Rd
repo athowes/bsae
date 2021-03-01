@@ -2,7 +2,7 @@
 % Please edit documentation in R/fik.R
 \name{fik_stan}
 \alias{fik_stan}
-\title{Fit Integrated MVN Small Area Estimation model using \code{stan}.}
+\title{Fit Integrated MVN Small Area Estimation model using \code{rstan}.}
 \usage{
 fik_stan(
   sf,
@@ -12,15 +12,14 @@ fik_stan(
   type = "hexagonal",
   nsim_warm = 100,
   nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores(),
   kernel = matern,
   ...
 )
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
-
-\item{control}{How should the length-scale be computed? \code{"mean"} sets the covariance
-of the average distance between centroids to be 0.01.}
 
 \item{bym2}{Logical indicating if the spatial random effects should be convoluted
 with unstructured IID noise, defaults to \code{FALSE}.}
@@ -29,9 +28,13 @@ with unstructured IID noise, defaults to \code{FALSE}.}
 
 \item{type}{The \code{type} argument of \code{sf::st_sample}, defaults to \code{"hexagonal"}}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 

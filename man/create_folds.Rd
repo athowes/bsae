@@ -10,8 +10,7 @@ create_folds(sf, remove_cols = c("y"), type = "LOO")
 \item{sf}{A simple features object with some geometry.}
 
 \item{remove_cols}{A vector of named columns which are to have entries
-replaced by \code{NA} in the training data sets. Defaults to
-\code{c("y")}.}
+replaced by \code{NA} in the training data sets. Defaults to \code{c("y")}.}
 
 \item{type}{One of \code{"LOO"} or \code{"SLOO"}.}
 }
@@ -25,12 +24,11 @@ Each training set list contains:
 }
 }
 \description{
-This function creates a list of training datasets each of which has
-certain entries of \code{remove_cols} replaced by \code{NA} according to the
-type of cross-validation chosen. If \code{type = "LOO"} one entry of each
-training dataset is replaced by \code{NA}, if \code{type = "SLOO"} one entry and
-the entries of the neighbours of the area it corresponds to are replaced
-by \code{NA}.
+Creates a list of training datasets each of which has certain entries of
+\code{remove_cols} replaced by \code{NA} according to the \code{type} of cross-validation.
+If \code{type = "LOO"} one entry of each training dataset is replaced by \code{NA},
+if \code{type = "SLOO"} one entry and the entries of the neighbours of the area
+it corresponds to are replaced by \code{NA}.
 }
 \examples{
 create_folds(mw, remove_cols = c("y", "est"))

@@ -2,19 +2,30 @@
 % Please edit documentation in R/bym2.R
 \name{bym2_stan}
 \alias{bym2_stan}
-\title{Fit BYM2 Small Area Estimation model using \code{stan}.}
+\title{Fit BYM2 Small Area Estimation model using \code{rstan}.}
 \usage{
-bym2_stan(sf, nsim_warm = 100, nsim_iter = 1000, method = "default")
+bym2_stan(
+  sf,
+  nsim_warm = 100,
+  nsim_iter = 1000,
+  chains = 4,
+  cores = parallel::detectCores(),
+  method = "default"
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
-\item{nsim_warm}{Number of warmup samples, passed to \code{stan}.}
+\item{nsim_warm}{Number of warmup samples, passed to \code{rstan}.}
 
-\item{nsim_iter}{Number of samples, passed to \code{stan}.}
+\item{nsim_iter}{Number of samples, passed to \code{rstan}.}
+
+\item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
+
+\item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 }
 \description{
-Fit BYM2 Small Area Estimation model using \code{stan}.
+Fit BYM2 Small Area Estimation model using \code{rstan}.
 }
 \examples{
 bym2_stan(mw, nsim_warm = 0, nsim_iter = 100)
