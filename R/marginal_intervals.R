@@ -1,6 +1,7 @@
 #' Intervals for posterior marginals.
 #'
 #' @param fit Fitted model.
+#' @param ... Additional arguments passed to `marginal_intervals`.
 #' @export
 marginal_intervals <- function(fit, ...) {
   UseMethod("marginal_intervals")
@@ -14,6 +15,7 @@ marginal_intervals.inla <- function(fit) {
 }
 
 #' @rdname marginal_intervals
+#' @param parameter String containing the parameter name.
 #' @export
 marginal_intervals.stanfit <- function(fit, parameter) {
   df <- data.frame(rstan::summary(fit)$summary)

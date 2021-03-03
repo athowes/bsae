@@ -1,6 +1,7 @@
 #' Deviance information criterion generic.
 #'
 #' @param fit Fitted model.
+#' @param ... Additional arguments passed to `dic`.
 #' @export
 dic <- function(fit, ...) {
   UseMethod("dic")
@@ -11,7 +12,7 @@ dic <- function(fit, ...) {
 dic.inla <- function(fit) {
   local_dic <- fit$dic$local.dic
   est <- sum(local_dic)
-  se <- sd(local_dic) * sqrt(length(local_dic))
+  se <- stats::sd(local_dic) * sqrt(length(local_dic))
   return(list(est = est, se = se))
 }
 

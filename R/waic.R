@@ -1,6 +1,7 @@
 #' Watanabe–Akaike (Widely-Applicable) information criterion generic.
 #'
 #' @param fit Fitted model.
+#' @param ... Additional arguments passed to `waic`.
 #' @export
 waic <- function(fit, ...) {
   UseMethod("waic")
@@ -11,7 +12,7 @@ waic <- function(fit, ...) {
 waic.inla <- function(fit) {
   local_waic <- fit$waic$local.waic
   est <- sum(local_waic)
-  se <- sd(local_waic) * sqrt(length(local_waic))
+  se <- stats::sd(local_waic) * sqrt(length(local_waic))
   return(list(est = est, se = se))
 }
 
