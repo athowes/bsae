@@ -1,6 +1,7 @@
 #' Fit BYM2 Small Area Estimation model using `rstan`.
 #'
 #' @inheritParams constant_stan
+#' @param method One of `"default"` or `"morris"`.
 #' @examples
 #' bym2_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
