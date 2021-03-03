@@ -1,7 +1,7 @@
 #' Fit Integrated MVN Small Area Estimation model using `rstan`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
-#' matrix calculated using [`sampling_covariance`].
+#' matrix calculated using [`integrated_covariance`].
 #'
 #' @inheritParams constant_stan
 #' @param bym2 Logical indicating if the spatial random effects should be convoluted 
@@ -53,7 +53,7 @@ fik_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 1
 #' Fit Sampling MVN Small Area Estimation model using `R-INLA`.
 #'
 #' Random effects have a multivariate Gaussian distribution with covariance
-#' matrix calculated using [`sampling_covariance`].
+#' matrix calculated using [`integrated_covariance`].
 #'
 #' @inheritParams constant_inla
 #' @inheritParams integrated_covariance
