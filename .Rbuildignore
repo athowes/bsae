@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^man-roxygen
 ^\.github
+^scripts
+^README\.Rmd
