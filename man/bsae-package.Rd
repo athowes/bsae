@@ -5,3 +5,6 @@
 \alias{bsae-package}
 \alias{bsae}
 \title{bsae: Bayesian small area estimation}
+\description{
+Tools for Bayesian small-area estimation.
+}

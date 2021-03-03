@@ -1,4 +1,6 @@
 #' bsae: Bayesian small area estimation
+#' 
+#' Tools for Bayesian small-area estimation.
 #'
 #' @docType package
 #' @name bsae-package
