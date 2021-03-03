@@ -12,8 +12,7 @@ Encoding: UTF-8
 LazyData: true
 Biarch: true
 Depends: 
-    R (>= 3.5.0),
-    TMB(>= 1.7.16)
+    R (>= 3.5.0)
 Imports: 
     methods, 
     Rcpp (>= 0.12.0), 
