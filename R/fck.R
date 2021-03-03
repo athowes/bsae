@@ -11,9 +11,9 @@
 #' @examples
 #' fck_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-fck_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
+fck_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
 
-  cov <- centroid_covariance(sf, control = control, kernel, ...)
+  cov <- centroid_covariance(sf, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
 
   ii_obs <- which(!is.na(sf$y))
@@ -61,9 +61,9 @@ fck_stan <- function(sf, control = "mean", bym2 = FALSE, nsim_warm = 100, nsim_i
 #' @examples
 #' fck_inla(mw)
 #' @export
-fck_inla <- function(sf, control = "mean", verbose = FALSE, kernel = matern, ...){
+fck_inla <- function(sf, verbose = FALSE, kernel = matern, ...){
 
-  cov <- centroid_covariance(sf, control = control, kernel, ...)
+  cov <- centroid_covariance(sf, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
 

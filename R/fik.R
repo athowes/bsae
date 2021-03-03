@@ -10,9 +10,9 @@
 #' @examples
 #' fik_stan(mw, nsim_warm = 0, nsim_iter = 100)
 #' @export
-fik_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
+fik_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
   
-  cov <- integrated_covariance(sf, control = control,  L = L, type = type, kernel, ...)
+  cov <- integrated_covariance(sf,  L = L, type = type, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   
   ii_obs <- which(!is.na(sf$y))
@@ -60,9 +60,9 @@ fik_stan <- function(sf, control = "mean", bym2 = FALSE, L = 10, type = "hexagon
 #' @examples
 #' fik_inla(mw)
 #' @export
-fik_inla <- function(sf, control = "mean", verbose = FALSE, L = 50, kernel = matern, ...){
+fik_inla <- function(sf, verbose = FALSE, L = 50, kernel = matern, ...){
   
-  cov <- integrated_covariance(sf, control = control, L, kernel, ...)
+  cov <- integrated_covariance(sf, L, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
   
