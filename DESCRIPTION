@@ -13,8 +13,7 @@ LazyData: true
 Biarch: true
 Depends: 
     R (>= 3.4.0),
-    TMB(>= 1.7.16),
-    RcppEigen
+    TMB(>= 1.7.16)
 Imports: 
     methods, 
     Rcpp (>= 0.12.0), 
@@ -29,7 +28,7 @@ Imports:
 LinkingTo:
     BH (>= 1.66.0), 
     Rcpp (>= 0.12.0), 
-    RcppEigen (>= 0.3.3.3.0), 
+    RcppEigen (>= 0.3.3.3.0),
     rstan (>= 2.18.1), 
     StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
@@ -40,5 +39,6 @@ Suggests:
     rmarkdown,
     viridis,
     testthat (>= 3.0.0)
+Additional_repositories: https://inla.r-inla-download.org/R/stable
 VignetteBuilder: knitr
 Config/testthat/edition: 3
