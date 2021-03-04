@@ -6,7 +6,7 @@
 #' M <- matrix(1:9, nrow = 3, ncol = 3)
 #' plot_matrix(M)
 #'
-#' plot_matrix(border_precision(mw))
+#' plot_matrix(nb_to_precision(neighbours(mw)))
 #' @export
 plot_matrix <- function(M){
   M <- t(apply(M, 2, rev)) # Undo 90 degree CC rotation
