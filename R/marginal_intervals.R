@@ -11,7 +11,7 @@ marginal_intervals <- function(fit, ...) {
 #' @export
 marginal_intervals.inla <- function(fit, ...) {
   df <- fit$summary.fitted.values
-  return(dplyr::select(df, .data$mean, .data$sd, lower = .data$0.025quant, upper = .data$0.975quant))
+  return(dplyr::select(df, .data$mean, .data$sd, lower = .data[["0.025quant"]], upper = .data[["0.975quant"]]))
 }
 
 #' @rdname marginal_intervals
