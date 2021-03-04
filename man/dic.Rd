@@ -8,9 +8,9 @@
 \usage{
 dic(fit, ...)
 
-\method{dic}{inla}(fit)
+\method{dic}{inla}(fit, ...)
 
-\method{dic}{stanfit}(fit)
+\method{dic}{stanfit}(fit, ...)
 }
 \arguments{
 \item{fit}{Fitted model.}

@@ -8,9 +8,9 @@
 \usage{
 waic(fit, ...)
 
-\method{waic}{inla}(fit)
+\method{waic}{inla}(fit, ...)
 
-\method{waic}{stanfit}(fit)
+\method{waic}{stanfit}(fit, ...)
 }
 \arguments{
 \item{fit}{Fitted model.}

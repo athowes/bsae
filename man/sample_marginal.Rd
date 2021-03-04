@@ -8,12 +8,14 @@
 \usage{
 sample_marginal(fit, ...)
 
-\method{sample_marginal}{inla}(fit, i, n_obs, S = 4000)
+\method{sample_marginal}{inla}(fit, i, n_obs, S = 4000, ...)
 
-\method{sample_marginal}{stanfit}(fit, i, n_obs, S = 4000)
+\method{sample_marginal}{stanfit}(fit, i, n_obs, S = 4000, ...)
 }
 \arguments{
 \item{fit}{Fitted model.}
+
+\item{...}{Additional arguments passed to \code{sample_marginal}.}
 
 \item{i}{The index of the marginal to sample from.}
 

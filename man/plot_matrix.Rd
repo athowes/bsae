@@ -19,5 +19,5 @@ Produce a \code{ggplot2} visualisation of a matrix.
 M <- matrix(1:9, nrow = 3, ncol = 3)
 plot_matrix(M)
 
-plot_matrix(border_precision(mw))
+plot_matrix(nb_to_precision(neighbours(mw)))
 }

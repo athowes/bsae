@@ -8,9 +8,9 @@
 \usage{
 marginal_intervals(fit, ...)
 
-\method{marginal_intervals}{inla}(fit)
+\method{marginal_intervals}{inla}(fit, ...)
 
-\method{marginal_intervals}{stanfit}(fit, parameter)
+\method{marginal_intervals}{stanfit}(fit, parameter, ...)
 }
 \arguments{
 \item{fit}{Fitted model.}
