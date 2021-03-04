@@ -9,7 +9,7 @@ marginal_intervals <- function(fit, ...) {
 
 #' @rdname marginal_intervals
 #' @export
-marginal_intervals.inla <- function(fit) {
+marginal_intervals.inla <- function(fit, ...) {
   df <- fit$summary.fitted.values
   return(dplyr::select(df, mean, sd, lower = "0.025quant", upper = "0.975quant"))
 }
@@ -17,7 +17,7 @@ marginal_intervals.inla <- function(fit) {
 #' @rdname marginal_intervals
 #' @param parameter String containing the parameter name.
 #' @export
-marginal_intervals.stanfit <- function(fit, parameter) {
+marginal_intervals.stanfit <- function(fit, parameter, ...) {
   df <- data.frame(rstan::summary(fit)$summary)
   df <- tibble::rownames_to_column(df, "param")
   df <- dplyr::filter(df, substr(param, 1, nchar(name)) == parameter)

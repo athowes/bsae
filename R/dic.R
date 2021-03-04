@@ -9,7 +9,7 @@ dic <- function(fit, ...) {
 
 #' @rdname dic
 #' @export
-dic.inla <- function(fit) {
+dic.inla <- function(fit, ...) {
   local_dic <- fit$dic$local.dic
   est <- sum(local_dic)
   se <- stats::sd(local_dic) * sqrt(length(local_dic))
@@ -18,7 +18,7 @@ dic.inla <- function(fit) {
 
 #' @rdname dic
 #' @export
-dic.stanfit <- function(fit) {
+dic.stanfit <- function(fit, ...) {
   pointwise_log_lik <- rstan::extract(fit, 'log_lik')$log_lik
   log_lik <- rowSums(pointwise_log_lik)
   mean_deviance <- -2 * mean(log_lik)

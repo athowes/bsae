@@ -1,6 +1,7 @@
 #' Marginal samples.
 #'
 #' @param fit Fitted model.
+#' @param ... Additional arguments passed to `sample_marginal`.
 #' @export
 sample_marginal <- function(fit, ...) {
   UseMethod("sample_marginal")
@@ -11,7 +12,7 @@ sample_marginal <- function(fit, ...) {
 #' @param n_obs The sample size.
 #' @param S The number of draws.
 #' @export
-sample_marginal.inla <- function(fit, i, n_obs, S = 4000) {
+sample_marginal.inla <- function(fit, i, n_obs, S = 4000, ...) {
   full_samples <- INLA::inla.posterior.sample(n = S, fit, selection = list(Predictor = i))
   eta_samples = sapply(full_samples, function(x) x$latent)
   rho_samples <- stats::plogis(eta_samples)
@@ -24,7 +25,7 @@ sample_marginal.inla <- function(fit, i, n_obs, S = 4000) {
 #' @param n_obs The sample size.
 #' @param S The number of draws.
 #' @export
-sample_marginal.stanfit <- function(fit, i, n_obs, S = 4000) {
+sample_marginal.stanfit <- function(fit, i, n_obs, S = 4000, ...) {
   rho_samples <- rstan::extract(fit)$rho[, i]
   iter <- length(rho_samples)
   if(iter < S) {

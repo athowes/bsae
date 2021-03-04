@@ -9,7 +9,7 @@ waic <- function(fit, ...) {
 
 #' @rdname waic
 #' @export
-waic.inla <- function(fit) {
+waic.inla <- function(fit, ...) {
   local_waic <- fit$waic$local.waic
   est <- sum(local_waic)
   se <- stats::sd(local_waic) * sqrt(length(local_waic))
@@ -18,7 +18,7 @@ waic.inla <- function(fit) {
 
 #' @rdname waic
 #' @export
-waic.stanfit <- function(fit) {
+waic.stanfit <- function(fit, ...) {
   log_lik <- loo::extract_log_lik(fit)
   waic <- loo::waic(log_lik)
   est <- waic$estimates["waic", "Estimate"]
