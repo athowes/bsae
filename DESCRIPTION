@@ -23,7 +23,8 @@ Imports:
     lwgeom,
     spdep, 
     magrittr, 
-    ggplot2
+    ggplot2,
+    rlist
 LinkingTo:
     BH (>= 1.66.0), 
     Rcpp (>= 0.12.0), 

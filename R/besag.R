@@ -12,8 +12,6 @@
 #' @export
 besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), method = "default"){
 
-  warning("Doesn't take non-connectedness into account correctly!")
-  
   ii_obs <- which(!is.na(sf$y))
   ii_mis <- which(is.na(sf$y))
   n_obs <- length(ii_obs)
@@ -23,19 +21,25 @@ besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores 
   Q <- nb_to_precision(nb)
   scale <- get_scale(Q)
   
+  dat <- list(n_obs = n_obs,
+              n_mis = n_mis,
+              ii_obs = array(ii_obs),
+              ii_mis = array(ii_mis),
+              n = nrow(sf),
+              y_obs = sf$y[ii_obs],
+              m = sf$n_obs)
+  
   if(method == "default") {
+    
+    warning("Does not impose correct constraints!")  
+    
     Q_scaled <- scale_gmrf_precision(Q)$Q
     
-    dat <- list(n_obs = n_obs,
-                n_mis = n_mis,
-                ii_obs = array(ii_obs),
-                ii_mis = array(ii_mis),
-                n = nrow(sf),
-                y_obs = sf$y[ii_obs],
-                m = sf$n_obs,
-                mu = rep(0, nrow(sf)),
-                Q = Q_scaled)
-    
+    dat <- rlist::list.append(dat,
+                              mu = rep(0, nrow(sf)),
+                              Q = Q_scaled
+    ) 
+
     fit <- rstan::sampling(stanmodels$mvn_precision,
                            data = dat,
                            warmup = nsim_warm,
@@ -45,20 +49,18 @@ besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores 
   }
   
   if(method == "morris") {
+    
+  warning("Assumes that the adjacency graph is connected!")  
+  
   g <- nb_to_graph(nb)
 
-  dat <- list(n_obs = n_obs,
-              n_mis = n_mis,
-              ii_obs = array(ii_obs),
-              ii_mis = array(ii_mis),
-              n = nrow(sf),
-              y_obs = sf$y[ii_obs],
-              m = sf$n_obs,
-              n_edges = g$n_edges,
-              node1 = g$node1,
-              node2 = g$node2,
-              scaling_factor = scale)
-
+  dat <- rlist::list.append(dat,
+                            n_edges = g$n_edges,
+                            node1 = g$node1,
+                            node2 = g$node2,
+                            scaling_factor = scale
+  ) 
+  
   fit <- rstan::sampling(stanmodels$besag_morris,
                          data = dat,
                          warmup = nsim_warm,
