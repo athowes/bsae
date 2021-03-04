@@ -4,7 +4,7 @@
 \alias{fik_inla}
 \title{Fit Sampling MVN Small Area Estimation model using \code{R-INLA}.}
 \usage{
-fik_inla(sf, control = "mean", verbose = FALSE, L = 50, kernel = matern, ...)
+fik_inla(sf, verbose = FALSE, L = 50, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
@@ -19,7 +19,7 @@ fik_inla(sf, control = "mean", verbose = FALSE, L = 50, kernel = matern, ...)
 }
 \description{
 Random effects have a multivariate Gaussian distribution with covariance
-matrix calculated using \code{\link{sampling_covariance}}.
+matrix calculated using \code{\link{integrated_covariance}}.
 }
 \examples{
 fik_inla(mw)

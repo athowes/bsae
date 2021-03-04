@@ -24,7 +24,7 @@ besag_stan(
 
 \item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
 
-\item{`method`}{One of \code{"default"} or \code{"morris"}.}
+\item{method}{One of \code{"default"} or \code{"morris"}.}
 }
 \description{
 Random effects have an improper conditional autoregressive (ICAR)

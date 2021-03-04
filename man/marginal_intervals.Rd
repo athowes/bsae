@@ -14,6 +14,10 @@ marginal_intervals(fit, ...)
 }
 \arguments{
 \item{fit}{Fitted model.}
+
+\item{...}{Additional arguments passed to \code{marginal_intervals}.}
+
+\item{parameter}{String containing the parameter name.}
 }
 \description{
 Intervals for posterior marginals.

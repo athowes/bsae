@@ -6,7 +6,6 @@
 \usage{
 fck_stan(
   sf,
-  control = "mean",
   bym2 = FALSE,
   nsim_warm = 100,
   nsim_iter = 1000,

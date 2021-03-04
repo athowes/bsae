@@ -14,6 +14,12 @@ sample_marginal(fit, ...)
 }
 \arguments{
 \item{fit}{Fitted model.}
+
+\item{i}{The index of the marginal to sample from.}
+
+\item{n_obs}{The sample size.}
+
+\item{S}{The number of draws.}
 }
 \description{
 Marginal samples.

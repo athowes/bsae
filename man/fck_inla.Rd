@@ -4,7 +4,7 @@
 \alias{fck_inla}
 \title{Fit Centroid MVN Small Area Estimation model using \code{R-INLA}.}
 \usage{
-fck_inla(sf, control = "mean", verbose = FALSE, kernel = matern, ...)
+fck_inla(sf, verbose = FALSE, kernel = matern, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}

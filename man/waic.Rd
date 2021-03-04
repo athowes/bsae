@@ -14,6 +14,8 @@ waic(fit, ...)
 }
 \arguments{
 \item{fit}{Fitted model.}
+
+\item{...}{Additional arguments passed to \code{waic}.}
 }
 \description{
 Watanabe–Akaike (Widely-Applicable) information criterion generic.

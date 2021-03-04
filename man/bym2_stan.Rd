@@ -23,6 +23,8 @@ bym2_stan(
 \item{chains}{Number of chains, each of which gets \code{nsim_warm + nsim_iter} samples, passed to \code{rstan}.}
 
 \item{cores}{Number of cores, passed to \code{rstan}, defaults to \code{parallel::detectCores()}}
+
+\item{method}{One of \code{"default"} or \code{"morris"}.}
 }
 \description{
 Fit BYM2 Small Area Estimation model using \code{rstan}.

@@ -6,7 +6,6 @@
 \usage{
 fik_stan(
   sf,
-  control = "mean",
   bym2 = FALSE,
   L = 10,
   type = "hexagonal",
@@ -42,7 +41,7 @@ with unstructured IID noise, defaults to \code{FALSE}.}
 }
 \description{
 Random effects have a multivariate Gaussian distribution with covariance
-matrix calculated using \code{\link{sampling_covariance}}.
+matrix calculated using \code{\link{integrated_covariance}}.
 }
 \examples{
 fik_stan(mw, nsim_warm = 0, nsim_iter = 100)
