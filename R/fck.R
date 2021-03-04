@@ -63,6 +63,8 @@ fck_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, chains
 #' @export
 fck_inla <- function(sf, verbose = FALSE, kernel = matern, ...){
 
+  m <- NULL
+  
   cov <- centroid_covariance(sf, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix

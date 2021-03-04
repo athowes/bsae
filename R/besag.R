@@ -84,6 +84,8 @@ besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores 
 #' @export
 besag_inla <- function(sf, verbose = FALSE){
 
+  m <- NULL
+  
   nb <- neighbours(sf)
 
   dat <- list(id = 1:nrow(sf),

@@ -10,7 +10,7 @@
 #' @export
 plot_matrix <- function(M){
   M <- t(apply(M, 2, rev)) # Undo 90 degree CC rotation
-  ggplot2::ggplot(reshape2::melt(M), ggplot2::aes(x = Var1, y = Var2, fill = value)) +
+  ggplot2::ggplot(reshape2::melt(M), ggplot2::aes(x = .data$Var1, y = .data$Var2, fill = .data$value)) +
     ggplot2::labs(x = "", y = "", fill = "Value") +
     ggplot2::geom_tile() +
     ggplot2::scale_fill_viridis_c() +

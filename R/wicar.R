@@ -39,6 +39,8 @@ wicar_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores 
 #' @export
 wicar_inla <- function(sf, verbose = FALSE){
 
+  m <- NULL
+  
   C <- border_precision(sf)
   C <- scale_gmrf_precision(C)$Q # Could use scale.model = TRUE in f() instead?
   

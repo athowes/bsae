@@ -62,6 +62,8 @@ fik_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 1
 #' @export
 fik_inla <- function(sf, verbose = FALSE, L = 50, kernel = matern, ...){
   
+  m <- NULL
+  
   cov <- integrated_covariance(sf, L, kernel, ...)
   cov <- cov / riebler_gv(cov) # Standardise so tau prior is right
   C <- Matrix::solve(cov) # Precision matrix
