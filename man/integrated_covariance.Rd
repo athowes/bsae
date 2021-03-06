@@ -4,7 +4,14 @@
 \alias{integrated_covariance}
 \title{Compute integrated kernel Gram matrix.}
 \usage{
-integrated_covariance(sf, L = 10, kernel = matern, type = "hexagonal", ...)
+integrated_covariance(
+  sf,
+  L = 10,
+  kernel = matern,
+  type = "hexagonal",
+  l = NULL,
+  ...
+)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
@@ -15,10 +22,13 @@ integrated_covariance(sf, L = 10, kernel = matern, type = "hexagonal", ...)
 
 \item{type}{The \code{type} argument of \code{sf::st_sample}, defaults to \code{"hexagonal"}}
 
+\item{l}{A lengthscale.}
+
 \item{...}{Additional arguments to \code{kernel}.}
 }
 \description{
 Draws \code{S} samples from each area of \code{sf} and averages \code{kernel} over each pair of draws.
+If a lengthscale is not provided then the \code{best_average} method is used.
 }
 \examples{
 integrated_covariance(mw)

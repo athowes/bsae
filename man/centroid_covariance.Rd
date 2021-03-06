@@ -4,17 +4,19 @@
 \alias{centroid_covariance}
 \title{Compute centroid kernel Gram matrix.}
 \usage{
-centroid_covariance(sf, kernel = matern, ...)
+centroid_covariance(sf, kernel = matern, l = NULL, ...)
 }
 \arguments{
 \item{sf}{A simple features object with some geometry.}
 
 \item{kernel}{A kernel function, defaults to \code{matern}.}
 
+\item{l}{A lengthscale.}
+
 \item{...}{Additional arguments to \code{kernel}.}
 }
 \description{
-Compute centroid kernel Gram matrix.
+If a lengthscale is not provided then the \code{best_average} method is used.
 }
 \examples{
 centroid_covariance(mw)

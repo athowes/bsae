@@ -22,23 +22,32 @@ centroid_distance <- function(sf) {
 }
 
 #' Compute centroid kernel Gram matrix.
+#' 
+#' If a lengthscale is not provided then the `best_average` method is used.
 #'
 #' @template sf
 #' @param kernel A kernel function, defaults to `matern`.
+#' @param l A lengthscale.
 #' @param ... Additional arguments to `kernel`.
 #' @examples
 #' centroid_covariance(mw)
 #' @export
-centroid_covariance <- function(sf, kernel = matern, ...){
+centroid_covariance <- function(sf, kernel = matern, l = NULL, ...){
   D <- centroid_distance(sf)
-  l_opt <- best_average(D, kernel = kernel, p = 0.01)
-  K <- as.matrix(kernel(D, l = l_opt, ...))
+  
+  # Use the best_average if l is not provided
+  if(is.null(l)){
+    l <- best_average(D, kernel = kernel, p = 0.01)
+  }
+  
+  K <- as.matrix(kernel(D, l = l, ...))
   return(K)
 }
 
 #' Compute integrated kernel Gram matrix.
 #'
 #' Draws `S` samples from each area of `sf` and averages `kernel` over each pair of draws.
+#' If a lengthscale is not provided then the `best_average` method is used.
 #'
 #' @inheritParams centroid_covariance
 #' @param L The number of Monte Carlo samples to draw from each area.
@@ -46,7 +55,7 @@ centroid_covariance <- function(sf, kernel = matern, ...){
 #' @examples
 #' integrated_covariance(mw)
 #' @export
-integrated_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal", ...){
+integrated_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal", l = NULL, ...){
   n <- nrow(sf)
   samples <- sf::st_sample(sf, type = type, exact = TRUE, size = rep(L, n))
   
@@ -59,8 +68,13 @@ integrated_covariance <- function(sf, L = 10, kernel = matern, type = "hexagonal
   sample_index <- sf::st_intersects(sf, samples)
   
   D <- sf::st_distance(samples, samples)
-  l_opt <- best_average(D, kernel = kernel, p = 0.01)
-  kD <- kernel(D, l = l_opt, ...)
+  
+  # Use the best_average if l is not provided
+  if(is.null(l)){
+    l <- best_average(D, kernel = kernel, p = 0.01)
+  }
+  
+  kD <- kernel(D, l = l, ...)
   
   K <- matrix(nrow = n, ncol = n)
   # Diagonal entries
