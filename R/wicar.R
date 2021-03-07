@@ -2,7 +2,7 @@
 #'
 #' @inheritParams constant_stan
 #' @examples
-#' wicar_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' wicar_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 #' @export
 wicar_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
 

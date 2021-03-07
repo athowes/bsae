@@ -8,7 +8,7 @@
 #' @inheritParams constant_stan
 #' @param method One of `"default"` or `"morris"`.
 #' @examples
-#' besag_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' besag_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 #' @export
 besag_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), method = "default"){
 

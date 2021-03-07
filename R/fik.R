@@ -8,7 +8,7 @@
 #' with unstructured IID noise, defaults to `FALSE`.
 #' @inheritParams integrated_covariance
 #' @examples
-#' fik_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' fik_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 #' @export
 fik_stan <- function(sf, bym2 = FALSE, L = 10, type = "hexagonal", nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
   

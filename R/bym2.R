@@ -3,7 +3,7 @@
 #' @inheritParams constant_stan
 #' @param method One of `"default"` or `"morris"`.
 #' @examples
-#' bym2_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' bym2_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 #' @export
 bym2_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), method = "default"){
   

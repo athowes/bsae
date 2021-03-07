@@ -9,7 +9,7 @@
 #' with unstructured IID noise, defaults to `FALSE`.
 #' @inheritParams centroid_covariance
 #' @examples
-#' fck_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' fck_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 #' @export
 fck_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores(), kernel = matern, ...){
 

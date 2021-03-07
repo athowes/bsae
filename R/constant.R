@@ -9,7 +9,7 @@
 #' @param chains Number of chains, each of which gets `nsim_warm + nsim_iter` samples, passed to `rstan`.
 #' @param cores Number of cores, passed to `rstan`, defaults to `parallel::detectCores()`
 #' @examples
-#' constant_stan(mw)
+#' constant_stan(mw, cores = 2)
 #' @export
 constant_stan <- function(sf, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
   

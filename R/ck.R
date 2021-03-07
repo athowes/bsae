@@ -8,7 +8,7 @@
 #' @param bym2 Logical indicating if the spatial random effects should be convoluted 
 #' with unstructured IID noise, defaults to `FALSE`.
 #' @examples
-#' ck_stan(mw, nsim_warm = 0, nsim_iter = 100)
+#' ck_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 #' @export
 ck_stan <- function(sf, bym2 = FALSE, nsim_warm = 100, nsim_iter = 1000, chains = 4, cores = parallel::detectCores()){
 
