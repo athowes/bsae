@@ -1,4 +1,4 @@
-#' Compute forecast assessments for `R-INLA` model at a single held-out point.
+#' Compute forecast assessments for model at a single held-out point.
 #'
 #' @template sf
 #' @param fit Fitted model.
@@ -26,6 +26,7 @@ held_out_metrics <- function(fit, sf, i, S = 4000){
       mse_mean = (y_bar - y)^2, 
       mae_mean = abs(y_bar - y), 
       crps = crps(s$y_samples, y), 
-      lds = log(mean(pred_dens))
+      lds = log(mean(pred_dens)),
+      t = get_time(fit)
   ))
 }
