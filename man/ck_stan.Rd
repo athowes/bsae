@@ -33,5 +33,5 @@ matrix calculated using \code{\link{centroid_covariance}}. Unlike \code{m5_stan}
 version has a fully Bayesian treatment of kernel hyperparameters.
 }
 \examples{
-ck_stan(mw, nsim_warm = 0, nsim_iter = 100)
+ck_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }

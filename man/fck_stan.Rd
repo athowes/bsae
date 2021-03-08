@@ -39,5 +39,5 @@ matrix calculated using \code{\link{centroid_covariance}}. Kernel hyper-paramete
 are fixed.
 }
 \examples{
-fck_stan(mw, nsim_warm = 0, nsim_iter = 100)
+fck_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }

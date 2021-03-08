@@ -2,7 +2,7 @@
 % Please edit documentation in R/held_out_metrics.R
 \name{held_out_metrics}
 \alias{held_out_metrics}
-\title{Compute forecast assessments for \code{R-INLA} model at a single held-out point.}
+\title{Compute forecast assessments for model at a single held-out point.}
 \usage{
 held_out_metrics(fit, sf, i, S = 4000)
 }
@@ -16,5 +16,5 @@ held_out_metrics(fit, sf, i, S = 4000)
 \item{S}{The number of Monte Carlo samples to draw from the approximate posterior.}
 }
 \description{
-Compute forecast assessments for \code{R-INLA} model at a single held-out point.
+Compute forecast assessments for model at a single held-out point.
 }

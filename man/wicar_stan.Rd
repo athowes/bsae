@@ -27,5 +27,5 @@ wicar_stan(
 Fit weighted ICAR Small Area Estimation model using \code{rstan}.
 }
 \examples{
-wicar_stan(mw, nsim_warm = 0, nsim_iter = 100)
+wicar_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }

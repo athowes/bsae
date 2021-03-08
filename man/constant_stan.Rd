@@ -28,5 +28,5 @@ Simply fits a constant (the mean). This is useful as a benchmark
 for other models.
 }
 \examples{
-constant_stan(mw)
+constant_stan(mw, cores = 2)
 }

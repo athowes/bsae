@@ -37,5 +37,5 @@ with unstructured IID noise, defaults to \code{FALSE}.}
 Fit Bayesian Integrated MVN Small Area Estimation model using \code{rstan}.
 }
 \examples{
-ik_stan(mw, nsim_warm = 0, nsim_iter = 100)
+ik_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }

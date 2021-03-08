@@ -33,5 +33,5 @@ the \code{\link{nb_to_precision}} function with input \code{nb},
 the neighbourhood structure of \code{sf}.
 }
 \examples{
-besag_stan(mw, nsim_warm = 0, nsim_iter = 100)
+besag_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }

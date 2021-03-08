@@ -27,5 +27,5 @@ iid_stan(
 Random effects are independent and identically distributed.
 }
 \examples{
-iid_stan(mw, nsim_warm = 0, nsim_iter = 100)
+iid_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }

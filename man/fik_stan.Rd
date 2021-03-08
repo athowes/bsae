@@ -44,5 +44,5 @@ Random effects have a multivariate Gaussian distribution with covariance
 matrix calculated using \code{\link{integrated_covariance}}.
 }
 \examples{
-fik_stan(mw, nsim_warm = 0, nsim_iter = 100)
+fik_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }

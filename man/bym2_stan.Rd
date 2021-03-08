@@ -30,5 +30,5 @@ bym2_stan(
 Fit BYM2 Small Area Estimation model using \code{rstan}.
 }
 \examples{
-bym2_stan(mw, nsim_warm = 0, nsim_iter = 100)
+bym2_stan(mw, nsim_warm = 0, nsim_iter = 100, cores = 2)
 }
