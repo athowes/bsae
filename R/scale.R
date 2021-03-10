@@ -12,7 +12,9 @@ riebler_gv <- function(A) {
 
 #' Compute scale of a precision matrix using `R-INLA`.
 #' 
-#' The [`riebler_gv`] of the generalised inverse of the precision (assumes the graph is fully connected).
+#' Takes the [`riebler_gv`] of the inverse of the precision. 
+#' If the precision is singular, then the generalised inverse is used as implemented by `INLA::inla.qinv`, 
+#' and by default it is assumed that the graph is fully connected.
 #' 
 #' @param Q A (square, symmetric) precision matrix.
 #' @param constraint A list with arguments `A` and `e` which imposes the constraint `Au = e`
@@ -27,9 +29,14 @@ get_scale <- function(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0)){
   n <- nrow(Q)
   # Add jitter to the diagonal for numerical stability
   Q_prt <- Q + Matrix::Diagonal(n) * max(diag(Q)) * sqrt(.Machine$double.eps)
-  # Inversion of sparse matrix
-  Q_inv <- INLA::inla.qinv(Q_prt, constr = constraint)
-  # Compute the generalised variance on the covariance matrix
+  if(det(Q) == 0) {
+    # Inversion of sparse, singular matrix
+    Q_inv <- INLA::inla.qinv(Q_prt, constr = constraint)
+  }
+  else {
+   Q_inv <- solve(Q) 
+  }
+  # Compute the GV on the covariance matrix
   return(riebler_gv(as.matrix(Q_inv)))
 }
 

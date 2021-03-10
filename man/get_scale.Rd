@@ -14,7 +14,9 @@ get_scale(Q, constraint = list(A = matrix(1, 1, nrow(Q)), e = 0))
 If \code{constraint} is the default value then this is a sum-to-zero constraint.}
 }
 \description{
-The \code{\link{riebler_gv}} of the generalised inverse of the precision (assumes the graph is fully connected).
+Takes the \code{\link{riebler_gv}} of the inverse of the precision.
+If the precision is singular, then the generalised inverse is used as implemented by \code{INLA::inla.qinv},
+and by default it is assumed that the graph is fully connected.
 }
 \examples{
 nb <- neighbours(mw)

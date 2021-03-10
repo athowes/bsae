@@ -1,6 +1,6 @@
 Package: bsae
 Title: Bayesian Small Area Estimation
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: 
     person(given = "Adam",
            family = "Howes",
