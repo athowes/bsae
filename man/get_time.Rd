@@ -8,7 +8,7 @@
 \usage{
 get_time(fit, ...)
 
-\method{get_time}{inla}(fit)
+\method{get_time}{inla}(fit, ...)
 
 \method{get_time}{stanfit}(fit, ...)
 }

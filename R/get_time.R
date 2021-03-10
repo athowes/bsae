@@ -9,7 +9,7 @@ get_time <- function(fit, ...) {
 
 #' @rdname get_time
 #' @export
-get_time.inla <- function(fit) {
+get_time.inla <- function(fit, ...) {
   fit$cpu.used[["Total"]]
 }
 
